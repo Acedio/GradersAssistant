@@ -12,7 +12,6 @@ namespace GradersAssistant
         public int StudentID
         {
             get { return studentID; }
-            set { studentID = value; }
         }
 
         string firstName;
@@ -62,6 +61,11 @@ namespace GradersAssistant
             get { return studentSchoolID; }
             set { studentSchoolID = value; }
         }
+
+        public Student()
+        {
+            studentID = -1;
+        }
     }
 
     class Response
@@ -71,7 +75,6 @@ namespace GradersAssistant
         public int ResponseID
         {
             get { return responseID; }
-            set { responseID = value; }
         }
 
         int pointsReceived;
@@ -89,6 +92,11 @@ namespace GradersAssistant
             get { return graderComment; }
             set { graderComment = value; }
         }
+
+        public Response()
+        {
+            responseID = -1;
+        }
     }
 
     class Criteria
@@ -98,7 +106,6 @@ namespace GradersAssistant
         public int CriteriaID
         {
             get { return criteriaID; }
-            set { criteriaID = value; }
         }
 
         string description;
@@ -116,6 +123,43 @@ namespace GradersAssistant
             get { return points; }
             set { points = value; }
         }
+
+        public Criteria()
+        {
+            criteriaID = -1;
+        }
+    }
+
+    class CriteriaResponseTree
+    {
+        class CriteriaResponseTreeNode
+        {
+            Criteria criteria;
+
+            internal Criteria Criteria
+            {
+                get { return criteria; }
+                set { criteria = value; }
+            }
+
+            Response response;
+
+            internal Response Response
+            {
+                get { return response; }
+                set { response = value; }
+            }
+
+            LinkedList<CriteriaResponseTreeNode> children;
+
+            internal LinkedList<CriteriaResponseTreeNode> Children
+            {
+                get { return children; }
+                set { children = value; }
+            }
+        }
+
+        LinkedList<CriteriaResponseTreeNode> rootChildren;
     }
 
     class Assignment
@@ -125,7 +169,6 @@ namespace GradersAssistant
         public int AssignmentID
         {
             get { return assignmentID; }
-            set { assignmentID = value; }
         }
 
         string name;
@@ -142,6 +185,11 @@ namespace GradersAssistant
         {
             get { return dueDate; }
             set { dueDate = value; }
+        }
+
+        public Assignment()
+        {
+            assignmentID = -1;
         }
     }
 
