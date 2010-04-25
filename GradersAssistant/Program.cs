@@ -7,6 +7,8 @@ namespace GradersAssistant
 {
     class Student
     {
+        private const int noID = -1;
+
         int studentID;
 
         public int StudentID
@@ -64,12 +66,25 @@ namespace GradersAssistant
 
         public Student()
         {
-            studentID = -1;
+            studentID = noID;
+        }
+
+        public Student(int sID, string sFirstName, string sLastName, string sUsername, string sEmailAddress, int sSection, string sStudentSchoolID)
+        {
+            studentID = sID;
+            firstName = sFirstName;
+            lastName = sLastName;
+            username = sUsername;
+            emailAddress = sEmailAddress;
+            section = sSection;
+            studentSchoolID = sStudentSchoolID;
         }
     }
 
     class Response
     {
+        private const int noID = -1;
+
         int responseID;
 
         public int ResponseID
@@ -95,12 +110,21 @@ namespace GradersAssistant
 
         public Response()
         {
-            responseID = -1;
+            responseID = noID;
+        }
+
+        public Response(int rID, int rPointsReceived, string rGraderComment)
+        {
+            responseID = rID;
+            pointsReceived = rPointsReceived;
+            graderComment = rGraderComment;
         }
     }
 
     class Criteria
     {
+        private const int noID = -1;
+
         int criteriaID;
 
         public int CriteriaID
@@ -116,54 +140,94 @@ namespace GradersAssistant
             set { description = value; }
         }
 
-        int points;
+        int maxPoints;
 
-        public int Points
+        public int MaxPoints
         {
-            get { return points; }
-            set { points = value; }
+            get { return maxPoints; }
+            set { maxPoints = value; }
         }
 
         public Criteria()
         {
-            criteriaID = -1;
+            criteriaID = noID;
+        }
+
+        public Criteria(int cID, string cDescription, int cMaxPoints)
+        {
+            criteriaID = cID;
+            description = cDescription;
+            maxPoints = cMaxPoints;
         }
     }
 
-    class CriteriaResponseTree
+    class CriteriaTreeNode
     {
-        class CriteriaResponseTreeNode
+        Criteria criteria;
+
+        public Criteria Criteria
         {
-            Criteria criteria;
-
-            internal Criteria Criteria
-            {
-                get { return criteria; }
-                set { criteria = value; }
-            }
-
-            Response response;
-
-            internal Response Response
-            {
-                get { return response; }
-                set { response = value; }
-            }
-
-            LinkedList<CriteriaResponseTreeNode> children;
-
-            internal LinkedList<CriteriaResponseTreeNode> Children
-            {
-                get { return children; }
-                set { children = value; }
-            }
+            get { return criteria; }
+            set { criteria = value; }
         }
 
-        LinkedList<CriteriaResponseTreeNode> rootChildren;
+        Response response;
+
+        public Response Response
+        {
+            get { return response; }
+            set { response = value; }
+        }
+
+        LinkedList<CriteriaTreeNode> children;
+
+        public LinkedList<CriteriaTreeNode> Children
+        {
+            get { return children; }
+            set { children = value; }
+        }
+
+        public CriteriaTreeNode(Criteria c, Response r)
+        {
+            criteria = c;
+            response = r;
+            children = new LinkedList<CriteriaTreeNode>();
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} ({1}/{2})", criteria.Description, response.PointsReceived, criteria.MaxPoints);
+        }
+    }
+
+    class CriteriaTreeNodeCollection
+    {
+        Dictionary<int, CriteriaTreeNode> nodes;
+
+        public Dictionary<int, CriteriaTreeNode> Nodes
+        {
+            get { return nodes; }
+            set { nodes = value; }
+        }
+
+        public void AddNode(CriteriaTreeNode node)
+        {
+            nodes = new Dictionary<int, CriteriaTreeNode>();
+            nodes.Add(node.Criteria.CriteriaID, node);
+        }
+
+        public void AddNode(Criteria c)
+        {
+            nodes = new Dictionary<int, CriteriaTreeNode>();
+            CriteriaTreeNode node = new CriteriaTreeNode(c, new Response());
+            nodes.Add(node.Criteria.CriteriaID, node);
+        }
     }
 
     class Assignment
     {
+        private const int noID = -1;
+
         int assignmentID;
 
         public int AssignmentID
@@ -189,7 +253,14 @@ namespace GradersAssistant
 
         public Assignment()
         {
-            assignmentID = -1;
+            assignmentID = noID;
+        }
+
+        public Assignment(int aID, string aName, DateTime aDueDate)
+        {
+            assignmentID = aID;
+            name = aName;
+            dueDate = aDueDate;
         }
     }
 

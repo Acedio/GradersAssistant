@@ -1,6 +1,6 @@
 ﻿namespace GradersAssistant
 {
-    partial class MainForm
+    partial class CriteriaTreeTest
     {
         /// <summary>
         /// Required designer variable.
@@ -28,35 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.criteriaTreeFormOpenButton = new System.Windows.Forms.Button();
+            this.criteriaTreeView = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
-            // criteriaTreeFormOpenButton
+            // criteriaTreeView
             // 
-            this.criteriaTreeFormOpenButton.Location = new System.Drawing.Point(103, 111);
-            this.criteriaTreeFormOpenButton.Name = "criteriaTreeFormOpenButton";
-            this.criteriaTreeFormOpenButton.Size = new System.Drawing.Size(75, 23);
-            this.criteriaTreeFormOpenButton.TabIndex = 0;
-            this.criteriaTreeFormOpenButton.Text = "Button";
-            this.criteriaTreeFormOpenButton.UseVisualStyleBackColor = true;
-            this.criteriaTreeFormOpenButton.Click += new System.EventHandler(this.criteriaTreeFormOpenButton_Click);
+            this.criteriaTreeView.Location = new System.Drawing.Point(13, 13);
+            this.criteriaTreeView.Name = "criteriaTreeView";
+            this.criteriaTreeView.Size = new System.Drawing.Size(467, 306);
+            this.criteriaTreeView.TabIndex = 0;
+            this.criteriaTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.criteriaTreeView_NodeMouseClick);
             // 
-            // MainForm
+            // CriteriaTreeTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Controls.Add(this.criteriaTreeFormOpenButton);
-            this.Name = "MainForm";
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(492, 433);
+            this.Controls.Add(this.criteriaTreeView);
+            this.Name = "CriteriaTreeTest";
+            this.Text = "CriteriaTreeTest";
+            this.Load += new System.EventHandler(this.CriteriaTreeTest_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button criteriaTreeFormOpenButton;
-
+        private System.Windows.Forms.TreeView criteriaTreeView;
     }
 }
-

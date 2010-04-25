@@ -15,5 +15,11 @@ namespace GradersAssistant
         {
             InitializeComponent();
         }
+
+        private void criteriaTreeFormOpenButton_Click(object sender, EventArgs e)
+        {
+            CriteriaTreeTest treeTest = new CriteriaTreeTest();
+            treeTest.Show();
+        }
     }
 }
