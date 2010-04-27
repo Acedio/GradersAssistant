@@ -16,9 +16,17 @@ namespace GradersAssistant
             InitializeComponent();
         }
 
+        private TreeNodeCollection MakeTreeNodeCollectionFromCriteriaResponseTree(CriteriaResponseTree crt)
+        {
+            TreeNodeCollection tnc;
+        }
+
         private void CriteriaTreeTest_Load(object sender, EventArgs e)
         {
-            criteriaTreeView.Nodes.Add("12345", "lol");
+            CriteriaResponseTree col = new CriteriaResponseTree();
+            int node = col.AddNewNode(new Criteria(1, "Comments", 0));
+            col.AddNewNode(new Criteria(2, "Present", 40), node);
+            col.AddNewNode(new Criteria(3, "Well written", 10), node);
         }
 
         private void criteriaTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)

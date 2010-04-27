@@ -161,7 +161,7 @@ namespace GradersAssistant
         }
     }
 
-    class CriteriaTreeNode
+    class CriteriaResponseTreeNode
     {
         Criteria criteria;
 
@@ -179,19 +179,19 @@ namespace GradersAssistant
             set { response = value; }
         }
 
-        LinkedList<CriteriaTreeNode> children;
+        LinkedList<int> children;
 
-        public LinkedList<CriteriaTreeNode> Children
+        public LinkedList<int> Children
         {
             get { return children; }
             set { children = value; }
         }
 
-        public CriteriaTreeNode(Criteria c, Response r)
+        public CriteriaResponseTreeNode(Criteria c, Response r)
         {
             criteria = c;
             response = r;
-            children = new LinkedList<CriteriaTreeNode>();
+            children = new LinkedList<int>();
         }
 
         public override string ToString()
@@ -200,27 +200,53 @@ namespace GradersAssistant
         }
     }
 
-    class CriteriaTreeNodeCollection
+    class CriteriaResponseTree
     {
-        Dictionary<int, CriteriaTreeNode> nodes;
+        Dictionary<int, CriteriaResponseTreeNode> nodes;
 
-        public Dictionary<int, CriteriaTreeNode> Nodes
+        public Dictionary<int, CriteriaResponseTreeNode> Nodes
         {
             get { return nodes; }
             set { nodes = value; }
         }
 
-        public void AddNode(CriteriaTreeNode node)
+        public CriteriaResponseTree()
         {
-            nodes = new Dictionary<int, CriteriaTreeNode>();
-            nodes.Add(node.Criteria.CriteriaID, node);
+            nodes = new Dictionary<int, CriteriaResponseTreeNode>();
         }
 
-        public void AddNode(Criteria c)
+        /// <summary>
+        /// Takes a Criteria and creates a new CriteriaTreeNode at the root of the collection.
+        /// </summary>
+        /// <param name="c">A criteria with a key given by the database. The criteria should have a key already (it should not be NoID).</param>
+        /// <returns>The criterias key (which references it in the dictionary as well as the DB).</returns>
+        public int AddNewNode(Criteria c)
         {
-            nodes = new Dictionary<int, CriteriaTreeNode>();
-            CriteriaTreeNode node = new CriteriaTreeNode(c, new Response());
+            CriteriaResponseTreeNode node = new CriteriaResponseTreeNode(c, new Response());
             nodes.Add(node.Criteria.CriteriaID, node);
+            return node.Criteria.CriteriaID;
+        }
+
+        /// <summary>
+        /// Adds a new node to the given parent.
+        /// </summary>
+        /// <param name="c">A criteria with a key given by the database. The criteria should have a key already (it should not be NoID).</param>
+        /// <param name="parentKey">The valid parent key that the node should be added to.</param>
+        /// <returns>The criterias key (which references it in the dictionary as well as the DB).</returns>
+        public int AddNewNode(Criteria c, int parentKey)
+        {
+            CriteriaResponseTreeNode parentNode;
+            if (nodes.TryGetValue(parentKey, out parentNode))
+            {
+                nodes.Add(c.CriteriaID, new CriteriaResponseTreeNode(c, new Response()));
+                parentNode.Children.AddLast(c.CriteriaID);
+                return c.CriteriaID;
+            }
+            else
+            {
+                // The parent doesn't exist in the dictionary!
+                return -1;
+            }
         }
     }
 
