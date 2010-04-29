@@ -197,7 +197,6 @@
             this.Controls.Add(this.labelFirstName);
             this.Name = "EditStudent";
             this.Text = "Edit Student";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

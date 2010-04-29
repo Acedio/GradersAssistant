@@ -298,10 +298,6 @@ namespace GradersAssistant
         [STAThread]
         static void Main()
         {
-            GADatabase gadb = new GADatabase();
-            gadb.ConnectDB("test.accdb");
-            gadb.TestDB();
-            gadb.CloseDB();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
