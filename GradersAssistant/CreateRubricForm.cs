@@ -9,55 +9,6 @@ using System.Windows.Forms;
 
 namespace GradersAssistant
 {
-    public class CriteriaNode : System.Object
-    {
-        string parentname;
-
-        public string ParentName
-        {
-            get { return parentname; }
-            set { parentname = value; }
-        }
-
-        string Name;
-
-        public CriteriaNode(string name)
-        {
-            this.Name = name;
-        }
-
-        int points;
-
-        public int Points
-        {
-            get { return points; }
-            set { points = value; }
-        }
-
-        string description;
-
-        public string Description
-        {
-            get { return this.description; }
-            set { this.description = value; }
-        }    
-
-        LinkedList<CriteriaNode> childlist;
-
-        public LinkedList<CriteriaNode> ChildList
-        {
-            get { return childlist; }
-            set { childlist = value; }
-        }
-
-        public int NumberOfChildren
-        {
-            get { return this.childlist.Count; }
-        }
-
-    }
-
-
 
     public partial class CreateRubricForm : Form
     {
@@ -198,6 +149,54 @@ namespace GradersAssistant
         {
             // FIND OUT FROM JOSH WHAT IS SUPPOSE TO HAPPEN HERE!!
         }
+    }
+
+    public class CriteriaNode : System.Object
+    {
+        string parentname;
+
+        public string ParentName
+        {
+            get { return parentname; }
+            set { parentname = value; }
+        }
+
+        string Name;
+
+        public CriteriaNode(string name)
+        {
+            this.Name = name;
+        }
+
+        int points;
+
+        public int Points
+        {
+            get { return points; }
+            set { points = value; }
+        }
+
+        string description;
+
+        public string Description
+        {
+            get { return this.description; }
+            set { this.description = value; }
+        }
+
+        LinkedList<CriteriaNode> childlist;
+
+        public LinkedList<CriteriaNode> ChildList
+        {
+            get { return childlist; }
+            set { childlist = value; }
+        }
+
+        public int NumberOfChildren
+        {
+            get { return this.childlist.Count; }
+        }
+
     }
 }
 

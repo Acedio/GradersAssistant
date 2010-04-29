@@ -8,38 +8,64 @@ namespace GradersAssistant
 {
     class GADatabase
     {
-        private const string accessConnStrHead = "Provider=Microsoft.ACE.OLEDB.12.0;";
+        string filename;
 
-        OleDbConnection dbConnection = null;
+        const string accessConnStrHead = "Provider=Microsoft.ACE.OLEDB.12.0;";
 
-        public void ConnectDB(string filename)
+        OleDbConnection dbConnection;
+
+        bool connected;
+
+        public GADatabase()
         {
+            filename = string.Empty;
+            connected = false;
+            dbConnection = null;
+        }
+
+        public GADatabase(string fname)
+        {
+            filename = fname;
+            connected = false;
+            dbConnection = null;
+        }
+
+        public bool ConnectDB(string fname)
+        {
+            filename = fname;
+
             if (System.IO.File.Exists(filename) == false)
             {
-                System.Windows.Forms.MessageBox.Show("Could not find file \"" + filename + "\"." + System.IO.Directory.GetCurrentDirectory());
-                return;
+                connected = false;
+            }
+            else
+            {
+                string connectionString = accessConnStrHead + "Data Source=" + filename;
+
+                try
+                {
+                    dbConnection = new OleDbConnection(connectionString);
+                    connected = true;
+                }
+                catch
+                {
+                    connected = false;
+                }
             }
 
-            string connectionString = accessConnStrHead + "Data Source=" + filename;
-
-            try
-            {
-                dbConnection = new OleDbConnection(connectionString);
-            }
-            catch (Exception ex)
-            {
-                System.Windows.Forms.MessageBox.Show("Failed to connect to DB \"" + filename + "\".\n" + ex.Message);
-                return;
-            }
+            return connected;
         }
 
         public void CloseDB()
         {
-            dbConnection.Close();
+            if (connected)
+            {
+                dbConnection.Close();
+            }
             return;
         }
 
-        public void TestDB()
+        private DataSet runQuery(string query)
         {
             DataSet dataSet = new DataSet();
             try
@@ -49,12 +75,23 @@ namespace GradersAssistant
 
                 dbConnection.Open();
                 dataAdapter.Fill(dataSet); // maybe additionally a "testing" argument
+
+                return dataSet;
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Failed to retrieve data from the database.\n" + ex.Message);
-                return;
+                throw new Exception("Failed to retrieve data from the database.\n", ex);
             }
+        }
+
+        // Somthing like this for each query command. Use the above runQuery command and don't return a DataSet!
+        //public GAClass GetClass()
+        //{
+        //}
+
+        public void TestDB()
+        {
+            DataSet dataSet = runQuery("SELECT * FROM testng");
 
             System.Windows.Forms.MessageBox.Show("Found " + dataSet.Tables.Count.ToString() + " tables.");
             return;

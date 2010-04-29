@@ -25,5 +25,27 @@ namespace GradersAssistant
             newRubric.Show();
 
         }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = false;
+            openFileDialog.ValidateNames = true;
+            openFileDialog.CheckFileExists = true;
+            openFileDialog.ShowDialog();
+            if (openFileDialog.FileName != string.Empty)
+            {
+                GADatabase gad = new GADatabase();
+                if (!gad.ConnectDB(openFileDialog.FileName))
+                {
+                    MessageBox.Show("Could not connect to DB");
+                }
+                else
+                {
+                    gad.TestDB();
+                }
+                gad.CloseDB();
+            }
+        }
     }
 }
