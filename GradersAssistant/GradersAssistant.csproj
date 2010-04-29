@@ -60,6 +60,18 @@
     <Compile Include="CriteriaTreeTest.Designer.cs">
       <DependentUpon>CriteriaTreeTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditClass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditClass.Designer.cs">
+      <DependentUpon>EditClass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditStudent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditStudent.Designer.cs">
+      <DependentUpon>EditStudent.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +85,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CriteriaTreeTest.resx">
       <DependentUpon>CriteriaTreeTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditClass.resx">
+      <DependentUpon>EditClass.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
