@@ -16,10 +16,10 @@ namespace GradersAssistant
             InitializeComponent();
         }
 
-        private TreeNodeCollection MakeTreeNodeCollectionFromCriteriaResponseTree(CriteriaResponseTree crt)
-        {
-            TreeNodeCollection tnc;
-        }
+     //   private TreeNodeCollection MakeTreeNodeCollectionFromCriteriaResponseTree(CriteriaResponseTree crt)
+      //  {
+     //       TreeNodeCollection tnc;
+      //  }
 
         private void CriteriaTreeTest_Load(object sender, EventArgs e)
         {

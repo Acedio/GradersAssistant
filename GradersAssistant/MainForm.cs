@@ -16,10 +16,14 @@ namespace GradersAssistant
             InitializeComponent();
         }
 
-        private void criteriaTreeFormOpenButton_Click(object sender, EventArgs e)
+        protected void NewRubricCreator(object sender, EventArgs e)
         {
-            CriteriaTreeTest treeTest = new CriteriaTreeTest();
-            treeTest.Show();
+            CreateRubricForm newRubric = new CreateRubricForm();
+            // Set the Parent Form of the Child window.
+           // newMDIChild.MdiParent = this;
+            // Display the new form.
+            newRubric.Show();
+
         }
     }
 }
