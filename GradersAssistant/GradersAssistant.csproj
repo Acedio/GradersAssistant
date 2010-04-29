@@ -117,6 +117,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditClass.resx">
       <DependentUpon>EditClass.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GradingAssignmentForm.resx">
       <DependentUpon>GradingAssignmentForm.cs</DependentUpon>
     </EmbeddedResource>
