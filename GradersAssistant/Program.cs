@@ -79,6 +79,11 @@ namespace GradersAssistant
             section = sSection;
             studentSchoolID = sStudentSchoolID;
         }
+
+        public override string ToString()
+        {
+            return String.Format("({0}) {2}, {1} [{3}]",studentID,firstName,lastName,emailAddress);
+        }
     }
 
     class Response

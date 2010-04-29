@@ -26,7 +26,7 @@ namespace GradersAssistant
 
         }
 
-        private void toolStripButton2_Click(object sender, EventArgs e)
+        private void openButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = false;
@@ -38,11 +38,22 @@ namespace GradersAssistant
                 GADatabase gad = new GADatabase();
                 if (!gad.ConnectDB(openFileDialog.FileName))
                 {
-                    MessageBox.Show("Could not connect to DB");
+                    MessageBox.Show("Could not connect to DB.");
                 }
                 else
                 {
-                    gad.TestDB();
+                    Dictionary<int,Student> students = gad.GetStudents();
+                    studentComboBox.BeginUpdate();
+                    foreach (Student student in students.Values)
+                    {
+                        studentComboBox.Items.Add(student);
+                    }
+                    if (studentComboBox.Items.Count > 0)
+                    {
+                        studentComboBox.SelectedItem = studentComboBox.Items[0];
+                    }
+                    studentComboBox.EndUpdate();
+                    gad.SaveStudents(students);
                 }
                 gad.CloseDB();
             }

@@ -112,7 +112,7 @@
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.studentComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton12 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton13 = new System.Windows.Forms.ToolStripButton();
@@ -631,7 +631,7 @@
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(23, 23);
             this.toolStripButton2.Text = "openButton";
-            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            this.toolStripButton2.Click += new System.EventHandler(this.openButton_Click);
             // 
             // toolStripButton3
             // 
@@ -757,7 +757,7 @@
             // 
             this.toolStrip2.AllowDrop = true;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripComboBox1,
+            this.studentComboBox,
             this.toolStripSeparator7,
             this.toolStripButton12,
             this.toolStripButton13,
@@ -771,13 +771,13 @@
             this.toolStrip2.TabIndex = 3;
             this.toolStrip2.Text = "toolStrip2";
             // 
-            // toolStripComboBox1
+            // studentComboBox
             // 
-            this.toolStripComboBox1.AutoSize = false;
-            this.toolStripComboBox1.DropDownWidth = 200;
-            this.toolStripComboBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(300, 23);
+            this.studentComboBox.AutoSize = false;
+            this.studentComboBox.DropDownWidth = 200;
+            this.studentComboBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.studentComboBox.Name = "studentComboBox";
+            this.studentComboBox.Size = new System.Drawing.Size(300, 23);
             // 
             // toolStripSeparator7
             // 
@@ -898,7 +898,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripButton toolStripButton11;
         private System.Windows.Forms.ToolStrip toolStrip2;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
+        private System.Windows.Forms.ToolStripComboBox studentComboBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripButton toolStripButton12;
         private System.Windows.Forms.ToolStripButton toolStripButton13;
