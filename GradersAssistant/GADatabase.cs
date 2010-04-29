@@ -16,6 +16,21 @@ namespace GradersAssistant
 
         bool connected;
 
+        struct tables
+        {
+            public struct Student
+            {
+                public const string TableName = "Student";
+                public const string StudentID = "StudentID";
+                public const string FirstName = "FirstName";
+                public const string LastName = "LastName";
+                public const string Username = "Username";
+                public const string EmailAddress = "EmailAddress";
+                public const string Section = "Section";
+                public const string StudentSchoolID = "StudentSchoolID";
+            }
+        }
+
         public GADatabase()
         {
             filename = string.Empty;
@@ -88,6 +103,16 @@ namespace GradersAssistant
         //public GAClass GetClass()
         //{
         //}
+
+        public Dictionary<int, Student> GetStudents()
+        {
+            DataSet studentDataSet = runQuery("SELECT * FROM " + tables.Student.TableName);
+            Dictionary<int, Student> students = new Dictionary<int, Student>();
+            foreach (DataRow row in studentDataSet.Tables[tables.Student.TableName].Rows)
+            {
+                //studentDataSet.Tables[tables.Student.TableName].Rows[0][tables.Student.StudentID];
+            }
+        }
 
         public void TestDB()
         {
