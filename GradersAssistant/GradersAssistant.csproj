@@ -60,6 +60,18 @@
     <Compile Include="CriteriaTreeTest.Designer.cs">
       <DependentUpon>CriteriaTreeTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="GradingAssignmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GradingAssignmentForm.designer.cs">
+      <DependentUpon>GradingAssignmentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GradingItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GradingItemForm.designer.cs">
+      <DependentUpon>GradingItemForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +85,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CriteriaTreeTest.resx">
       <DependentUpon>CriteriaTreeTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GradingAssignmentForm.resx">
+      <DependentUpon>GradingAssignmentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GradingItemForm.resx">
+      <DependentUpon>GradingItemForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
