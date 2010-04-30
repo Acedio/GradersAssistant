@@ -12,35 +12,40 @@ namespace GradersAssistant
     public partial class EditClassForm : Form
     {
         //holds the values input from text boxes
-        public GAClass gacPublicClass;
+        public GAClass PublicClass;
         //holds the status that the form exited with
-        public int intFormStatus;
+        public int FormStatus;
 
         public EditClassForm()
         {
             InitializeComponent();
+            if (Text == "Add New Class")
+            {
+                buttonUpdateClass.Text = "Add";
+            }
+            FormStatus = -1;
         }
 
-        private void populateClassForm()
+        public void populateClassForm()
         {
-            textClassName.Text = gacPublicClass.ClassName;
-            textGraderName.Text = gacPublicClass.GraderName;
-            comboBoxNumberOfSections.SelectedValue = gacPublicClass.NumberOfSections;
-            comboBoxHostType.SelectedIndex = gacPublicClass.HostType;
-            textUsername.Text = gacPublicClass.UserName;
-            textFromAddress.Text = gacPublicClass.FromAddress;
-            textAddressExtension.Text = gacPublicClass.AddressExtension;
-            checkBoxAlertOnLate.Checked = gacPublicClass.AlertOnLate;
-            checkBoxSetFullPoints.Checked = gacPublicClass.SetFullPoints;
-            checkBoxIncludeNames.Checked = gacPublicClass.IncludeNames;
-            checkBoxIncludeSection.Checked = gacPublicClass.IncludeSections;
-            checkBoxFormatAsHTML.Checked = gacPublicClass.FormatAsHTML;
-            checkBoxEmailStudentsNoGrade.Checked = gacPublicClass.EmailStudentsNoGrade;
-            checkBoxOutputOnlyGraded.Checked = gacPublicClass.OutputOnlyGraded;
-            checkBoxIncludeComments.Checked = gacPublicClass.IncludeComments;
-            checkBoxShowOutOfTotals.Checked = gacPublicClass.ShowOutOfTotals;
-            checkBoxDisplayClassStats.Checked = gacPublicClass.DisplayClassStats;
-            checkBoxDisplayTotalPoints.Checked = gacPublicClass.DisplayTotalPoints;
+            textClassName.Text = PublicClass.ClassName;
+            textGraderName.Text = PublicClass.GraderName;
+            comboBoxNumberOfSections.SelectedValue = PublicClass.NumberOfSections;
+            comboBoxHostType.SelectedIndex = PublicClass.HostType;
+            textUsername.Text = PublicClass.UserName;
+            textFromAddress.Text = PublicClass.FromAddress;
+            textAddressExtension.Text = PublicClass.AddressExtension;
+            checkBoxAlertOnLate.Checked = PublicClass.AlertOnLate;
+            checkBoxSetFullPoints.Checked = PublicClass.SetFullPoints;
+            checkBoxIncludeNames.Checked = PublicClass.IncludeNames;
+            checkBoxIncludeSection.Checked = PublicClass.IncludeSections;
+            checkBoxFormatAsHTML.Checked = PublicClass.FormatAsHTML;
+            checkBoxEmailStudentsNoGrade.Checked = PublicClass.EmailStudentsNoGrade;
+            checkBoxOutputOnlyGraded.Checked = PublicClass.OutputOnlyGraded;
+            checkBoxIncludeComments.Checked = PublicClass.IncludeAllComments;
+            checkBoxShowOutOfTotals.Checked = PublicClass.ShowOutOfTotals;
+            checkBoxDisplayClassStats.Checked = PublicClass.DisplayClassStats;
+            checkBoxDisplayTotalPoints.Checked = PublicClass.DisplayTotalPoints;
         }
 
         private bool validateClassForm()
@@ -66,51 +71,40 @@ namespace GradersAssistant
                 return true;
             else
             {
-                WarningForm warningMessage = new WarningForm();
-                warningMessage.Text = "Update Failed";
-                warningMessage.strWarningMessage = strErrorMessage;
-                warningMessage.ShowDialog();
+                MessageBox.Show("Update Failed:\n" + strErrorMessage);
                 return false;
             }
         }
 
         private void EditClassForm_Load(object sender, EventArgs e)
         {
-            //check if the text boxes need to be loaded
-            if ( intFormStatus == 1)
-            {
-                populateClassForm();
-                intFormStatus = 0;
-            }
-            intFormStatus = -1;
-            
-
+            FormStatus = -1;
         }
 
         private void buttonUpdateClass_Click(object sender, EventArgs e)
         {
             if (validateClassForm())
             {
-                intFormStatus = 1;
+                FormStatus = 1;
 
-                gacPublicClass.ClassName = textClassName.Text;
-                gacPublicClass.GraderName = textGraderName.Text;
-                gacPublicClass.NumberOfSections = comboBoxNumberOfSections.SelectedIndex;
-                gacPublicClass.HostType = comboBoxHostType.SelectedIndex;
-                gacPublicClass.UserName = textUsername.Text;
-                gacPublicClass.FromAddress = textFromAddress.Text;
-                gacPublicClass.AddressExtension = textAddressExtension.Text;
-                gacPublicClass.AlertOnLate = checkBoxAlertOnLate.Checked;
-                gacPublicClass.SetFullPoints = checkBoxSetFullPoints.Checked;
-                gacPublicClass.IncludeNames = checkBoxIncludeNames.Checked;
-                gacPublicClass.IncludeSections = checkBoxIncludeSection.Checked;
-                gacPublicClass.FormatAsHTML = checkBoxFormatAsHTML.Checked;
-                gacPublicClass.EmailStudentsNoGrade = checkBoxEmailStudentsNoGrade.Checked;
-                gacPublicClass.OutputOnlyGraded = checkBoxOutputOnlyGraded.Checked;
-                gacPublicClass.IncludeComments = checkBoxIncludeComments.Checked;
-                gacPublicClass.ShowOutOfTotals = checkBoxShowOutOfTotals.Checked;
-                gacPublicClass.DisplayClassStats = checkBoxDisplayClassStats.Checked;
-                gacPublicClass.DisplayTotalPoints = checkBoxDisplayTotalPoints.Checked;
+                PublicClass.ClassName = textClassName.Text;
+                PublicClass.GraderName = textGraderName.Text;
+                PublicClass.NumberOfSections = comboBoxNumberOfSections.SelectedIndex;
+                PublicClass.HostType = comboBoxHostType.SelectedIndex;
+                PublicClass.UserName = textUsername.Text;
+                PublicClass.FromAddress = textFromAddress.Text;
+                PublicClass.AddressExtension = textAddressExtension.Text;
+                PublicClass.AlertOnLate = checkBoxAlertOnLate.Checked;
+                PublicClass.SetFullPoints = checkBoxSetFullPoints.Checked;
+                PublicClass.IncludeNames = checkBoxIncludeNames.Checked;
+                PublicClass.IncludeSections = checkBoxIncludeSection.Checked;
+                PublicClass.FormatAsHTML = checkBoxFormatAsHTML.Checked;
+                PublicClass.EmailStudentsNoGrade = checkBoxEmailStudentsNoGrade.Checked;
+                PublicClass.OutputOnlyGraded = checkBoxOutputOnlyGraded.Checked;
+                PublicClass.IncludeAllComments = checkBoxIncludeComments.Checked;
+                PublicClass.ShowOutOfTotals = checkBoxShowOutOfTotals.Checked;
+                PublicClass.DisplayClassStats = checkBoxDisplayClassStats.Checked;
+                PublicClass.DisplayTotalPoints = checkBoxDisplayTotalPoints.Checked;
 
                 this.Close();
             }
@@ -118,7 +112,7 @@ namespace GradersAssistant
 
         private void buttonCancelClass_Click(object sender, EventArgs e)
         {
-            intFormStatus = 0;
+            FormStatus = 0;
             this.Close();
         }
     }

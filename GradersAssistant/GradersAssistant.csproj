@@ -127,6 +127,9 @@
       <DependentUpon>EditClassForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditStudentForm.resx">
+      <DependentUpon>EditStudentForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GradeEmailForm.resx">
       <DependentUpon>GradeEmailForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -147,9 +150,8 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WarningForm.resx">
-      <DependentUpon>WarningForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="WarningFormWithContinue.resx">
+      <DependentUpon>WarningFormWithContinue.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -166,11 +168,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="WarningForm.cs">
+    <Compile Include="WarningFormWithContinue.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WarningForm.Designer.cs">
-      <DependentUpon>WarningForm.cs</DependentUpon>
+    <Compile Include="WarningFormWithContinue.Designer.cs">
+      <DependentUpon>WarningFormWithContinue.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace GradersAssistant
 {
-    class Student
+    public class Student
     {
         private const int noID = -1;
 
@@ -329,10 +329,54 @@ namespace GradersAssistant
         public bool FormatAsHTML;
         public bool EmailStudentsNoGrade;
         public bool OutputOnlyGraded;
-        public bool IncludeComments;
+        public bool IncludeAllComments;
         public bool ShowOutOfTotals;
         public bool DisplayClassStats;
         public bool DisplayTotalPoints;
+
+        public GAClass()
+        {
+            ClassName = "";
+            GraderName = "";
+            NumberOfSections = 0;
+            HostType = 0;
+            UserName = "";
+            FromAddress = "";
+            AddressExtension = "";
+            AlertOnLate = false;
+            SetFullPoints = false;
+            IncludeNames = false;
+            IncludeSections = false;
+            FormatAsHTML = false;
+            EmailStudentsNoGrade = false;
+            OutputOnlyGraded = false;
+            IncludeAllComments = false;
+            ShowOutOfTotals = false;
+            DisplayClassStats = false;
+            DisplayTotalPoints = false;
+        }
+
+        public GAClass(string cClassName, string cGraderName, int cNumberOfSections, int cHostType, string cUserName, string cFromAddress, string cAddressExtension, bool cAlertOnLate, bool cSetFullPoints, bool cIncludeNames, bool cIncludeSections, bool cFormatAsHTML, bool cEmailStudentsNoGrade, bool cOutputOnlyGraded, bool cIncludeAllComments, bool cShowOutOfTotals, bool cDisplayClassStats, bool cDisplayTotalPoints)
+        {
+            ClassName = cClassName;
+            GraderName = cGraderName;
+            NumberOfSections = cNumberOfSections;
+            HostType = cHostType;
+            UserName = cUserName;
+            FromAddress = cFromAddress;
+            AddressExtension = cAddressExtension;
+            AlertOnLate = cAlertOnLate;
+            SetFullPoints = cSetFullPoints;
+            IncludeNames = cIncludeNames;
+            IncludeSections = cIncludeSections;
+            FormatAsHTML = cFormatAsHTML;
+            EmailStudentsNoGrade = cEmailStudentsNoGrade;
+            OutputOnlyGraded = cOutputOnlyGraded;
+            IncludeAllComments = cIncludeAllComments;
+            ShowOutOfTotals = cShowOutOfTotals;
+            DisplayClassStats = cDisplayClassStats;
+            DisplayTotalPoints = cDisplayTotalPoints;
+       }
 
     }
 

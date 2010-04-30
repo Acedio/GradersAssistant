@@ -13,9 +13,12 @@ namespace GradersAssistant
 {
     public partial class MainForm : Form
     {
+        private GADatabase dbConnention;
+        private GAClass mainClass;
         public MainForm()
         {
             InitializeComponent();
+            dbConnention = new GADatabase();
         }
 
         protected void NewRubricCreator(object sender, EventArgs e)
@@ -83,7 +86,7 @@ namespace GradersAssistant
             }
         }
 
-        private void menuItemCreateNewClass_Click(object sender, EventArgs e)
+        private void CreateNewClass(object sender, EventArgs e)
         {
             //open 
             SaveFileDialog saveFile = new SaveFileDialog();
@@ -97,49 +100,106 @@ namespace GradersAssistant
             if (saveFile.FileName != "")
             {
 
-                if ( !File.Exists("classDB.gat"))
+                if ( !File.Exists("..\\..\\classDB.gat"))
                 {
                     //if the template file does not exiist output an error message
-                    WarningForm wfSystemError = new WarningForm();
-                    wfSystemError.Text = "SYSTEM ERROR!!!!";
-                    wfSystemError.strWarningMessage = "This instilation of Graders Assistant\n appears to be corrupt.  Please\n restart the program and try again.\n If the problem continues please reinstall \n the program and try again.";
-                    wfSystemError.ShowDialog();
+                    MessageBox.Show("SYSTEM ERROR: \n This instilation of Graders Assistant appears to be corrupt.  Please restart the program and try again. If the problem continues please reinstall the program and try again.");
                 }
                 else
                 {
                     //create access database
-                    File.Copy("classDB.gat", saveFile.FileName);
+                    File.Copy("..\\..\\classDB.gat", saveFile.FileName);
+
+                    //open a connection to the Database
+                    if (!dbConnention.ConnectDB(saveFile.FileName))
+                    {
+                        MessageBox.Show("Connection Error:\n Database Connection failed!");  
+                    }
 
                     //open edit class form in add mode
-                    EditClassForm EditClass = new EditClassForm();
-                    EditClass.ShowDialog();
+                    EditClassForm addClass = new EditClassForm();
+                    addClass.ShowDialog();
 
                     //if the values on the form have been updated then commit the changes to the database
-                    if (EditClass.intFormStatus == 1)
+                    if (addClass.FormStatus == 1)
                     {
-
-
+                        //check to make sure a connection exisists
+                        if (dbConnention.IsConnected())
+                        {
+                            //insert
+                            dbConnention.AddClass(addClass.PublicClass);
+                            mainClass = addClass.PublicClass;
+                        }
+                        else
+                        {
+                            MessageBox.Show("No connection exists, unable to save class data.");
+                        }
                     }
                 }
             }
         }
 
-        private void menuItemEditClass_Click(object sender, EventArgs e)
+        private void EditClass(object sender, EventArgs e)
         {
-            EditClassForm addClass = new EditClassForm();
-            addClass.ShowDialog();
+            //TODO where does the class to be editied come from
+
+
+            EditClassForm editClass = new EditClassForm();
+            editClass.PublicClass = mainClass;
+            editClass.populateClassForm();
+            editClass.ShowDialog();
+
+            //if the values on the form have been updated then commit the changes to the database
+            if (editClass.FormStatus == 1)
+            {
+                //check to make sure a connection exisists
+                if (dbConnention.IsConnected())
+                {
+                    //update the class table in the database
+                    dbConnention.UpdateClass(editClass.PublicClass);
+                    mainClass = editClass.PublicClass;
+                }
+                else
+                {
+                    MessageBox.Show("No connection exists, unable to save class data.");
+                }
+            }
         }
 
-        private void menuItemEditStudent_Click(object sender, EventArgs e)
+        private void OpenClass(object sender, EventArgs e)
+        {
+            OpenFileDialog openClass = new OpenFileDialog();
+            openClass.Filter = "graders assistant db files (*.gadb)|*.gadb";
+            openClass.Title = "Open Class File";
+            openClass.Multiselect = false;
+            openClass.AddExtension = true;
+            openClass.ValidateNames = true;
+            openClass.ShowDialog();
+
+            if (openClass.FileName != "")
+            {
+                dbConnention.ConnectDB(openClass.FileName);
+                mainClass = dbConnention.GetClass();
+            }
+        }
+        
+        private void EditStudent(object sender, EventArgs e)
         {
             EditStudentForm editStudent = new EditStudentForm();
             editStudent.ShowDialog();
         }
 
-        private void menuItemAddNewStudent_Click(object sender, EventArgs e)
+        private void AddNewStudent(object sender, EventArgs e)
         {
             EditStudentForm addStudent = new EditStudentForm();
+            addStudent.Text = "Add New Student";
             addStudent.ShowDialog();
         }
+
+        private void deleteStudent(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
