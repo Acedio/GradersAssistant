@@ -60,6 +60,7 @@ namespace GradersAssistant
                     }
                     studentComboBox.EndUpdate();
                     gad.SaveStudents(students);
+                    CriteriaResponseTree crt = gad.MakeCriteriaResponseTree(1);
                 }
                 gad.CloseDB();
             }
@@ -88,27 +89,31 @@ namespace GradersAssistant
             //open 
             SaveFileDialog saveFile = new SaveFileDialog();
             saveFile.AddExtension = true;
-            saveFile.Filter = "graders assistant db files (*.gadb)|*.gadb";
+            saveFile.Filter = "GradersAssistant DB Files (*.gadb)|*.gadb";
             saveFile.OverwritePrompt = true;
             saveFile.Title = "Create New Class File";
             saveFile.ValidateNames = true;
             saveFile.ShowDialog();
 
-            if (saveFile.FileName != "")
+            if (saveFile.FileName != string.Empty)
             {
+                try
+                {
+                    Stream template = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("GradersAssistant.template.gat");
+                    FileStream fileOut = new FileStream(saveFile.FileName, FileMode.Create, FileAccess.Write);
 
-                if ( !File.Exists("classDB.gat"))
-                {
-                    //if the template file does not exiist output an error message
-                    WarningForm wfSystemError = new WarningForm();
-                    wfSystemError.Text = "SYSTEM ERROR!!!!";
-                    wfSystemError.strWarningMessage = "This instilation of Graders Assistant\n appears to be corrupt.  Please\n restart the program and try again.\n If the problem continues please reinstall \n the program and try again.";
-                    wfSystemError.ShowDialog();
-                }
-                else
-                {
-                    //create access database
-                    File.Copy("classDB.gat", saveFile.FileName);
+                    // Now that we have the stream, we have to save it.
+
+                    int len = 256;
+                    Byte[] buffer = new Byte[len];
+                    int bytesRead = template.Read(buffer, 0, len);
+                    while (bytesRead > 0)
+                    {
+                        fileOut.Write(buffer, 0, bytesRead);
+                        bytesRead = template.Read(buffer, 0, len);
+                    }
+                    template.Close();
+                    fileOut.Close();
 
                     //open edit class form in add mode
                     EditClassForm EditClass = new EditClassForm();
@@ -120,6 +125,14 @@ namespace GradersAssistant
 
 
                     }
+                }
+                catch (Exception ex)
+                {
+                    //if the template file does not exiist output an error message
+                    WarningForm wfSystemError = new WarningForm();
+                    wfSystemError.Text = "SYSTEM ERROR!!!!";
+                    wfSystemError.strWarningMessage = "This instilation of Graders Assistant\n appears to be corrupt.  Please\n restart the program and try again.\n If the problem continues please reinstall \n the program and try again.";
+                    wfSystemError.ShowDialog();
                 }
             }
         }

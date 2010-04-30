@@ -30,7 +30,37 @@ namespace GradersAssistant
                 public const string ClassSection = "ClassSection";
                 public const string StudentSchoolID = "StudentSchoolID";
             }
+
+            public struct Assignment
+            {
+                public const string TableName = "Assignment";
+                public const string AssignmentID = "AssignmentID";
+                public const string Name = "Name";
+                public const string DueDate = "DueDate";
+            }
+
+            public struct Response
+            {
+                public const string TableName = "Response";
+                public const string ResponseID = "ResponseID";
+                public const string PointsReceived = "PointsReceived";
+                public const string GraderComment = "GraderComment";
+                public const string StudentID = "StudentID";
+                public const string CriteriaID = "CriteriaID";
+            }
+
+            public struct Criteria
+            {
+                public const string TableName = "Criteria";
+                public const string CriteriaID = "CriteriaID";
+                public const string Description = "Description";
+                public const string Points = "Points";
+                public const string ParentCriteriaID = "ParentCriteriaID";
+                public const string AssignmentID = "AssignmentID";
+            }
         }
+
+        #region GADatabase
 
         public GADatabase()
         {
@@ -99,6 +129,10 @@ namespace GradersAssistant
                 throw new Exception("Failed to retrieve data from the database.\n", ex);
             }
         }
+
+        #endregion
+
+        #region Student
 
         public Dictionary<int, Student> GetStudents()
         {
@@ -232,12 +266,76 @@ namespace GradersAssistant
             return true;
         }
 
-        public void TestDB()
-        {
-            DataSet dataSet = runQuery("SELECT * FROM testng");
+        #endregion
 
-            System.Windows.Forms.MessageBox.Show("Found " + dataSet.Tables.Count.ToString() + " tables.");
-            return;
+        public CriteriaResponseTree MakeCriteriaResponseTree(int assignmentID)
+        {
+            CriteriaResponseTree tree = new CriteriaResponseTree();
+            string query = String.Format("SELECT * FROM {0} WHERE {1} = {2} AND {3} IS NULL", tables.Criteria.TableName, tables.Criteria.AssignmentID, assignmentID, tables.Criteria.ParentCriteriaID);
+
+            try
+            {
+                Stack<int> toVisit = new Stack<int>();
+                
+                //first we get the roots...
+                DataSet criteriaDataSet = runQuery(query);
+                if(criteriaDataSet.Tables.Count > 0){
+                    foreach (DataRow row in criteriaDataSet.Tables[0].Rows)
+                    {
+                        int cID = (int)row[tables.Criteria.CriteriaID];
+                        string cDescription = (string)row[tables.Criteria.Description];
+                        int cPoints = (int)row[tables.Criteria.Points];
+                        int cParentCriteriaID = -1;
+                        int cAssignmentID = (int)row[tables.Criteria.AssignmentID];
+                        tree.AddNewNode(new Criteria(cID, cDescription, cPoints, cParentCriteriaID, cAssignmentID));
+                        toVisit.Push(cID);
+                    }
+                } else {
+                    Debug.WriteLine("No criteria table found in results.");
+                }
+                criteriaDataSet.Dispose();
+
+                // ...then we get their CHILDREN! HAHAHAHAHAHA!
+                while (toVisit.Count > 0)
+                {
+                    int parent = toVisit.Pop();
+                    query = String.Format("SELECT * FROM {0} WHERE {1} = {2} AND {3} = {4}", tables.Criteria.TableName, tables.Criteria.AssignmentID, assignmentID, tables.Criteria.ParentCriteriaID, parent);
+                    criteriaDataSet = runQuery(query);
+                    if (criteriaDataSet.Tables.Count > 0)
+                    {
+                        foreach (DataRow row in criteriaDataSet.Tables[0].Rows)
+                        {
+                            int cID = (int)row[tables.Criteria.CriteriaID];
+                            string cDescription = (string)row[tables.Criteria.Description];
+                            int cPoints = (int)row[tables.Criteria.Points];
+                            int cParentCriteriaID = (int)row[tables.Criteria.ParentCriteriaID];
+                            int cAssignmentID = (int)row[tables.Criteria.AssignmentID];
+                            tree.AddNewNode(new Criteria(cID, cDescription, cPoints, cParentCriteriaID, cAssignmentID), parent);
+                            toVisit.Push(cID);
+                        }
+                    }
+                    else
+                    {
+                        Debug.WriteLine("No criteria table found in child table results.");
+                    }
+                    criteriaDataSet.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Unable to fetch criteria for assignment ID = " + assignmentID + "\n");
+            }
+
+            return tree;
+        }
+
+        public bool FillCriteriaResponseTree(CriteriaResponseTree crt, int assignmentID, int studentID)
+        {
+            crt.BlankResponses();
+
+            //TODO
+
+            return true;
         }
     }
 }
