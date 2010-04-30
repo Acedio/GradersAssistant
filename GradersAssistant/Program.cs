@@ -312,6 +312,30 @@ namespace GradersAssistant
         }
     }
 
+
+   public class GAClass
+    {
+        public string ClassName;
+        public string GraderName;
+        public int NumberOfSections;
+        public int HostType;
+        public string UserName;
+        public string FromAddress;
+        public string AddressExtension;
+        public bool AlertOnLate;
+        public bool SetFullPoints;
+        public bool IncludeNames;
+        public bool IncludeSections;
+        public bool FormatAsHTML;
+        public bool EmailStudentsNoGrade;
+        public bool OutputOnlyGraded;
+        public bool IncludeComments;
+        public bool ShowOutOfTotals;
+        public bool DisplayClassStats;
+        public bool DisplayTotalPoints;
+
+    }
+
     static class GradersAssistant
     {
         /// <summary>

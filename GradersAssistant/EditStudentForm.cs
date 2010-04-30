@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace GradersAssistant
 {
-    public partial class EditStudent : Form
+    public partial class EditStudentForm : Form
     {
-        public EditStudent()
+        public EditStudentForm()
         {
             InitializeComponent();
         }
