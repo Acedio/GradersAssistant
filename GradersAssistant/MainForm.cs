@@ -44,6 +44,7 @@ namespace GradersAssistant
                 {
                     Dictionary<int,Student> students = gad.GetStudents();
                     studentComboBox.BeginUpdate();
+                    studentComboBox.Items.Clear();
                     foreach (Student student in students.Values)
                     {
                         studentComboBox.Items.Add(student);

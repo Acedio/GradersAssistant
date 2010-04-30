@@ -48,12 +48,12 @@ namespace GradersAssistant
             set { emailAddress = value; }
         }
 
-        int section;
+        int classSection;
 
-        public int Section
+        public int ClassSection
         {
-            get { return section; }
-            set { section = value; }
+            get { return classSection; }
+            set { ClassSection = value; }
         }
 
         string studentSchoolID;
@@ -69,14 +69,14 @@ namespace GradersAssistant
             studentID = noID;
         }
 
-        public Student(int sID, string sFirstName, string sLastName, string sUsername, string sEmailAddress, int sSection, string sStudentSchoolID)
+        public Student(int sID, string sFirstName, string sLastName, string sUsername, string sEmailAddress, int sClassSection, string sStudentSchoolID)
         {
             studentID = sID;
             firstName = sFirstName;
             lastName = sLastName;
             username = sUsername;
             emailAddress = sEmailAddress;
-            section = sSection;
+            classSection = sClassSection;
             studentSchoolID = sStudentSchoolID;
         }
 

@@ -27,7 +27,7 @@ namespace GradersAssistant
                 public const string LastName = "LastName";
                 public const string Username = "Username";
                 public const string EmailAddress = "EmailAddress";
-                public const string Section = "Section";
+                public const string ClassSection = "ClassSection";
                 public const string StudentSchoolID = "StudentSchoolID";
             }
         }
@@ -104,7 +104,7 @@ namespace GradersAssistant
         {
             Dictionary<int, Student> students = new Dictionary<int, Student>();
             try
-            {
+           { 
                 DataSet studentDataSet = runQuery("SELECT * FROM " + tables.Student.TableName);
                 if (studentDataSet.Tables.Count > 0)
                 {
@@ -115,9 +115,9 @@ namespace GradersAssistant
                         string sLastName = (string)row[tables.Student.LastName];
                         string sUserName = (string)row[tables.Student.Username];
                         string sEmailAddress = (string)row[tables.Student.EmailAddress];
-                        int sSection = (int)row[tables.Student.Section];
+                        int sClassSection = (int)row[tables.Student.ClassSection];
                         string sStudentSchoolID = (string)row[tables.Student.StudentSchoolID];
-                        students.Add(sID, new Student(sID, sFirstName, sLastName, sUserName, sEmailAddress, sSection, sStudentSchoolID));
+                        students.Add(sID, new Student(sID, sFirstName, sLastName, sUserName, sEmailAddress, sClassSection, sStudentSchoolID));
                     }
                 }
                 else
@@ -138,21 +138,37 @@ namespace GradersAssistant
             {
                 foreach (Student student in students.Values)
                 {
+                    //string query = String.Format("UPDATE {0} SET ", tables.Student.TableName);
+                    //query += String.Format("{0} = \"{1}lol\", ", tables.Student.FirstName, student.FirstName);
+                    //query += String.Format("{0} = \"{1}\", ", tables.Student.LastName, student.LastName);
+                    //query += String.Format("{0} = \"{1}\", ", tables.Student.Username, student.Username);
+                    //query += String.Format("{0} = \"{1}\", ", tables.Student.EmailAddress, student.EmailAddress);
+                    //query += String.Format("{0} = {1}, ", tables.Student.ClassSection, student.ClassSection);
+                    //query += String.Format("{0} = \"{1}\" ", tables.Student.StudentSchoolID, student.StudentSchoolID);
+                    //query += String.Format("WHERE {0} = {1}", tables.Student.StudentID, student.StudentID);
+                    //runQuery(query);
+
+                    // AAAAAAAAAGH ACCESS AND OLEDB SUCK. You can used named parameters BUT OleDb doesn't respect them and just relies on order. SUCKS.
                     string query = String.Format("UPDATE {0} SET ", tables.Student.TableName);
-                    query += String.Format("{0} = a{0}, ", tables.Student.FirstName);
-                    //query += String.Format("{0} = a{0}, ", tables.Student.FirstName, student.FirstName+"lol");
-                    //query += String.Format("{0} = a{0}, ", tables.Student.LastName, student.LastName);
-                    //query += String.Format("{0} = a{0}, ", tables.Student.Username, student.Username);
-                    //query += String.Format("{0} = a{0}, ", tables.Student.EmailAddress, student.EmailAddress);
-                    //query += String.Format("{0} = a{0}, ", tables.Student.Section, student.Section);
-                    //query += String.Format("{0} = a{0} " , tables.Student.StudentSchoolID, student.StudentSchoolID);
-                    query += String.Format("WHERE {0} = a{0}", tables.Student.StudentID, student.StudentID);
+                    query += String.Format("{0} = @{0}, ", tables.Student.FirstName);
+                    query += String.Format("{0} = @{0}, ", tables.Student.LastName);
+                    query += String.Format("{0} = @{0}, ", tables.Student.Username);
+                    query += String.Format("{0} = @{0}, ", tables.Student.EmailAddress);
+                    query += String.Format("{0} = @{0}, ", tables.Student.ClassSection);
+                    query += String.Format("{0} = @{0} ", tables.Student.StudentSchoolID);
+                    query += String.Format("WHERE {0} = @{0}", tables.Student.StudentID);
                     OleDbCommand update = new OleDbCommand(query, dbConnection);
-                    update.Parameters.Add(new OleDbParameter("a" + tables.Student.FirstName, OleDbType.VarChar)).Value = student.FirstName + "lol";
+                    update.Parameters.Add(new OleDbParameter("@" + tables.Student.FirstName, OleDbType.VarChar)).Value = student.FirstName;// student.FirstName;
+                    update.Parameters.Add(new OleDbParameter("@" + tables.Student.LastName, OleDbType.VarChar)).Value = student.LastName;
+                    update.Parameters.Add(new OleDbParameter("@" + tables.Student.Username, OleDbType.VarChar)).Value = student.Username;
+                    update.Parameters.Add(new OleDbParameter("@" + tables.Student.EmailAddress, OleDbType.VarChar)).Value = student.EmailAddress;
+                    update.Parameters.Add(new OleDbParameter("@" + tables.Student.ClassSection, OleDbType.Integer)).Value = student.ClassSection;
+                    update.Parameters.Add(new OleDbParameter("@" + tables.Student.StudentSchoolID, OleDbType.VarChar)).Value = student.StudentSchoolID;
+                    update.Parameters.Add(new OleDbParameter("@" + tables.Student.StudentID, OleDbType.Integer)).Value = student.StudentID;
                     update.ExecuteNonQuery();
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 Debug.WriteLine("Could not write students to DB.");
                 return false;
