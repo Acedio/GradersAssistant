@@ -39,7 +39,7 @@
             this.labelSection = new System.Windows.Forms.Label();
             this.labelSchoolGivenID = new System.Windows.Forms.Label();
             this.textEmailAddress = new System.Windows.Forms.TextBox();
-            this.ddlSection = new System.Windows.Forms.ComboBox();
+            this.comboBoxSection = new System.Windows.Forms.ComboBox();
             this.textSchoolGIvenID = new System.Windows.Forms.TextBox();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonUpdate = new System.Windows.Forms.Button();
@@ -135,20 +135,20 @@
             this.textEmailAddress.Size = new System.Drawing.Size(148, 20);
             this.textEmailAddress.TabIndex = 11;
             // 
-            // ddlSection
+            // comboBoxSection
             // 
-            this.ddlSection.DisplayMember = "1";
-            this.ddlSection.FormattingEnabled = true;
-            this.ddlSection.Items.AddRange(new object[] {
+            this.comboBoxSection.DisplayMember = "1";
+            this.comboBoxSection.FormattingEnabled = true;
+            this.comboBoxSection.Items.AddRange(new object[] {
             "1",
             "2",
             "3",
             "4",
             "5"});
-            this.ddlSection.Location = new System.Drawing.Point(32, 244);
-            this.ddlSection.Name = "ddlSection";
-            this.ddlSection.Size = new System.Drawing.Size(67, 21);
-            this.ddlSection.TabIndex = 12;
+            this.comboBoxSection.Location = new System.Drawing.Point(32, 244);
+            this.comboBoxSection.Name = "comboBoxSection";
+            this.comboBoxSection.Size = new System.Drawing.Size(67, 21);
+            this.comboBoxSection.TabIndex = 12;
             // 
             // textSchoolGIvenID
             // 
@@ -174,8 +174,9 @@
             this.buttonUpdate.TabIndex = 15;
             this.buttonUpdate.Text = "Update";
             this.buttonUpdate.UseVisualStyleBackColor = true;
+            //this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
-            // EditStudent
+            // EditStudentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -183,7 +184,7 @@
             this.Controls.Add(this.buttonUpdate);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.textSchoolGIvenID);
-            this.Controls.Add(this.ddlSection);
+            this.Controls.Add(this.comboBoxSection);
             this.Controls.Add(this.textEmailAddress);
             this.Controls.Add(this.labelSchoolGivenID);
             this.Controls.Add(this.labelSection);
@@ -195,7 +196,7 @@
             this.Controls.Add(this.textLastName);
             this.Controls.Add(this.labelLastName);
             this.Controls.Add(this.labelFirstName);
-            this.Name = "EditStudent";
+            this.Name = "EditStudentForm";
             this.Text = "Edit Student";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -215,7 +216,7 @@
         private System.Windows.Forms.Label labelSection;
         private System.Windows.Forms.Label labelSchoolGivenID;
         private System.Windows.Forms.TextBox textEmailAddress;
-        private System.Windows.Forms.ComboBox ddlSection;
+        private System.Windows.Forms.ComboBox comboBoxSection;
         private System.Windows.Forms.TextBox textSchoolGIvenID;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonUpdate;
