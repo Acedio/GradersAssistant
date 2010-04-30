@@ -170,16 +170,34 @@ namespace GradersAssistant
             set { maxPoints = value; }
         }
 
+        int parentCriteriaID;
+
+        public int ParentCriteriaID
+        {
+            get { return parentCriteriaID; }
+            set { parentCriteriaID = value; }
+        }
+
+        int assignmentID;
+
+        public int AssignmentID
+        {
+            get { return assignmentID; }
+            set { assignmentID = value; }
+        }
+
         public Criteria()
         {
             criteriaID = noID;
         }
 
-        public Criteria(int cID, string cDescription, int cMaxPoints)
+        public Criteria(int cID, string cDescription, int cMaxPoints, int cParentCriteriaID, int cAssignmentID)
         {
             criteriaID = cID;
             description = cDescription;
             maxPoints = cMaxPoints;
+            parentCriteriaID = cParentCriteriaID;
+            assignmentID = cAssignmentID;
         }
     }
 
@@ -268,6 +286,21 @@ namespace GradersAssistant
             {
                 // The parent doesn't exist in the dictionary!
                 return -1;
+            }
+        }
+
+        public void BlankResponses()
+        {
+            foreach (CriteriaResponseTreeNode node in nodes.Values)
+            {
+                if (node.Children.Count > 0)
+                {
+                    node.Response = new Response();
+                }
+                else
+                {
+                    node.Response = null;
+                }
             }
         }
     }
