@@ -104,16 +104,6 @@ namespace GradersAssistant
         //{
         //}
 
-        public Dictionary<int, Student> GetStudents()
-        {
-            DataSet studentDataSet = runQuery("SELECT * FROM " + tables.Student.TableName);
-            Dictionary<int, Student> students = new Dictionary<int, Student>();
-            foreach (DataRow row in studentDataSet.Tables[tables.Student.TableName].Rows)
-            {
-                //studentDataSet.Tables[tables.Student.TableName].Rows[0][tables.Student.StudentID];
-            }
-        }
-
         public void TestDB()
         {
             DataSet dataSet = runQuery("SELECT * FROM testng");
