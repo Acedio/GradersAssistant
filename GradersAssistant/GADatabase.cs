@@ -132,40 +132,96 @@ namespace GradersAssistant
             return students;
         }
 
+        public int AddStudent(Student student)
+        {
+            if (student.HasID())
+            {
+                Debug.WriteLine("You should not add students if they already have an ID assigned.");
+                return student.StudentID;
+            }
+            else
+            {
+                // We need to insert rather than update because the student has no key.
+                string query = String.Format("INSERT INTO {0} (", tables.Student.TableName);
+                query += String.Format("{0}, ", tables.Student.FirstName);
+                query += String.Format("{0}, ", tables.Student.LastName);
+                query += String.Format("{0}, ", tables.Student.Username);
+                query += String.Format("{0}, ", tables.Student.EmailAddress);
+                query += String.Format("{0}, ", tables.Student.ClassSection);
+                query += String.Format("{0}", tables.Student.StudentSchoolID);
+                query += ") VALUES (";
+                query += String.Format("@{0}, ", tables.Student.FirstName);
+                query += String.Format("@{0}, ", tables.Student.LastName);
+                query += String.Format("@{0}, ", tables.Student.Username);
+                query += String.Format("@{0}, ", tables.Student.EmailAddress);
+                query += String.Format("@{0}, ", tables.Student.ClassSection);
+                query += String.Format("@{0}", tables.Student.StudentSchoolID);
+                query += ");";
+                OleDbCommand update = new OleDbCommand(query, dbConnection);
+                update.Parameters.Add(new OleDbParameter("@" + tables.Student.FirstName, OleDbType.VarChar)).Value = student.FirstName;// student.FirstName;
+                update.Parameters.Add(new OleDbParameter("@" + tables.Student.LastName, OleDbType.VarChar)).Value = student.LastName;
+                update.Parameters.Add(new OleDbParameter("@" + tables.Student.Username, OleDbType.VarChar)).Value = student.Username;
+                update.Parameters.Add(new OleDbParameter("@" + tables.Student.EmailAddress, OleDbType.VarChar)).Value = student.EmailAddress;
+                update.Parameters.Add(new OleDbParameter("@" + tables.Student.ClassSection, OleDbType.Integer)).Value = student.ClassSection;
+                update.Parameters.Add(new OleDbParameter("@" + tables.Student.StudentSchoolID, OleDbType.VarChar)).Value = student.StudentSchoolID;
+                try
+                {
+                    update.ExecuteNonQuery();
+                }
+                catch
+                {
+                    Debug.WriteLine("Could not insert student.");
+                }
+
+                // Now that we inserted the student, we need to get its ID
+                query = "SELECT @@IDENTITY;";
+                OleDbCommand getID = new OleDbCommand(query, dbConnection);
+                int key = student.StudentID;
+                try
+                {
+                    key = (int)getID.ExecuteScalar();
+                }
+                catch
+                {
+                    Debug.WriteLine("Could not retrieve student ID.");
+                }
+                return key;
+            }
+        }
+
         public bool SaveStudents(Dictionary<int, Student> students)
         {
             try
             {
                 foreach (Student student in students.Values)
                 {
-                    //string query = String.Format("UPDATE {0} SET ", tables.Student.TableName);
-                    //query += String.Format("{0} = \"{1}lol\", ", tables.Student.FirstName, student.FirstName);
-                    //query += String.Format("{0} = \"{1}\", ", tables.Student.LastName, student.LastName);
-                    //query += String.Format("{0} = \"{1}\", ", tables.Student.Username, student.Username);
-                    //query += String.Format("{0} = \"{1}\", ", tables.Student.EmailAddress, student.EmailAddress);
-                    //query += String.Format("{0} = {1}, ", tables.Student.ClassSection, student.ClassSection);
-                    //query += String.Format("{0} = \"{1}\" ", tables.Student.StudentSchoolID, student.StudentSchoolID);
-                    //query += String.Format("WHERE {0} = {1}", tables.Student.StudentID, student.StudentID);
-                    //runQuery(query);
-
                     // AAAAAAAAAGH ACCESS AND OLEDB SUCK. You can used named parameters BUT OleDb doesn't respect them and just relies on order. SUCKS.
-                    string query = String.Format("UPDATE {0} SET ", tables.Student.TableName);
-                    query += String.Format("{0} = @{0}, ", tables.Student.FirstName);
-                    query += String.Format("{0} = @{0}, ", tables.Student.LastName);
-                    query += String.Format("{0} = @{0}, ", tables.Student.Username);
-                    query += String.Format("{0} = @{0}, ", tables.Student.EmailAddress);
-                    query += String.Format("{0} = @{0}, ", tables.Student.ClassSection);
-                    query += String.Format("{0} = @{0} ", tables.Student.StudentSchoolID);
-                    query += String.Format("WHERE {0} = @{0}", tables.Student.StudentID);
-                    OleDbCommand update = new OleDbCommand(query, dbConnection);
-                    update.Parameters.Add(new OleDbParameter("@" + tables.Student.FirstName, OleDbType.VarChar)).Value = student.FirstName;// student.FirstName;
-                    update.Parameters.Add(new OleDbParameter("@" + tables.Student.LastName, OleDbType.VarChar)).Value = student.LastName;
-                    update.Parameters.Add(new OleDbParameter("@" + tables.Student.Username, OleDbType.VarChar)).Value = student.Username;
-                    update.Parameters.Add(new OleDbParameter("@" + tables.Student.EmailAddress, OleDbType.VarChar)).Value = student.EmailAddress;
-                    update.Parameters.Add(new OleDbParameter("@" + tables.Student.ClassSection, OleDbType.Integer)).Value = student.ClassSection;
-                    update.Parameters.Add(new OleDbParameter("@" + tables.Student.StudentSchoolID, OleDbType.VarChar)).Value = student.StudentSchoolID;
-                    update.Parameters.Add(new OleDbParameter("@" + tables.Student.StudentID, OleDbType.Integer)).Value = student.StudentID;
-                    update.ExecuteNonQuery();
+                        
+                    if (student.HasID())
+                    {
+                        // We need to update because the student already has a key.
+                        string query = String.Format("UPDATE {0} SET ", tables.Student.TableName);
+                        query += String.Format("{0} = @{0}, ", tables.Student.FirstName);
+                        query += String.Format("{0} = @{0}, ", tables.Student.LastName);
+                        query += String.Format("{0} = @{0}, ", tables.Student.Username);
+                        query += String.Format("{0} = @{0}, ", tables.Student.EmailAddress);
+                        query += String.Format("{0} = @{0}, ", tables.Student.ClassSection);
+                        query += String.Format("{0} = @{0} ", tables.Student.StudentSchoolID);
+                        query += String.Format("WHERE {0} = @{0};", tables.Student.StudentID);
+                        OleDbCommand update = new OleDbCommand(query, dbConnection);
+                        update.Parameters.Add(new OleDbParameter("@" + tables.Student.FirstName, OleDbType.VarChar)).Value = student.FirstName;// student.FirstName;
+                        update.Parameters.Add(new OleDbParameter("@" + tables.Student.LastName, OleDbType.VarChar)).Value = student.LastName;
+                        update.Parameters.Add(new OleDbParameter("@" + tables.Student.Username, OleDbType.VarChar)).Value = student.Username;
+                        update.Parameters.Add(new OleDbParameter("@" + tables.Student.EmailAddress, OleDbType.VarChar)).Value = student.EmailAddress;
+                        update.Parameters.Add(new OleDbParameter("@" + tables.Student.ClassSection, OleDbType.Integer)).Value = student.ClassSection;
+                        update.Parameters.Add(new OleDbParameter("@" + tables.Student.StudentSchoolID, OleDbType.VarChar)).Value = student.StudentSchoolID;
+                        update.Parameters.Add(new OleDbParameter("@" + tables.Student.StudentID, OleDbType.Integer)).Value = student.StudentID;
+                        update.ExecuteNonQuery();
+                    }
+                    else
+                    {
+                        Debug.WriteLine("A student without an ID was found in a student dictionary. That's not good.");
+                    }
                 }
             }
             catch (Exception ex)

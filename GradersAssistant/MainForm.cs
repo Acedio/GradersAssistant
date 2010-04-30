@@ -43,6 +43,9 @@ namespace GradersAssistant
                 else
                 {
                     Dictionary<int,Student> students = gad.GetStudents();
+                    Student s = new Student("Tyranos", "Aurus", "taurus11", "taurus11@my.whitworth.edu", 1, "3567890");
+                    s.StudentID = gad.AddStudent(s);
+                    students.Add(s.StudentID, s);
                     studentComboBox.BeginUpdate();
                     studentComboBox.Items.Clear();
                     foreach (Student student in students.Values)

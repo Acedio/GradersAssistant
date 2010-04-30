@@ -14,6 +14,7 @@ namespace GradersAssistant
         public int StudentID
         {
             get { return studentID; }
+            set { studentID = value; }
         }
 
         string firstName;
@@ -80,9 +81,25 @@ namespace GradersAssistant
             studentSchoolID = sStudentSchoolID;
         }
 
+        public Student(string sFirstName, string sLastName, string sUsername, string sEmailAddress, int sClassSection, string sStudentSchoolID)
+        {
+            studentID = noID;
+            firstName = sFirstName;
+            lastName = sLastName;
+            username = sUsername;
+            emailAddress = sEmailAddress;
+            classSection = sClassSection;
+            studentSchoolID = sStudentSchoolID;
+        }
+
         public override string ToString()
         {
             return String.Format("({0}) {2}, {1} [{3}]",studentID,firstName,lastName,emailAddress);
+        }
+
+        public bool HasID()
+        {
+            return (studentID != noID);
         }
     }
 
