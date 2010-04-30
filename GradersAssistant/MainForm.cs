@@ -141,10 +141,7 @@ namespace GradersAssistant
                 catch (Exception ex)
                 {
                     //if the template file does not exiist output an error message
-                    WarningForm wfSystemError = new WarningForm();
-                    wfSystemError.Text = "SYSTEM ERROR!!!!";
-                    wfSystemError.strWarningMessage = "This instilation of Graders Assistant\n appears to be corrupt.  Please\n restart the program and try again.\n If the problem continues please reinstall \n the program and try again.";
-                    wfSystemError.ShowDialog();
+                    MessageBox.Show("SYSTEM ERROR!!!!:\n This instilation of Graders Assistant\n appears to be corrupt.  Please\n restart the program and try again.\n If the problem continues please reinstall \n the program and try again.");
                 }
             }
         }
