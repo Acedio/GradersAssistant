@@ -1,7 +1,9 @@
 ﻿namespace GradersAssistant
 {
-    partial class EditClass
+    partial class EditClassForm
     {
+        public int Status;
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -40,13 +42,13 @@
             this.checkBoxDisplayClassStats = new System.Windows.Forms.CheckBox();
             this.checkBoxShowOutOfTotals = new System.Windows.Forms.CheckBox();
             this.labelDisplayTotalPoints = new System.Windows.Forms.Label();
-            this.checkBoxIncludeConmments = new System.Windows.Forms.CheckBox();
+            this.checkBoxIncludeComments = new System.Windows.Forms.CheckBox();
             this.checkBoxOutputOnlyGraded = new System.Windows.Forms.CheckBox();
             this.checkBoxEmailStudentsNoGrade = new System.Windows.Forms.CheckBox();
             this.checkBoxFormatAsHTML = new System.Windows.Forms.CheckBox();
             this.labelDisplayClassStats = new System.Windows.Forms.Label();
             this.labelShowOutOfTotals = new System.Windows.Forms.Label();
-            this.labelIncludeConmments = new System.Windows.Forms.Label();
+            this.labelIncludeComments = new System.Windows.Forms.Label();
             this.labelOutputOnlyGraded = new System.Windows.Forms.Label();
             this.labelEmailStudentsNoGrade = new System.Windows.Forms.Label();
             this.label1FormatAsHTML = new System.Windows.Forms.Label();
@@ -64,9 +66,9 @@
             this.labelFormAddress = new System.Windows.Forms.Label();
             this.panelEmail = new System.Windows.Forms.Panel();
             this.comboBoxHostType = new System.Windows.Forms.ComboBox();
-            this.textBoxFormAddress = new System.Windows.Forms.TextBox();
-            this.textBoxUsername = new System.Windows.Forms.TextBox();
-            this.textBoxAddressExtension = new System.Windows.Forms.TextBox();
+            this.textFromAddress = new System.Windows.Forms.TextBox();
+            this.textUsername = new System.Windows.Forms.TextBox();
+            this.textAddressExtension = new System.Windows.Forms.TextBox();
             this.labelAddressExtension = new System.Windows.Forms.Label();
             this.labelEmail = new System.Windows.Forms.Label();
             this.labelDetails = new System.Windows.Forms.Label();
@@ -82,6 +84,7 @@
             // 
             // panelDetails
             // 
+            this.panelDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelDetails.Controls.Add(this.comboBoxNumberOfSections);
             this.panelDetails.Controls.Add(this.textGraderName);
             this.panelDetails.Controls.Add(this.labelNumberOfSection);
@@ -96,6 +99,17 @@
             // comboBoxNumberOfSections
             // 
             this.comboBoxNumberOfSections.FormattingEnabled = true;
+            this.comboBoxNumberOfSections.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"});
             this.comboBoxNumberOfSections.Location = new System.Drawing.Point(132, 92);
             this.comboBoxNumberOfSections.Name = "comboBoxNumberOfSections";
             this.comboBoxNumberOfSections.Size = new System.Drawing.Size(57, 21);
@@ -144,17 +158,18 @@
             // 
             // panelResultOutput
             // 
+            this.panelResultOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelResultOutput.Controls.Add(this.checkBoxDisplayTotalPoints);
             this.panelResultOutput.Controls.Add(this.checkBoxDisplayClassStats);
             this.panelResultOutput.Controls.Add(this.checkBoxShowOutOfTotals);
             this.panelResultOutput.Controls.Add(this.labelDisplayTotalPoints);
-            this.panelResultOutput.Controls.Add(this.checkBoxIncludeConmments);
+            this.panelResultOutput.Controls.Add(this.checkBoxIncludeComments);
             this.panelResultOutput.Controls.Add(this.checkBoxOutputOnlyGraded);
             this.panelResultOutput.Controls.Add(this.checkBoxEmailStudentsNoGrade);
             this.panelResultOutput.Controls.Add(this.checkBoxFormatAsHTML);
             this.panelResultOutput.Controls.Add(this.labelDisplayClassStats);
             this.panelResultOutput.Controls.Add(this.labelShowOutOfTotals);
-            this.panelResultOutput.Controls.Add(this.labelIncludeConmments);
+            this.panelResultOutput.Controls.Add(this.labelIncludeComments);
             this.panelResultOutput.Controls.Add(this.labelOutputOnlyGraded);
             this.panelResultOutput.Controls.Add(this.labelEmailStudentsNoGrade);
             this.panelResultOutput.Controls.Add(this.label1FormatAsHTML);
@@ -199,14 +214,14 @@
             this.labelDisplayTotalPoints.TabIndex = 10;
             this.labelDisplayTotalPoints.Text = "Display Total Points on Output";
             // 
-            // checkBoxIncludeConmments
+            // checkBoxIncludeComments
             // 
-            this.checkBoxIncludeConmments.AutoSize = true;
-            this.checkBoxIncludeConmments.Location = new System.Drawing.Point(13, 69);
-            this.checkBoxIncludeConmments.Name = "checkBoxIncludeConmments";
-            this.checkBoxIncludeConmments.Size = new System.Drawing.Size(15, 14);
-            this.checkBoxIncludeConmments.TabIndex = 12;
-            this.checkBoxIncludeConmments.UseVisualStyleBackColor = true;
+            this.checkBoxIncludeComments.AutoSize = true;
+            this.checkBoxIncludeComments.Location = new System.Drawing.Point(13, 69);
+            this.checkBoxIncludeComments.Name = "checkBoxIncludeComments";
+            this.checkBoxIncludeComments.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxIncludeComments.TabIndex = 12;
+            this.checkBoxIncludeComments.UseVisualStyleBackColor = true;
             // 
             // checkBoxOutputOnlyGraded
             // 
@@ -253,14 +268,14 @@
             this.labelShowOutOfTotals.TabIndex = 4;
             this.labelShowOutOfTotals.Text = "Show Out of Totals on Output";
             // 
-            // labelIncludeConmments
+            // labelIncludeComments
             // 
-            this.labelIncludeConmments.AutoSize = true;
-            this.labelIncludeConmments.Location = new System.Drawing.Point(34, 68);
-            this.labelIncludeConmments.Name = "labelIncludeConmments";
-            this.labelIncludeConmments.Size = new System.Drawing.Size(165, 13);
-            this.labelIncludeConmments.TabIndex = 3;
-            this.labelIncludeConmments.Text = "Include All Comments with Output";
+            this.labelIncludeComments.AutoSize = true;
+            this.labelIncludeComments.Location = new System.Drawing.Point(34, 68);
+            this.labelIncludeComments.Name = "labelIncludeComments";
+            this.labelIncludeComments.Size = new System.Drawing.Size(165, 13);
+            this.labelIncludeComments.TabIndex = 3;
+            this.labelIncludeComments.Text = "Include All Comments with Output";
             // 
             // labelOutputOnlyGraded
             // 
@@ -291,6 +306,7 @@
             // 
             // panelGeneral
             // 
+            this.panelGeneral.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelGeneral.Controls.Add(this.checkBoxIncludeSection);
             this.panelGeneral.Controls.Add(this.checkBoxIncludeNames);
             this.panelGeneral.Controls.Add(this.checkBoxSetFullPoints);
@@ -401,14 +417,15 @@
             this.labelFormAddress.Name = "labelFormAddress";
             this.labelFormAddress.Size = new System.Drawing.Size(71, 13);
             this.labelFormAddress.TabIndex = 6;
-            this.labelFormAddress.Text = "Form Address";
+            this.labelFormAddress.Text = "From Address";
             // 
             // panelEmail
             // 
+            this.panelEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelEmail.Controls.Add(this.comboBoxHostType);
-            this.panelEmail.Controls.Add(this.textBoxFormAddress);
-            this.panelEmail.Controls.Add(this.textBoxUsername);
-            this.panelEmail.Controls.Add(this.textBoxAddressExtension);
+            this.panelEmail.Controls.Add(this.textFromAddress);
+            this.panelEmail.Controls.Add(this.textUsername);
+            this.panelEmail.Controls.Add(this.textAddressExtension);
             this.panelEmail.Controls.Add(this.labelAddressExtension);
             this.panelEmail.Controls.Add(this.labelFormAddress);
             this.panelEmail.Controls.Add(this.labelHostType);
@@ -421,31 +438,34 @@
             // comboBoxHostType
             // 
             this.comboBoxHostType.FormattingEnabled = true;
+            this.comboBoxHostType.Items.AddRange(new object[] {
+            "SMTP",
+            "Exchange"});
             this.comboBoxHostType.Location = new System.Drawing.Point(83, 13);
             this.comboBoxHostType.Name = "comboBoxHostType";
-            this.comboBoxHostType.Size = new System.Drawing.Size(57, 21);
+            this.comboBoxHostType.Size = new System.Drawing.Size(106, 21);
             this.comboBoxHostType.TabIndex = 6;
             // 
-            // textBoxFormAddress
+            // textFromAddress
             // 
-            this.textBoxFormAddress.Location = new System.Drawing.Point(94, 70);
-            this.textBoxFormAddress.Name = "textBoxFormAddress";
-            this.textBoxFormAddress.Size = new System.Drawing.Size(171, 20);
-            this.textBoxFormAddress.TabIndex = 11;
+            this.textFromAddress.Location = new System.Drawing.Point(94, 70);
+            this.textFromAddress.Name = "textFromAddress";
+            this.textFromAddress.Size = new System.Drawing.Size(171, 20);
+            this.textFromAddress.TabIndex = 11;
             // 
-            // textBoxUsername
+            // textUsername
             // 
-            this.textBoxUsername.Location = new System.Drawing.Point(83, 45);
-            this.textBoxUsername.Name = "textBoxUsername";
-            this.textBoxUsername.Size = new System.Drawing.Size(182, 20);
-            this.textBoxUsername.TabIndex = 10;
+            this.textUsername.Location = new System.Drawing.Point(83, 45);
+            this.textUsername.Name = "textUsername";
+            this.textUsername.Size = new System.Drawing.Size(182, 20);
+            this.textUsername.TabIndex = 10;
             // 
-            // textBoxAddressExtension
+            // textAddressExtension
             // 
-            this.textBoxAddressExtension.Location = new System.Drawing.Point(127, 98);
-            this.textBoxAddressExtension.Name = "textBoxAddressExtension";
-            this.textBoxAddressExtension.Size = new System.Drawing.Size(140, 20);
-            this.textBoxAddressExtension.TabIndex = 9;
+            this.textAddressExtension.Location = new System.Drawing.Point(127, 98);
+            this.textAddressExtension.Name = "textAddressExtension";
+            this.textAddressExtension.Size = new System.Drawing.Size(140, 20);
+            this.textAddressExtension.TabIndex = 9;
             // 
             // labelAddressExtension
             // 
@@ -504,6 +524,7 @@
             this.buttonCancelClass.TabIndex = 9;
             this.buttonCancelClass.Text = "Cancel";
             this.buttonCancelClass.UseVisualStyleBackColor = true;
+            this.buttonCancelClass.Click += new System.EventHandler(this.buttonCancelClass_Click);
             // 
             // buttonUpdateClass
             // 
@@ -513,8 +534,9 @@
             this.buttonUpdateClass.TabIndex = 10;
             this.buttonUpdateClass.Text = "Update";
             this.buttonUpdateClass.UseVisualStyleBackColor = true;
+            this.buttonUpdateClass.Click += new System.EventHandler(this.buttonUpdateClass_Click);
             // 
-            // EditClass
+            // EditClassForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -529,8 +551,9 @@
             this.Controls.Add(this.panelGeneral);
             this.Controls.Add(this.panelResultOutput);
             this.Controls.Add(this.panelDetails);
-            this.Name = "EditClass";
+            this.Name = "EditClassForm";
             this.Text = "Edit Class";
+            this.Load += new System.EventHandler(this.EditClassForm_Load);
             this.panelDetails.ResumeLayout(false);
             this.panelDetails.PerformLayout();
             this.panelResultOutput.ResumeLayout(false);
@@ -560,9 +583,9 @@
         private System.Windows.Forms.TextBox textGraderName;
         private System.Windows.Forms.Panel panelEmail;
         private System.Windows.Forms.ComboBox comboBoxHostType;
-        private System.Windows.Forms.TextBox textBoxFormAddress;
-        private System.Windows.Forms.TextBox textBoxUsername;
-        private System.Windows.Forms.TextBox textBoxAddressExtension;
+        private System.Windows.Forms.TextBox textFromAddress;
+        private System.Windows.Forms.TextBox textUsername;
+        private System.Windows.Forms.TextBox textAddressExtension;
         private System.Windows.Forms.Label labelAddressExtension;
         private System.Windows.Forms.Label labelIncludeNames;
         private System.Windows.Forms.Label labelSetFullPoints;
@@ -570,7 +593,7 @@
         private System.Windows.Forms.Label labelEmail;
         private System.Windows.Forms.Label labelDetails;
         private System.Windows.Forms.Label labelShowOutOfTotals;
-        private System.Windows.Forms.Label labelIncludeConmments;
+        private System.Windows.Forms.Label labelIncludeComments;
         private System.Windows.Forms.Label labelOutputOnlyGraded;
         private System.Windows.Forms.Label labelEmailStudentsNoGrade;
         private System.Windows.Forms.Label label1FormatAsHTML;
@@ -584,7 +607,7 @@
         private System.Windows.Forms.CheckBox checkBoxDisplayClassStats;
         private System.Windows.Forms.CheckBox checkBoxShowOutOfTotals;
         private System.Windows.Forms.Label labelDisplayTotalPoints;
-        private System.Windows.Forms.CheckBox checkBoxIncludeConmments;
+        private System.Windows.Forms.CheckBox checkBoxIncludeComments;
         private System.Windows.Forms.CheckBox checkBoxOutputOnlyGraded;
         private System.Windows.Forms.CheckBox checkBoxEmailStudentsNoGrade;
         private System.Windows.Forms.CheckBox checkBoxFormatAsHTML;

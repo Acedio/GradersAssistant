@@ -1,6 +1,6 @@
 ﻿namespace GradersAssistant
 {
-    partial class EditStudent
+    partial class EditStudentForm
     {
         /// <summary>
         /// Required designer variable.
