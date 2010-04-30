@@ -62,5 +62,23 @@ namespace GradersAssistant
                 gad.CloseDB();
             }
         }
+
+		void emailToolStripMenuItem_Click(object sender, System.EventArgs e)
+		{
+			GradeEmailForm gef = new GradeEmailForm();
+			gef.Show();
+		}
+
+		private void createCSVToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			SaveFileDialog saveFileDialog = new SaveFileDialog();
+			saveFileDialog.ValidateNames = true;
+			saveFileDialog.CheckFileExists = true;
+			saveFileDialog.ShowDialog();
+			if (saveFileDialog.FileName != string.Empty)
+			{
+				// TODO create and actually save the .csv file
+			}
+		}
     }
 }
