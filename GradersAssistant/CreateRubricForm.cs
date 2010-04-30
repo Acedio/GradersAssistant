@@ -19,7 +19,9 @@ namespace GradersAssistant
 
         LinkedList<CriteriaNode> Tree = new LinkedList<CriteriaNode>();
 
-        public int TotalRoots = 0;
+        public int TotalNodes = 0;
+
+        public bool NodeIsSelected = false;
 
         private void CreateRubricForm_Load(object sender, EventArgs e)
         {
@@ -87,43 +89,91 @@ namespace GradersAssistant
 
         private void CriteriaDisplay_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            DescriptionTextbox.Text = e.Node.Text;
-            if (e.Node.Nodes.Count == 0)
+            CriteriaDisplay.HideSelection = true;
+            NodeIsSelected = true;
+            for(int i = 0; i<CriteriaDisplay.Nodes.Count; i++)
             {
-                // get and put the point value into the points textbox
+                if (Tree.ElementAt(i).Name == e.Node.Name)
+                {
+                    this.DescriptionTextbox.Text = Tree.ElementAt(i).Description;
+                    if (Tree.ElementAt(i).NumberOfChildren == 0)
+                    {
+                        this.PointsTextBox.Text = Tree.ElementAt(i).Points.ToString();
+                    }
+                }
             }
+            CriteriaDisplay.HideSelection = false;
+            CriteriaDisplay.Update();
         }
 
         private void AddCriteriaButton_Click(object sender, EventArgs e)
         {
+            // parent node
             if (PointsTextBox.TextLength == 0)
             {
-                // when connected, save criteria and pointvalue
-                //CriteriaDisplay.Nodes.Add(DescriptionTextbox.Text);
-                CriteriaNode newnode = new CriteriaNode("Node " + TotalRoots.ToString());
-                newnode.ParentName = "Tree";
+                TreeNode tnode = new TreeNode();
+                CriteriaNode newnode = new CriteriaNode("Node " + TotalNodes.ToString());
+                newnode.ParentNode = null;
                 newnode.Description = this.DescriptionTextbox.Text;
-                CriteriaDisplay.Nodes.Add(new TreeNode(newnode.Description));
+                tnode.Name = newnode.Name;
+                tnode.Text = newnode.Description + "(" + newnode.Points + "pts.)";
+                CriteriaDisplay.Nodes.Add(tnode);
                 Tree.AddLast(newnode);
-                TotalRoots++;
+                TotalNodes++;
+                newnode.Node = tnode;
+                NodeIsSelected = false;
             }
             else
             {
-                if (CriteriaDisplay.SelectedNode.IsSelected == false)
+                // root node
+                if (NodeIsSelected == false)
                 {
-                    CriteriaDisplay.Nodes.Add(DescriptionTextbox.Text);
+                    TreeNode tnode = new TreeNode();
+                    CriteriaNode newnode = new CriteriaNode("Node " + TotalNodes.ToString());
+                    newnode.ParentNode = null;
+                    tnode.Name = newnode.Name;
+                    newnode.Description = this.DescriptionTextbox.Text;
+                    newnode.Points = Convert.ToInt32(this.PointsTextBox.Text);
+                    tnode.Text = newnode.Description + "(" + newnode.Points + "pts.)";
+                    CriteriaDisplay.Nodes.Add(tnode);
+                    Tree.AddLast(newnode);
+                    TotalNodes++;
+                    newnode.Node = tnode;
+                    NodeIsSelected = false;
                 }
+                // child node
                 else
                 {
-                    CriteriaDisplay.SelectedNode.Nodes.Add(DescriptionTextbox.Text + "(" + PointsTextBox.Text + "pts.)");
+                    TreeNode tnode = new TreeNode();
+                    CriteriaNode newnode = new CriteriaNode("Node " + TotalNodes.ToString());
+                    newnode.ParentNode = CriteriaDisplay.SelectedNode;
+                    tnode.Name = newnode.Name;
+                    newnode.Description = this.DescriptionTextbox.Text;
+                    newnode.Points = Convert.ToInt32(this.PointsTextBox.Text);
+                    tnode.Text = newnode.Description + "(" + newnode.Points + "pts.)";
                     CriteriaDisplay.SelectedNode.ExpandAll();
+                    CriteriaDisplay.SelectedNode.Nodes.Add(tnode);
+                    CriteriaDisplay.SelectedNode.ExpandAll();
+                    TotalNodes++;
+                    newnode.Node = tnode;
+
+                    // this for loop puts the newly created child node at the end of its parent node's list of children
+                    for (int i = 0; i < Tree.Count; i++)
+                    {
+                        if (Tree.ElementAt(i).Node == newnode.ParentNode)
+                        {
+                            Tree.ElementAt(i).ChildList.AddLast(newnode);
+                        }
+                    }
+                    NodeIsSelected = false;
                 }
             }
         }
 
         private void RemoveButton_Click(object sender, EventArgs e)
         {
-            CriteriaDisplay.SelectedNode.Remove();
+            if(CriteriaDisplay.Nodes.Count != 0)
+                CriteriaDisplay.SelectedNode.Remove();
         }
 
         private void SaveCriteriaButton_Click(object sender, EventArgs e)
@@ -147,25 +197,49 @@ namespace GradersAssistant
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            // FIND OUT FROM JOSH WHAT IS SUPPOSE TO HAPPEN HERE!!
+            
         }
+
     }
 
+
+    // might not (probably not) need every aspect of such node..
     public class CriteriaNode : System.Object
     {
-        string parentname;
+        int nodeindex;
 
-        public string ParentName
+        public int NodeIndex
         {
-            get { return parentname; }
-            set { parentname = value; }
+            get { return nodeindex; }
+            set { nodeindex = value; }
         }
 
-        string Name;
+        TreeNode node;
 
-        public CriteriaNode(string name)
+        public TreeNode Node
         {
-            this.Name = name;
+            get { return node; }
+            set { node = value; }
+        }
+
+        TreeNode parentnode;
+
+        public TreeNode ParentNode
+        {
+            get { return parentnode; }
+            set { parentnode = value; }
+        }
+
+        string name;
+
+        public string Name
+        {
+            get { return name; }
+        }
+
+        public CriteriaNode(string s)
+        {
+            this.name = s;
         }
 
         int points;
@@ -184,7 +258,7 @@ namespace GradersAssistant
             set { this.description = value; }
         }
 
-        LinkedList<CriteriaNode> childlist;
+        LinkedList<CriteriaNode> childlist = new LinkedList<CriteriaNode>();
 
         public LinkedList<CriteriaNode> ChildList
         {
@@ -194,7 +268,13 @@ namespace GradersAssistant
 
         public int NumberOfChildren
         {
-            get { return this.childlist.Count; }
+            get
+            {
+                if (childlist == null) 
+                    return 0;
+                else 
+                    return ChildList.Count; 
+            }
         }
 
     }
