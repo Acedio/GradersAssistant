@@ -28,7 +28,7 @@ namespace GradersAssistant
 
         }
 
-        private void openButton_Click(object sender, EventArgs e)
+        private void openClass()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = false;
@@ -44,7 +44,7 @@ namespace GradersAssistant
                 }
                 else
                 {
-                    Dictionary<int,Student> students = gad.GetStudents();
+                    Dictionary<int, Student> students = gad.GetStudents();
                     Student s = new Student("Tyranos", "Aurus", "taurus11", "taurus11@my.whitworth.edu", 1, "3567890");
                     s.StudentID = gad.AddStudent(s);
                     students.Add(s.StudentID, s);
@@ -64,6 +64,11 @@ namespace GradersAssistant
                 }
                 gad.CloseDB();
             }
+        }
+
+        private void openButton_Click(object sender, EventArgs e)
+        {
+            openClass();
         }
 
         void emailToolStripMenuItem_Click(object sender, System.EventArgs e)
@@ -139,8 +144,9 @@ namespace GradersAssistant
 
         private void menuItemEditClass_Click(object sender, EventArgs e)
         {
-            EditClassForm addClass = new EditClassForm();
-            addClass.ShowDialog();
+            openClass();
+            //EditClassForm addClass = new EditClassForm();
+            //addClass.ShowDialog();
         }
 
         private void menuItemEditStudent_Click(object sender, EventArgs e)
@@ -153,6 +159,12 @@ namespace GradersAssistant
         {
             EditStudentForm addStudent = new EditStudentForm();
             addStudent.ShowDialog();
+        }
+
+        private void classManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditClassForm addClass = new EditClassForm();
+            addClass.ShowDialog();
         }
     }
 }
