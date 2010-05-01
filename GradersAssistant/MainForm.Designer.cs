@@ -206,7 +206,7 @@
             this.menuItemOpenClass.Name = "menuItemOpenClass";
             this.menuItemOpenClass.Size = new System.Drawing.Size(137, 22);
             this.menuItemOpenClass.Text = "Class";
-            this.menuItemOpenClass.Click += new System.EventHandler(this.OpenClass);
+            this.menuItemOpenClass.Click += new System.EventHandler(this.openClass);
             // 
             // assignmentToolStripMenuItem1
             // 
@@ -608,7 +608,7 @@
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(23, 23);
             this.toolStripButton2.Text = "openButton";
-            this.toolStripButton2.Click += new System.EventHandler(this.OpenClass);
+            this.toolStripButton2.Click += new System.EventHandler(this.openClass);
             // 
             // toolStripButton3
             // 

@@ -170,34 +170,16 @@ namespace GradersAssistant
             set { maxPoints = value; }
         }
 
-        int parentCriteriaID;
-
-        public int ParentCriteriaID
-        {
-            get { return parentCriteriaID; }
-            set { parentCriteriaID = value; }
-        }
-
-        int assignmentID;
-
-        public int AssignmentID
-        {
-            get { return assignmentID; }
-            set { assignmentID = value; }
-        }
-
         public Criteria()
         {
             criteriaID = noID;
         }
 
-        public Criteria(int cID, string cDescription, int cMaxPoints, int cParentCriteriaID, int cAssignmentID)
+        public Criteria(int cID, string cDescription, int cMaxPoints)
         {
             criteriaID = cID;
             description = cDescription;
             maxPoints = cMaxPoints;
-            parentCriteriaID = cParentCriteriaID;
-            assignmentID = cAssignmentID;
         }
     }
 

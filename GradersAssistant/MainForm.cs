@@ -31,47 +31,22 @@ namespace GradersAssistant
 
         }
 
-        private void openClass()
+        private void loadStudents(GADatabase gad)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Multiselect = false;
-            openFileDialog.ValidateNames = true;
-            openFileDialog.CheckFileExists = true;
-            openFileDialog.ShowDialog();
-            if (openFileDialog.FileName != string.Empty)
+            Dictionary<int, Student> students = gad.GetStudents();
+            studentComboBox.BeginUpdate();
+            studentComboBox.Items.Clear();
+            foreach (Student student in students.Values)
             {
-                GADatabase gad = new GADatabase();
-                if (!gad.ConnectDB(openFileDialog.FileName))
-                {
-                    MessageBox.Show("Could not connect to DB.");
-                }
-                else
-                {
-                    Dictionary<int, Student> students = gad.GetStudents();
-                    Student s = new Student("Tyranos", "Aurus", "taurus11", "taurus11@my.whitworth.edu", 1, "3567890");
-                    s.StudentID = gad.AddStudent(s);
-                    students.Add(s.StudentID, s);
-                    studentComboBox.BeginUpdate();
-                    studentComboBox.Items.Clear();
-                    foreach (Student student in students.Values)
-                    {
-                        studentComboBox.Items.Add(student);
-                    }
-                    if (studentComboBox.Items.Count > 0)
-                    {
-                        studentComboBox.SelectedItem = studentComboBox.Items[0];
-                    }
-                    studentComboBox.EndUpdate();
-                    gad.SaveStudents(students);
-                    CriteriaResponseTree crt = gad.MakeCriteriaResponseTree(1);
-                }
-                gad.CloseDB();
+                studentComboBox.Items.Add(student);
             }
-        }
-
-        private void openButton_Click(object sender, EventArgs e)
-        {
-            openClass();
+            if (studentComboBox.Items.Count > 0)
+            {
+                studentComboBox.SelectedItem = studentComboBox.Items[0];
+            }
+            studentComboBox.EndUpdate();
+            CriteriaResponseTree crt = gad.MakeCriteriaResponseTree(1);
+            gad.FillCriteriaResponseTree(crt, 0, 0);
         }
 
         void emailToolStripMenuItem_Click(object sender, System.EventArgs e)
@@ -178,10 +153,10 @@ namespace GradersAssistant
             }
         }
 
-        private void OpenClass(object sender, EventArgs e)
+        private void openClass(object sender, EventArgs e)
         {
             OpenFileDialog openClass = new OpenFileDialog();
-            openClass.Filter = "graders assistant db files (*.gadb)|*.gadb";
+            openClass.Filter = "Graders Assistant DB Files (*.gadb)|*.gadb";
             openClass.Title = "Open Class File";
             openClass.Multiselect = false;
             openClass.AddExtension = true;
@@ -192,6 +167,7 @@ namespace GradersAssistant
             {
                 dbConnention.ConnectDB(openClass.FileName);
                 mainClass = dbConnention.GetClass();
+                loadStudents(dbConnention);
             }
         }
         
