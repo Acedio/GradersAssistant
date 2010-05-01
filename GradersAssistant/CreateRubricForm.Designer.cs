@@ -30,7 +30,7 @@
         {
             this.CriteriaDisplay = new System.Windows.Forms.TreeView();
             this.SaveButton = new System.Windows.Forms.Button();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.AwesomeCancelButton = new System.Windows.Forms.Button();
             this.EditCriteriaPanel = new System.Windows.Forms.Panel();
             this.RemoveButton = new System.Windows.Forms.Button();
             this.SaveCriteriaButton = new System.Windows.Forms.Button();
@@ -48,7 +48,6 @@
             // 
             this.CriteriaDisplay.AllowDrop = true;
             this.CriteriaDisplay.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.CriteriaDisplay.HideSelection = false;
             this.CriteriaDisplay.ImeMode = System.Windows.Forms.ImeMode.AlphaFull;
             this.CriteriaDisplay.ItemHeight = 15;
             this.CriteriaDisplay.Location = new System.Drawing.Point(12, 12);
@@ -68,16 +67,16 @@
             this.SaveButton.UseVisualStyleBackColor = true;
             this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
-            // CancelButton
+            // AwesomeCancelButton
             // 
-            this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(10, 450);
-            this.CancelButton.Margin = new System.Windows.Forms.Padding(1);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(100, 25);
-            this.CancelButton.TabIndex = 3;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
+            this.AwesomeCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.AwesomeCancelButton.Location = new System.Drawing.Point(10, 450);
+            this.AwesomeCancelButton.Margin = new System.Windows.Forms.Padding(1);
+            this.AwesomeCancelButton.Name = "AwesomeCancelButton";
+            this.AwesomeCancelButton.Size = new System.Drawing.Size(100, 25);
+            this.AwesomeCancelButton.TabIndex = 3;
+            this.AwesomeCancelButton.Text = "Cancel";
+            this.AwesomeCancelButton.UseVisualStyleBackColor = true;
             // 
             // EditCriteriaPanel
             // 
@@ -194,7 +193,7 @@
             this.ClientSize = new System.Drawing.Size(499, 485);
             this.Controls.Add(this.ExpandCollapseAllButton);
             this.Controls.Add(this.EditCriteriaPanel);
-            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.AwesomeCancelButton);
             this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.CriteriaDisplay);
             this.DoubleBuffered = true;
@@ -216,7 +215,7 @@
 
         private System.Windows.Forms.TreeView CriteriaDisplay;
         private System.Windows.Forms.Button SaveButton;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button AwesomeCancelButton;
         private System.Windows.Forms.Panel EditCriteriaPanel;
         private System.Windows.Forms.TextBox DescriptionTextbox;
         private System.Windows.Forms.Label DescriptionLbl;
