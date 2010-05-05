@@ -17,7 +17,7 @@ namespace GradersAssistant
             InitializeComponent();
         }
 
-        LinkedList<CriteriaNode> Tree = new LinkedList<CriteriaNode>();
+        LinkedList<CriteriaNode> CriteriaTree = new LinkedList<CriteriaNode>();
 
         public int TotalNodes = 0;
 
@@ -25,27 +25,11 @@ namespace GradersAssistant
 
         private void CreateRubricForm_Load(object sender, EventArgs e)
         {
-            
-
-            //TreeNode ParentNode1;
-            //TreeNode ParentNode2;
-
-            //ParentNode1 = CriteriaDisplay.Nodes.Add("Parent Node 1");
-            //ParentNode1.Nodes.Add("Child Node 1.1");
-            //ParentNode1.Nodes.Add("Child Node 1.2");
-            //ParentNode1.Nodes.Add("Child Node 1.3");
-            //ParentNode1.Nodes.Add("Child Node 1.4");
-            //ParentNode1.Expand();
-
-            //ParentNode2 = CriteriaDisplay.Nodes.Add("Parent Node 2");
-            //ParentNode2.Nodes.Add("Child Node 2.1");
-            //ParentNode2.Nodes.Add("Child Node 2.2");
-            //ParentNode2.Expand();
-
             this.CriteriaDisplay.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView_ItemDrag);
             this.CriteriaDisplay.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeView_DragEnter);
             this.CriteriaDisplay.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeView_DragDrop);
         }
+
 
         private void treeView_ItemDrag(object sender, System.Windows.Forms.ItemDragEventArgs e)
         {
@@ -87,23 +71,33 @@ namespace GradersAssistant
             }
         }
 
+        private void CriteriaDisplay_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (((TreeView)sender).GetNodeAt(e.X,e.Y) == null)
+            {
+                CriteriaDisplay.SelectedNode = null;
+            }
+        }
+
         private void CriteriaDisplay_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            CriteriaDisplay.HideSelection = true;
-            NodeIsSelected = true;
-            for(int i = 0; i<CriteriaDisplay.Nodes.Count; i++)
+            if (((TreeView)sender).GetNodeAt(e.X,e.Y)== null)
+                CriteriaDisplay.SelectedNode = null;
+            else
             {
-                if (Tree.ElementAt(i).Name == e.Node.Name)
+                for (int i = 0; i < CriteriaDisplay.Nodes.Count; i++)
                 {
-                    this.DescriptionTextbox.Text = Tree.ElementAt(i).Description;
-                    if (Tree.ElementAt(i).NumberOfChildren == 0)
+                    if (CriteriaTree.ElementAt(i).Name == e.Node.Name)
                     {
-                        this.PointsTextBox.Text = Tree.ElementAt(i).Points.ToString();
+                        this.DescriptionTextbox.Text = CriteriaTree.ElementAt(i).Description;
+                        if (CriteriaTree.ElementAt(i).NumberOfChildren == 0)
+                        {
+                            this.PointsTextBox.Text = CriteriaTree.ElementAt(i).Points.ToString();
+                        }
                     }
                 }
+                CriteriaDisplay.HideSelection = false;
             }
-            CriteriaDisplay.HideSelection = false;
-            CriteriaDisplay.Update();
         }
 
         private void AddCriteriaButton_Click(object sender, EventArgs e)
@@ -118,7 +112,7 @@ namespace GradersAssistant
                 tnode.Name = newnode.Name;
                 tnode.Text = newnode.Description + "(" + newnode.Points + "pts.)";
                 CriteriaDisplay.Nodes.Add(tnode);
-                Tree.AddLast(newnode);
+                CriteriaTree.AddLast(newnode);
                 TotalNodes++;
                 newnode.Node = tnode;
                 NodeIsSelected = false;
@@ -136,7 +130,7 @@ namespace GradersAssistant
                     newnode.Points = Convert.ToInt32(this.PointsTextBox.Text);
                     tnode.Text = newnode.Description + "(" + newnode.Points + "pts.)";
                     CriteriaDisplay.Nodes.Add(tnode);
-                    Tree.AddLast(newnode);
+                    CriteriaTree.AddLast(newnode);
                     TotalNodes++;
                     newnode.Node = tnode;
                     NodeIsSelected = false;
@@ -158,11 +152,11 @@ namespace GradersAssistant
                     newnode.Node = tnode;
 
                     // this for loop puts the newly created child node at the end of its parent node's list of children
-                    for (int i = 0; i < Tree.Count; i++)
+                    for (int i = 0; i < CriteriaTree.Count; i++)
                     {
-                        if (Tree.ElementAt(i).Node == newnode.ParentNode)
+                        if (CriteriaTree.ElementAt(i).Node == newnode.ParentNode)
                         {
-                            Tree.ElementAt(i).ChildList.AddLast(newnode);
+                            CriteriaTree.ElementAt(i).ChildList.AddLast(newnode);
                         }
                     }
                     NodeIsSelected = false;
@@ -172,13 +166,32 @@ namespace GradersAssistant
 
         private void RemoveButton_Click(object sender, EventArgs e)
         {
-            if(CriteriaDisplay.Nodes.Count != 0)
+            MessageBox.Show("Are you sure you want to delete the selected Criteria and all of its children?", "Remove Criteria", System.Windows.Forms.MessageBoxButtons.YesNo);
+            if (CriteriaDisplay.Nodes.Count != 0)
+            {
+                for (int i = 0; i < CriteriaTree.Count; i++)
+                {
+                    if (CriteriaTree.ElementAt(i).Node == CriteriaDisplay.SelectedNode)
+                    {
+                        CriteriaTree.Remove(CriteriaTree.ElementAt(i));
+                    }
+                }
                 CriteriaDisplay.SelectedNode.Remove();
+            }
         }
 
         private void SaveCriteriaButton_Click(object sender, EventArgs e)
         {
             CriteriaDisplay.SelectedNode.Text = DescriptionTextbox.Text;
+            for (int i = 0; i < CriteriaTree.Count; i++)
+            {
+                if (CriteriaTree.ElementAt(i).Node == CriteriaDisplay.SelectedNode)
+                {
+                    CriteriaTree.ElementAt(i).Description = DescriptionTextbox.Text;
+                    CriteriaTree.ElementAt(i).Points = Convert.ToInt32(PointsTextBox.Text);
+                }
+            }
+            CriteriaDisplay.SelectedNode.Text += "("+PointsTextBox.Text+"pts.)";
         }
 
         private void ExpandCollapseAllButton_Click(object sender, EventArgs e)
@@ -200,8 +213,10 @@ namespace GradersAssistant
             
         }
 
-    }
+        
 
+
+    }
 
     // might not (probably not) need every aspect of such node..
     public class CriteriaNode : System.Object

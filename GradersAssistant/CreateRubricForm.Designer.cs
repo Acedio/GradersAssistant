@@ -54,6 +54,7 @@
             this.CriteriaDisplay.Name = "CriteriaDisplay";
             this.CriteriaDisplay.Size = new System.Drawing.Size(475, 313);
             this.CriteriaDisplay.TabIndex = 1;
+            this.CriteriaDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CriteriaDisplay_MouseClick);
             this.CriteriaDisplay.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.CriteriaDisplay_NodeMouseClick);
             // 
             // SaveButton
