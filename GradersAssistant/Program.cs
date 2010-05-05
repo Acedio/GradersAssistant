@@ -271,7 +271,7 @@ namespace GradersAssistant
             }
         }
 
-        public void BlankResponses()
+        public void ClearResponses()
         {
             foreach (CriteriaResponseTreeNode node in nodes.Values)
             {
@@ -283,6 +283,25 @@ namespace GradersAssistant
                 {
                     node.Response = null;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Modifies the existing response to the criteria with the specified criteriaID.
+        /// </summary>
+        /// <param name="criteriaKey">The criteria key of the criteria the response is for.</param>
+        /// <param name="response">The modified response.</param>
+        /// <returns></returns>
+        public bool ModifyResponse(int criteriaKey, Response response)
+        {
+            if (nodes.ContainsKey(criteriaKey))
+            {
+                nodes[criteriaKey].Response = response;
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

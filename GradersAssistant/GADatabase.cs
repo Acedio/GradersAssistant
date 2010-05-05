@@ -325,6 +325,10 @@ namespace GradersAssistant
             return true;
         }
 
+        #endregion
+
+        #region GAClass
+
         public bool AddClass(GAClass gaClass)
         {
                 // We need to insert the new class
@@ -560,7 +564,7 @@ namespace GradersAssistant
 
         public bool FillCriteriaResponseTree(CriteriaResponseTree crt, int assignmentID, int studentID)
         {
-            crt.BlankResponses();
+            crt.ClearResponses();
 
             string query = String.Format("SELECT R.{0}, R.{1}, R.{2}, R.{3} ", tables.Response.ResponseID, tables.Response.CriteriaID, tables.Response.PointsReceived, tables.Response.GraderComment);
             query += String.Format("FROM {0} AS R, {1} AS C ", tables.Response.TableName, tables.Criteria.TableName);
@@ -568,9 +572,22 @@ namespace GradersAssistant
             query += String.Format("AND {0} = {1} ", tables.Criteria.AssignmentID, assignmentID);
             query += String.Format("AND {0} = {1} ", tables.Response.StudentID, studentID);
 
-            DataSet response = runQuery(query);
+            DataSet responseSet = runQuery(query);
 
-            // TODO
+            if(responseSet.Tables.Count > 0){
+                foreach (DataRow row in responseSet.Tables[0].Rows)
+                {
+                    int responseID = (int)row[tables.Response.ResponseID];
+                    int criteriaID = (int)row[tables.Response.CriteriaID];
+                    int pointsReceived = (int)row[tables.Response.PointsReceived];
+                    string graderComment = row[tables.Response.GraderComment].ToString();
+                    if (!crt.ModifyResponse(criteriaID, new Response(responseID, pointsReceived, graderComment)))
+                    {
+                        Debug.WriteLine("Could not modifiy the response.");
+                        return false;
+                    }
+                }
+            }
 
             return true;
         }

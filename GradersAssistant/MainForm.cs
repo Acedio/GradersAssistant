@@ -46,7 +46,7 @@ namespace GradersAssistant
             }
             studentComboBox.EndUpdate();
             CriteriaResponseTree crt = gad.MakeCriteriaResponseTree(1);
-            gad.FillCriteriaResponseTree(crt, 0, 0);
+            gad.FillCriteriaResponseTree(crt, 1, 10);
         }
 
         void emailToolStripMenuItem_Click(object sender, System.EventArgs e)
