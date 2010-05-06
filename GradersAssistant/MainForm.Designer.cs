@@ -32,31 +32,31 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuItemCreateNewClass = new System.Windows.Forms.ToolStripMenuItem();
-            this.assignmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createNewClassMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createNewAssignmentRubricMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuItemOpenClass = new System.Windows.Forms.ToolStripMenuItem();
-            this.assignmentToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openClassMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openAssignmentMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.prefrencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuItemAddNewStudent = new System.Windows.Forms.ToolStripMenuItem();
+            this.studentMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addNewStudentMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.currentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuItemEditCurrentStudent = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItemEditCurrentStudent = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemDeleteCurrentStudent = new System.Windows.Forms.ToolStripMenuItem();
             this.sendEmailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkGradesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.studentManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
+            this.resultstoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.exportResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.emailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,7 +75,7 @@
             this.studentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolBarsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lockToolbarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,9 +90,9 @@
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutGradersAssistantToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.CreateNewToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -142,10 +142,10 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem9,
-            this.toolStripMenuItem3,
+            this.MenuItemFile,
+            this.studentMenuItem,
+            this.resultstoolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.toolStripMenuItem5});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -153,125 +153,126 @@
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // toolStripMenuItem1
+            // MenuItemFile
             // 
-            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem6,
             this.toolStripMenuItem7,
-            this.toolStripMenuItem8,
-            this.saveAsToolStripMenuItem,
-            this.closeToolStripMenuItem,
+            this.saveMenuItem,
+            this.saveAsMenuItem,
+            this.closeMenuItem,
             this.toolStripSeparator10,
             this.prefrencesToolStripMenuItem,
             this.toolStripSeparator11,
             this.exitToolStripMenuItem});
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
-            this.toolStripMenuItem1.Text = "File";
+            this.MenuItemFile.Name = "MenuItemFile";
+            this.MenuItemFile.Size = new System.Drawing.Size(37, 20);
+            this.MenuItemFile.Text = "File";
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuItemCreateNewClass,
-            this.assignmentToolStripMenuItem});
+            this.createNewClassMenuItem,
+            this.createNewAssignmentRubricMenuItem});
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(141, 22);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem6.Text = "Create New..";
             // 
-            // menuItemCreateNewClass
+            // createNewClassMenuItem
             // 
-            this.menuItemCreateNewClass.Name = "menuItemCreateNewClass";
-            this.menuItemCreateNewClass.Size = new System.Drawing.Size(174, 22);
-            this.menuItemCreateNewClass.Text = "Class";
-            this.menuItemCreateNewClass.Click += new System.EventHandler(this.CreateNewClass);
+            this.createNewClassMenuItem.Name = "createNewClassMenuItem";
+            this.createNewClassMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.createNewClassMenuItem.Text = "Class";
+            this.createNewClassMenuItem.Click += new System.EventHandler(this.CreateNewClass);
             // 
-            // assignmentToolStripMenuItem
+            // createNewAssignmentRubricMenuItem
             // 
-            this.assignmentToolStripMenuItem.Name = "assignmentToolStripMenuItem";
-            this.assignmentToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
-            this.assignmentToolStripMenuItem.Text = "Assignment Rubric";
-            this.assignmentToolStripMenuItem.Click += new System.EventHandler(this.NewRubricCreator);
+            this.createNewAssignmentRubricMenuItem.Name = "createNewAssignmentRubricMenuItem";
+            this.createNewAssignmentRubricMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.createNewAssignmentRubricMenuItem.Text = "Assignment Rubric";
+            this.createNewAssignmentRubricMenuItem.Click += new System.EventHandler(this.NewRubricCreator);
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuItemOpenClass,
-            this.assignmentToolStripMenuItem1});
+            this.openClassMenuItem,
+            this.openAssignmentMenuItem});
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(141, 22);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem7.Text = "Open";
             // 
-            // menuItemOpenClass
+            // openClassMenuItem
             // 
-            this.menuItemOpenClass.Name = "menuItemOpenClass";
-            this.menuItemOpenClass.Size = new System.Drawing.Size(137, 22);
-            this.menuItemOpenClass.Text = "Class";
-            this.menuItemOpenClass.Click += new System.EventHandler(this.OpenClass);
+            this.openClassMenuItem.Name = "openClassMenuItem";
+            this.openClassMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openClassMenuItem.Text = "Class";
+            this.openClassMenuItem.Click += new System.EventHandler(this.OpenClass);
             // 
-            // assignmentToolStripMenuItem1
+            // openAssignmentMenuItem
             // 
-            this.assignmentToolStripMenuItem1.Name = "assignmentToolStripMenuItem1";
-            this.assignmentToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
-            this.assignmentToolStripMenuItem1.Text = "Assignment";
+            this.openAssignmentMenuItem.Name = "openAssignmentMenuItem";
+            this.openAssignmentMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openAssignmentMenuItem.Text = "Assignment";
             // 
-            // toolStripMenuItem8
+            // saveMenuItem
             // 
-            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(141, 22);
-            this.toolStripMenuItem8.Text = "Save";
+            this.saveMenuItem.Name = "saveMenuItem";
+            this.saveMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveMenuItem.Text = "Save";
             // 
-            // saveAsToolStripMenuItem
+            // saveAsMenuItem
             // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.saveAsToolStripMenuItem.Text = "Save As";
+            this.saveAsMenuItem.Name = "saveAsMenuItem";
+            this.saveAsMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsMenuItem.Text = "Save As";
             // 
-            // closeToolStripMenuItem
+            // closeMenuItem
             // 
-            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.closeToolStripMenuItem.Text = "Close";
+            this.closeMenuItem.Name = "closeMenuItem";
+            this.closeMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeMenuItem.Text = "Close";
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(138, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(149, 6);
             // 
             // prefrencesToolStripMenuItem
             // 
             this.prefrencesToolStripMenuItem.Name = "prefrencesToolStripMenuItem";
-            this.prefrencesToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.prefrencesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.prefrencesToolStripMenuItem.Text = "Prefrences";
             // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(138, 6);
+            this.toolStripSeparator11.Size = new System.Drawing.Size(149, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.Close);
             // 
-            // toolStripMenuItem2
+            // studentMenuItem
             // 
-            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuItemAddNewStudent,
+            this.studentMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addNewStudentMenuItem,
             this.toolStripSeparator12,
             this.currentToolStripMenuItem,
             this.toolStripSeparator13,
             this.studentManagerToolStripMenuItem});
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(60, 20);
-            this.toolStripMenuItem2.Text = "Student";
+            this.studentMenuItem.Name = "studentMenuItem";
+            this.studentMenuItem.Size = new System.Drawing.Size(60, 20);
+            this.studentMenuItem.Text = "Student";
             // 
-            // menuItemAddNewStudent
+            // addNewStudentMenuItem
             // 
-            this.menuItemAddNewStudent.Name = "menuItemAddNewStudent";
-            this.menuItemAddNewStudent.Size = new System.Drawing.Size(165, 22);
-            this.menuItemAddNewStudent.Text = "Add Student..";
-            this.menuItemAddNewStudent.Click += new System.EventHandler(this.AddNewStudent);
+            this.addNewStudentMenuItem.Name = "addNewStudentMenuItem";
+            this.addNewStudentMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.addNewStudentMenuItem.Text = "Add Student..";
+            this.addNewStudentMenuItem.Click += new System.EventHandler(this.AddNewStudent);
             // 
             // toolStripSeparator12
             // 
@@ -281,7 +282,7 @@
             // currentToolStripMenuItem
             // 
             this.currentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuItemEditCurrentStudent,
+            this.MenuItemEditCurrentStudent,
             this.MenuItemDeleteCurrentStudent,
             this.sendEmailToolStripMenuItem,
             this.checkGradesToolStripMenuItem});
@@ -289,12 +290,12 @@
             this.currentToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.currentToolStripMenuItem.Text = "Current Student";
             // 
-            // menuItemEditCurrentStudent
+            // MenuItemEditCurrentStudent
             // 
-            this.menuItemEditCurrentStudent.Name = "menuItemEditCurrentStudent";
-            this.menuItemEditCurrentStudent.Size = new System.Drawing.Size(152, 22);
-            this.menuItemEditCurrentStudent.Text = "Edit..";
-            this.menuItemEditCurrentStudent.Click += new System.EventHandler(this.EditStudent);
+            this.MenuItemEditCurrentStudent.Name = "MenuItemEditCurrentStudent";
+            this.MenuItemEditCurrentStudent.Size = new System.Drawing.Size(152, 22);
+            this.MenuItemEditCurrentStudent.Text = "Edit..";
+            this.MenuItemEditCurrentStudent.Click += new System.EventHandler(this.EditStudent);
             // 
             // MenuItemDeleteCurrentStudent
             // 
@@ -306,13 +307,13 @@
             // sendEmailToolStripMenuItem
             // 
             this.sendEmailToolStripMenuItem.Name = "sendEmailToolStripMenuItem";
-            this.sendEmailToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.sendEmailToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.sendEmailToolStripMenuItem.Text = "Send Email";
             // 
             // checkGradesToolStripMenuItem
             // 
             this.checkGradesToolStripMenuItem.Name = "checkGradesToolStripMenuItem";
-            this.checkGradesToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.checkGradesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.checkGradesToolStripMenuItem.Text = "Check Grades";
             // 
             // toolStripSeparator13
@@ -326,9 +327,9 @@
             this.studentManagerToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.studentManagerToolStripMenuItem.Text = "Student Manager";
             // 
-            // toolStripMenuItem9
+            // resultstoolStripMenuItem
             // 
-            this.toolStripMenuItem9.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.resultstoolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem10,
             this.exportResultsToolStripMenuItem,
             this.manageResultsToolStripMenuItem,
@@ -339,9 +340,9 @@
             this.clearAllToolStripMenuItem,
             this.toolStripSeparator16,
             this.optionsToolStripMenuItem});
-            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(56, 20);
-            this.toolStripMenuItem9.Text = "Results";
+            this.resultstoolStripMenuItem.Name = "resultstoolStripMenuItem";
+            this.resultstoolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.resultstoolStripMenuItem.Text = "Results";
             // 
             // toolStripMenuItem10
             // 
@@ -461,9 +462,9 @@
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.optionsToolStripMenuItem.Text = "Options..";
             // 
-            // toolStripMenuItem3
+            // toolsToolStripMenuItem
             // 
-            this.toolStripMenuItem3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolBarsToolStripMenuItem,
             this.toolStripSeparator17,
             this.MenuItemClassManager,
@@ -472,9 +473,9 @@
             this.editRubricToolStripMenuItem,
             this.toolStripSeparator19,
             this.prefrencesToolStripMenuItem1});
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(48, 20);
-            this.toolStripMenuItem3.Text = "Tools";
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // toolBarsToolStripMenuItem
             // 
@@ -565,9 +566,9 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
-            this.toolStripButton2,
-            this.toolStripButton3,
+            this.CreateNewToolStripButton,
+            this.openToolStripButton,
+            this.saveToolStripButton,
             this.toolStripSeparator1,
             this.toolStripButton4,
             this.toolStripSeparator2,
@@ -588,37 +589,37 @@
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // CreateNewToolStripButton
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::GradersAssistant.Properties.Resources._new;
-            this.toolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 23);
-            this.toolStripButton1.Text = "newButton";
-            this.toolStripButton1.Click += new System.EventHandler(this.CreateNewClass);
+            this.CreateNewToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.CreateNewToolStripButton.Image = global::GradersAssistant.Properties.Resources._new;
+            this.CreateNewToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.CreateNewToolStripButton.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.CreateNewToolStripButton.Name = "CreateNewToolStripButton";
+            this.CreateNewToolStripButton.Size = new System.Drawing.Size(23, 23);
+            this.CreateNewToolStripButton.Text = "newButton";
+            this.CreateNewToolStripButton.Click += new System.EventHandler(this.CreateNewClass);
             // 
-            // toolStripButton2
+            // openToolStripButton
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = global::GradersAssistant.Properties.Resources.open;
-            this.toolStripButton2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 23);
-            this.toolStripButton2.Text = "openButton";
-            this.toolStripButton2.Click += new System.EventHandler(this.OpenClass);
+            this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openToolStripButton.Image = global::GradersAssistant.Properties.Resources.open;
+            this.openToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.openToolStripButton.Name = "openToolStripButton";
+            this.openToolStripButton.Size = new System.Drawing.Size(23, 23);
+            this.openToolStripButton.Text = "openButton";
+            this.openToolStripButton.Click += new System.EventHandler(this.OpenClass);
             // 
-            // toolStripButton3
+            // saveToolStripButton
             // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = global::GradersAssistant.Properties.Resources.save;
-            this.toolStripButton3.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 23);
-            this.toolStripButton3.Text = "saveButton";
+            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.Image = global::GradersAssistant.Properties.Resources.save;
+            this.saveToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.saveToolStripButton.Name = "saveToolStripButton";
+            this.saveToolStripButton.Size = new System.Drawing.Size(23, 23);
+            this.saveToolStripButton.Text = "saveButton";
             // 
             // toolStripSeparator1
             // 
@@ -849,17 +850,17 @@
 
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem MenuItemFile;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem saveMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem studentMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton CreateNewToolStripButton;
+        private System.Windows.Forms.ToolStripButton openToolStripButton;
+        private System.Windows.Forms.ToolStripButton saveToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
@@ -885,25 +886,25 @@
         private System.Windows.Forms.ToolStripButton toolStripButton15;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.ToolStripMenuItem menuItemOpenClass;
-        private System.Windows.Forms.ToolStripMenuItem menuItemCreateNewClass;
-        private System.Windows.Forms.ToolStripMenuItem assignmentToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem assignmentToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openClassMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createNewClassMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createNewAssignmentRubricMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openAssignmentMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
         private System.Windows.Forms.ToolStripMenuItem prefrencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem menuItemAddNewStudent;
+        private System.Windows.Forms.ToolStripMenuItem addNewStudentMenuItem;
         private System.Windows.Forms.ToolStripMenuItem currentToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem menuItemEditCurrentStudent;
+        private System.Windows.Forms.ToolStripMenuItem MenuItemEditCurrentStudent;
         private System.Windows.Forms.ToolStripMenuItem MenuItemDeleteCurrentStudent;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private System.Windows.Forms.ToolStripMenuItem sendEmailToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkGradesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem9;
+        private System.Windows.Forms.ToolStripMenuItem resultstoolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportResultsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem emailToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem10;
