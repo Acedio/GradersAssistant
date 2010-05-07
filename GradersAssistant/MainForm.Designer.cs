@@ -589,6 +589,38 @@
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // CreateNewToolStripButton
+            // 
+            this.CreateNewToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.CreateNewToolStripButton.Image = global::GradersAssistant.Properties.Resources._new;
+            this.CreateNewToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.CreateNewToolStripButton.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.CreateNewToolStripButton.Name = "CreateNewToolStripButton";
+            this.CreateNewToolStripButton.Size = new System.Drawing.Size(23, 23);
+            this.CreateNewToolStripButton.Text = "newButton";
+            this.CreateNewToolStripButton.Click += new System.EventHandler(this.CreateNewClass);
+            // 
+            // openToolStripButton
+            // 
+            this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openToolStripButton.Image = global::GradersAssistant.Properties.Resources.open;
+            this.openToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.openToolStripButton.Name = "openToolStripButton";
+            this.openToolStripButton.Size = new System.Drawing.Size(23, 23);
+            this.openToolStripButton.Text = "openButton";
+            this.openToolStripButton.Click += new System.EventHandler(this.OpenClass);
+            // 
+            // saveToolStripButton
+            // 
+            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.Image = global::GradersAssistant.Properties.Resources.save;
+            this.saveToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.saveToolStripButton.Name = "saveToolStripButton";
+            this.saveToolStripButton.Size = new System.Drawing.Size(23, 23);
+            this.saveToolStripButton.Text = "saveButton";
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
