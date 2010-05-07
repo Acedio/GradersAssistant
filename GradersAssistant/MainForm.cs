@@ -19,6 +19,32 @@ namespace GradersAssistant
         {
             InitializeComponent();
             dbConnention = new GADatabase();
+            noClassOpenDisableMenu();
+        }
+
+        
+        private void noClassOpenDisableMenu()
+        {
+            createNewAssignmentRubricMenuItem.Enabled = false;
+            openAssignmentMenuItem.Enabled = false;
+            saveMenuItem.Enabled = false;
+            saveAsMenuItem.Enabled = false;
+            prefrencesToolStripMenuItem.Enabled = false;
+            studentMenuItem.Enabled = false;
+            resultstoolStripMenuItem.Enabled = false;
+            toolsToolStripMenuItem.Enabled = false;
+        }
+
+        private void classOpenEnableMenu()
+        {
+            createNewAssignmentRubricMenuItem.Enabled = true;
+            openAssignmentMenuItem.Enabled = true;
+            saveMenuItem.Enabled = true;
+            saveAsMenuItem.Enabled = true;
+            prefrencesToolStripMenuItem.Enabled = true;
+            studentMenuItem.Enabled = true;
+            resultstoolStripMenuItem.Enabled = true;
+            toolsToolStripMenuItem.Enabled = true;
         }
 
         protected void NewRubricCreator(object sender, EventArgs e)
@@ -67,6 +93,8 @@ namespace GradersAssistant
             }
         }
 
+        //creates a new class
+        //TODO still needs to acount for functionality to re populate the new main form once hte class is created
         private void CreateNewClass(object sender, EventArgs e)
         {
             //open 
@@ -106,11 +134,12 @@ namespace GradersAssistant
                     if (addClass.FormStatus == 1)
                     {
                         //check to make sure a connection exisists
-                        if (dbConnention.IsConnected())
+                        if (dbConnention.ConnectDB(saveFile.FileName))
                         {
                             //insert
                             dbConnention.AddClass(addClass.PublicClass);
                             mainClass = addClass.PublicClass;
+                            classOpenEnableMenu();
                         }
                         else
                         {
@@ -126,6 +155,7 @@ namespace GradersAssistant
             }
         }
 
+        //edits the deatails of the current class
         private void EditClass(object sender, EventArgs e)
         {
             //TODO where does the class to be editied come from
@@ -153,8 +183,11 @@ namespace GradersAssistant
             }
         }
 
-        private void openClass(object sender, EventArgs e)
+        //open Class, this opens an exisiting class 
+        //accessed through open folder icon/open class in the file menu
+        private void OpenClass(object sender, EventArgs e)
         {
+            //get the class to open
             OpenFileDialog openClass = new OpenFileDialog();
             openClass.Filter = "Graders Assistant DB Files (*.gadb)|*.gadb";
             openClass.Title = "Open Class File";
@@ -163,28 +196,70 @@ namespace GradersAssistant
             openClass.ValidateNames = true;
             openClass.ShowDialog();
 
+            //if a class was opened generate the database connection
             if (openClass.FileName != "")
             {
                 dbConnention.ConnectDB(openClass.FileName);
                 mainClass = dbConnention.GetClass();
                 loadStudents(dbConnention);
+                classOpenEnableMenu();
             }
         }
         
         private void EditStudent(object sender, EventArgs e)
         {
             EditStudentForm editStudent = new EditStudentForm();
+            editStudent.status = 1;
+            editStudent.populateForm();
+            //TODO load the right student into the public student of the form
+            //editStudent.PublicStudent. = studentComboBox.SelectedItem
             editStudent.ShowDialog();
+
+            //if the dialog is closed with a status of 1 the student needs to be updated
+            if (editStudent.status == 1)
+            {
+                //check to make sure a connection exisists
+                if (dbConnention.IsConnected())
+                {
+                    //update the class table in the database
+                    dbConnention.UpdateStudent(editStudent.PublicStudent);
+                    dbConnention.GetStudents();
+                }
+                else
+                {
+                    MessageBox.Show("No connection exists, unable to save student data.");
+                }
+            }
         }
 
         private void AddNewStudent(object sender, EventArgs e)
         {
             EditStudentForm addStudent = new EditStudentForm();
             addStudent.Text = "Add New Student";
+            addStudent.status = 0;
             addStudent.ShowDialog();
+            //if the dialog is closed with a status of 1 the student needs to be added
+            if (addStudent.status == 1)
+            {
+                if (dbConnention.IsConnected())
+                {
+                    //update the class table in the database
+                    dbConnention.AddStudent(addStudent.PublicStudent);
+                    dbConnention.GetStudents();
+                }
+                else
+                {
+                    MessageBox.Show("No connection exists, unable to save student data.");
+                }
+            }
         }
 
         private void deleteStudent(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Close(object sender, EventArgs e)
         {
 
         }

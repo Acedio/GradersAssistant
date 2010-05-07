@@ -40,7 +40,7 @@
             this.labelSchoolGivenID = new System.Windows.Forms.Label();
             this.textEmailAddress = new System.Windows.Forms.TextBox();
             this.comboBoxSection = new System.Windows.Forms.ComboBox();
-            this.textSchoolGIvenID = new System.Windows.Forms.TextBox();
+            this.textSchoolGivenID = new System.Windows.Forms.TextBox();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -138,6 +138,7 @@
             // comboBoxSection
             // 
             this.comboBoxSection.DisplayMember = "1";
+            this.comboBoxSection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSection.FormattingEnabled = true;
             this.comboBoxSection.Items.AddRange(new object[] {
             "1",
@@ -150,12 +151,12 @@
             this.comboBoxSection.Size = new System.Drawing.Size(67, 21);
             this.comboBoxSection.TabIndex = 12;
             // 
-            // textSchoolGIvenID
+            // textSchoolGivenID
             // 
-            this.textSchoolGIvenID.Location = new System.Drawing.Point(32, 301);
-            this.textSchoolGIvenID.Name = "textSchoolGIvenID";
-            this.textSchoolGIvenID.Size = new System.Drawing.Size(148, 20);
-            this.textSchoolGIvenID.TabIndex = 13;
+            this.textSchoolGivenID.Location = new System.Drawing.Point(32, 301);
+            this.textSchoolGivenID.Name = "textSchoolGivenID";
+            this.textSchoolGivenID.Size = new System.Drawing.Size(148, 20);
+            this.textSchoolGivenID.TabIndex = 13;
             // 
             // buttonCancel
             // 
@@ -165,6 +166,7 @@
             this.buttonCancel.TabIndex = 14;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.closeWithoutUpdate);
             // 
             // buttonUpdate
             // 
@@ -174,7 +176,6 @@
             this.buttonUpdate.TabIndex = 15;
             this.buttonUpdate.Text = "Update";
             this.buttonUpdate.UseVisualStyleBackColor = true;
-            //this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
             // EditStudentForm
             // 
@@ -183,7 +184,7 @@
             this.ClientSize = new System.Drawing.Size(241, 407);
             this.Controls.Add(this.buttonUpdate);
             this.Controls.Add(this.buttonCancel);
-            this.Controls.Add(this.textSchoolGIvenID);
+            this.Controls.Add(this.textSchoolGivenID);
             this.Controls.Add(this.comboBoxSection);
             this.Controls.Add(this.textEmailAddress);
             this.Controls.Add(this.labelSchoolGivenID);
@@ -217,7 +218,7 @@
         private System.Windows.Forms.Label labelSchoolGivenID;
         private System.Windows.Forms.TextBox textEmailAddress;
         private System.Windows.Forms.ComboBox comboBoxSection;
-        private System.Windows.Forms.TextBox textSchoolGIvenID;
+        private System.Windows.Forms.TextBox textSchoolGivenID;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonUpdate;
     }

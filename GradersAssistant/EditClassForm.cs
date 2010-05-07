@@ -24,17 +24,17 @@ namespace GradersAssistant
                 buttonUpdateClass.Text = "Add";
             }
             FormStatus = -1;
+            PublicClass = new GAClass();
         }
 
         public void populateClassForm()
         {
             textClassName.Text = PublicClass.ClassName;
             textGraderName.Text = PublicClass.GraderName;
-            comboBoxNumberOfSections.SelectedValue = PublicClass.NumberOfSections;
-            comboBoxHostType.SelectedIndex = PublicClass.HostType;
+            comboBoxNumberOfSections.SelectedItem = PublicClass.NumberOfSections;
+            comboBoxHostType.SelectedItem = PublicClass.HostType;
             textUsername.Text = PublicClass.UserName;
             textFromAddress.Text = PublicClass.FromAddress;
-            textAddressExtension.Text = PublicClass.AddressExtension;
             checkBoxAlertOnLate.Checked = PublicClass.AlertOnLate;
             checkBoxSetFullPoints.Checked = PublicClass.SetFullPoints;
             checkBoxIncludeNames.Checked = PublicClass.IncludeNames;
@@ -56,17 +56,23 @@ namespace GradersAssistant
                 strErrorMessage = strErrorMessage + "Class Name Is Required.\n";
             if (textGraderName.Text.Trim() == "")
                 strErrorMessage = strErrorMessage + "Grader Name Is Required.\n";
-            if (comboBoxNumberOfSections.SelectedValue == null )
+            if (comboBoxNumberOfSections.SelectedItem == null)
                 strErrorMessage = strErrorMessage + "Number Of Sections Is Required.\n";
-            if (comboBoxHostType.SelectedValue == null)
+            else
+            {
+                Int32 blank;
+                if (!Int32.TryParse(comboBoxNumberOfSections.SelectedItem.ToString(), out blank))
+                {
+                    strErrorMessage = strErrorMessage + "Number Of Sections is not a valid value.\n";
+                }
+            }
+            if (comboBoxHostType.SelectedItem == null)
                 strErrorMessage = strErrorMessage + "Host Type Is Required.\n";
-            if (textUsername.Text.Trim() == "" )
+            if (textUsername.Text.Trim() == "")
                 strErrorMessage = strErrorMessage + "Username Is Required.\n";
-            if (textFromAddress.Text.Trim() == "" )
+            if (textFromAddress.Text.Trim() == "")
                 strErrorMessage = strErrorMessage + "From Address Is Required.\n";
-            if (textAddressExtension.Text.Trim() == "" )
-                strErrorMessage = strErrorMessage + "Address Extension Is Required.\n";
-            
+
             if (strErrorMessage == "")
                 return true;
             else
@@ -89,11 +95,10 @@ namespace GradersAssistant
 
                 PublicClass.ClassName = textClassName.Text;
                 PublicClass.GraderName = textGraderName.Text;
-                PublicClass.NumberOfSections = comboBoxNumberOfSections.SelectedIndex;
+                PublicClass.NumberOfSections = Int32.Parse(comboBoxNumberOfSections.SelectedItem.ToString());
                 PublicClass.HostType = comboBoxHostType.SelectedIndex;
                 PublicClass.UserName = textUsername.Text;
                 PublicClass.FromAddress = textFromAddress.Text;
-                PublicClass.AddressExtension = textAddressExtension.Text;
                 PublicClass.AlertOnLate = checkBoxAlertOnLate.Checked;
                 PublicClass.SetFullPoints = checkBoxSetFullPoints.Checked;
                 PublicClass.IncludeNames = checkBoxIncludeNames.Checked;
