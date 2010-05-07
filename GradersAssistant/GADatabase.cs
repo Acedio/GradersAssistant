@@ -86,7 +86,7 @@ namespace GradersAssistant
         public bool IsConnected()
         {
             return connected;
-	    }
+        }
 
         #region GADatabase
 
@@ -166,7 +166,7 @@ namespace GradersAssistant
         {
             Dictionary<int, Student> students = new Dictionary<int, Student>();
             try
-           { 
+            {
                 DataSet studentDataSet = runQuery("SELECT * FROM " + tables.Student.TableName);
                 if (studentDataSet.Tables.Count > 0)
                 {
@@ -253,7 +253,7 @@ namespace GradersAssistant
 
         public bool UpdateStudent(Student student)
         {
-            if(student.HasID())
+            if (student.HasID())
             {
                 // We need to update because the student already has a key.
                 string query = String.Format("UPDATE {0} SET ", tables.Student.TableName);
@@ -289,7 +289,7 @@ namespace GradersAssistant
                 foreach (Student student in students.Values)
                 {
                     // AAAAAAAAAGH ACCESS AND OLEDB SUCK. You can used named parameters BUT OleDb doesn't respect them and just relies on order. SUCKS.
-                        
+
                     if (student.HasID())
                     {
                         // We need to update because the student already has a key.
@@ -324,7 +324,6 @@ namespace GradersAssistant
             }
             return true;
         }
-
         #endregion
 
         #region GAClass
@@ -513,10 +512,11 @@ namespace GradersAssistant
             try
             {
                 Stack<int> toVisit = new Stack<int>();
-                
+
                 //first we get the roots...
                 DataSet criteriaDataSet = runQuery(query);
-                if(criteriaDataSet.Tables.Count > 0){
+                if (criteriaDataSet.Tables.Count > 0)
+                {
                     foreach (DataRow row in criteriaDataSet.Tables[0].Rows)
                     {
                         int cID = (int)row[tables.Criteria.CriteriaID];
@@ -525,7 +525,9 @@ namespace GradersAssistant
                         tree.AddNewNode(new Criteria(cID, cDescription, cPoints));
                         toVisit.Push(cID);
                     }
-                } else {
+                }
+                else
+                {
                     Debug.WriteLine("No criteria table found in results.");
                 }
                 criteriaDataSet.Dispose();
