@@ -203,8 +203,10 @@ namespace GradersAssistant
                 GradingAssignmentForm gaf = new GradingAssignmentForm();
                 gaf.MdiParent = this;
                 gaf.Show();
-                Rubric rubric = dbConnention.GetRubric(1);
-                gaf.LoadRubric(rubric);
+                Assignment assignment = dbConnention.GetAssignment(1);
+                gaf.LoadAssignment(assignment);
+                ResponseList studentResponses = dbConnention.GetResponseList(1, 10);
+                gaf.LoadResponseList(studentResponses);
                 classOpenEnableMenu();
             }
         }

@@ -175,7 +175,7 @@
             this.createNewClassMenuItem,
             this.createNewAssignmentRubricMenuItem});
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(141, 22);
             this.toolStripMenuItem6.Text = "Create New..";
             // 
             // createNewClassMenuItem
@@ -198,60 +198,60 @@
             this.openClassMenuItem,
             this.openAssignmentMenuItem});
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(141, 22);
             this.toolStripMenuItem7.Text = "Open";
             // 
             // openClassMenuItem
             // 
             this.openClassMenuItem.Name = "openClassMenuItem";
-            this.openClassMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openClassMenuItem.Size = new System.Drawing.Size(137, 22);
             this.openClassMenuItem.Text = "Class";
             this.openClassMenuItem.Click += new System.EventHandler(this.OpenClass);
             // 
             // openAssignmentMenuItem
             // 
             this.openAssignmentMenuItem.Name = "openAssignmentMenuItem";
-            this.openAssignmentMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openAssignmentMenuItem.Size = new System.Drawing.Size(137, 22);
             this.openAssignmentMenuItem.Text = "Assignment";
             // 
             // saveMenuItem
             // 
             this.saveMenuItem.Name = "saveMenuItem";
-            this.saveMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveMenuItem.Size = new System.Drawing.Size(141, 22);
             this.saveMenuItem.Text = "Save";
             // 
             // saveAsMenuItem
             // 
             this.saveAsMenuItem.Name = "saveAsMenuItem";
-            this.saveAsMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsMenuItem.Size = new System.Drawing.Size(141, 22);
             this.saveAsMenuItem.Text = "Save As";
             // 
             // closeMenuItem
             // 
             this.closeMenuItem.Name = "closeMenuItem";
-            this.closeMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeMenuItem.Size = new System.Drawing.Size(141, 22);
             this.closeMenuItem.Text = "Close";
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(138, 6);
             // 
             // prefrencesToolStripMenuItem
             // 
             this.prefrencesToolStripMenuItem.Name = "prefrencesToolStripMenuItem";
-            this.prefrencesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.prefrencesToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.prefrencesToolStripMenuItem.Text = "Prefrences";
             // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator11.Size = new System.Drawing.Size(138, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.Close);
             // 
@@ -293,27 +293,27 @@
             // MenuItemEditCurrentStudent
             // 
             this.MenuItemEditCurrentStudent.Name = "MenuItemEditCurrentStudent";
-            this.MenuItemEditCurrentStudent.Size = new System.Drawing.Size(152, 22);
+            this.MenuItemEditCurrentStudent.Size = new System.Drawing.Size(146, 22);
             this.MenuItemEditCurrentStudent.Text = "Edit..";
             this.MenuItemEditCurrentStudent.Click += new System.EventHandler(this.EditStudent);
             // 
             // MenuItemDeleteCurrentStudent
             // 
             this.MenuItemDeleteCurrentStudent.Name = "MenuItemDeleteCurrentStudent";
-            this.MenuItemDeleteCurrentStudent.Size = new System.Drawing.Size(152, 22);
+            this.MenuItemDeleteCurrentStudent.Size = new System.Drawing.Size(146, 22);
             this.MenuItemDeleteCurrentStudent.Text = "Delete";
             this.MenuItemDeleteCurrentStudent.Click += new System.EventHandler(this.deleteStudent);
             // 
             // sendEmailToolStripMenuItem
             // 
             this.sendEmailToolStripMenuItem.Name = "sendEmailToolStripMenuItem";
-            this.sendEmailToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sendEmailToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.sendEmailToolStripMenuItem.Text = "Send Email";
             // 
             // checkGradesToolStripMenuItem
             // 
             this.checkGradesToolStripMenuItem.Name = "checkGradesToolStripMenuItem";
-            this.checkGradesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.checkGradesToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.checkGradesToolStripMenuItem.Text = "Check Grades";
             // 
             // toolStripSeparator13
@@ -752,6 +752,7 @@
             // studentComboBox
             // 
             this.studentComboBox.AutoSize = false;
+            this.studentComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.studentComboBox.DropDownWidth = 200;
             this.studentComboBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.studentComboBox.Name = "studentComboBox";

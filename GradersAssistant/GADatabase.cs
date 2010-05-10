@@ -504,9 +504,10 @@ namespace GradersAssistant
 
         #region Criteria
 
-        public Rubric GetRubric(int assignmentID)
+        public Assignment GetAssignment(int assignmentID)
         {
-            Rubric tree = new Rubric();
+            Assignment assignment = new Assignment();
+
             string query = String.Format("SELECT * FROM {0} WHERE {1} = {2} AND {3} IS NULL", tables.Criteria.TableName, tables.Criteria.AssignmentID, assignmentID, tables.Criteria.ParentCriteriaID);
 
             try
@@ -522,7 +523,7 @@ namespace GradersAssistant
                         int cID = (int)row[tables.Criteria.CriteriaID];
                         string cDescription = (string)row[tables.Criteria.Description];
                         int cPoints = 0;
-                        tree.AddNewNode(new Criteria(cID, cDescription, cPoints));
+                        assignment.Rubric.AddNewNode(new Criteria(cID, cDescription, cPoints));
                         toVisit.Push(cID);
                     }
                 }
@@ -545,7 +546,7 @@ namespace GradersAssistant
                             int cID = (int)row[tables.Criteria.CriteriaID];
                             string cDescription = (string)row[tables.Criteria.Description];
                             int cPoints = (int)row[tables.Criteria.Points];
-                            tree.AddNewNode(new Criteria(cID, cDescription, cPoints), parent);
+                            assignment.Rubric.AddNewNode(new Criteria(cID, cDescription, cPoints), parent);
                             toVisit.Push(cID);
                         }
                     }
@@ -561,12 +562,12 @@ namespace GradersAssistant
                 Debug.WriteLine("Unable to fetch criteria for assignment ID = " + assignmentID + "\n");
             }
 
-            return tree;
+            return assignment;
         }
 
-        public bool FillCriteriaResponseTree(CriteriaResponseTree crt, int assignmentID, int studentID)
+        public ResponseList GetResponseList(int assignmentID, int studentID)
         {
-            crt.ClearResponses();
+            ResponseList responseList = new ResponseList();
 
             // Join the Criteria and Response tables on the criteria id
             string query = String.Format("SELECT R.{0}, R.{1}, R.{2}, R.{3} ", tables.Response.ResponseID, tables.Response.CriteriaID, tables.Response.PointsReceived, tables.Response.GraderComment);
@@ -584,15 +585,11 @@ namespace GradersAssistant
                     int criteriaID = (int)row[tables.Response.CriteriaID];
                     int pointsReceived = (int)row[tables.Response.PointsReceived];
                     string graderComment = row[tables.Response.GraderComment].ToString();
-                    if (!crt.ModifyResponse(criteriaID, new Response(responseID, pointsReceived, graderComment)))
-                    {
-                        Debug.WriteLine("Could not modifiy the response.");
-                        return false;
-                    }
+                    responseList.Responses.Add(criteriaID, new Response(responseID, pointsReceived, graderComment));
                 }
             }
 
-            return true;
+            return responseList;
         }
 
         #endregion

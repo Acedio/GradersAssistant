@@ -143,6 +143,15 @@ namespace GradersAssistant
         }
     }
 
+    public class ResponseList
+    {
+        public Dictionary<int, Response> Responses;
+
+        public int StudentID;
+
+        public int AssignmentID;
+    }
+
     public class Criteria
     {
         private const int noID = -1;
@@ -246,129 +255,6 @@ namespace GradersAssistant
             {
                 // The parent doesn't exist in the dictionary!
                 return -1;
-            }
-        }
-    }
-
-    class CriteriaResponseTreeNode
-    {
-        Criteria criteria;
-
-        public Criteria Criteria
-        {
-            get { return criteria; }
-            set { criteria = value; }
-        }
-
-        Response response;
-
-        public Response Response
-        {
-            get { return response; }
-            set { response = value; }
-        }
-
-        LinkedList<int> children;
-
-        public LinkedList<int> Children
-        {
-            get { return children; }
-            set { children = value; }
-        }
-
-        public CriteriaResponseTreeNode(Criteria c, Response r)
-        {
-            criteria = c;
-            response = r;
-            children = new LinkedList<int>();
-        }
-
-        public override string ToString()
-        {
-            return String.Format("{0} ({1}/{2})", criteria.Description, response.PointsReceived, criteria.MaxPoints);
-        }
-    }
-
-    class CriteriaResponseTree
-    {
-        Dictionary<int, CriteriaResponseTreeNode> nodes;
-
-        public Dictionary<int, CriteriaResponseTreeNode> Nodes
-        {
-            get { return nodes; }
-            set { nodes = value; }
-        }
-
-        public CriteriaResponseTree()
-        {
-            nodes = new Dictionary<int, CriteriaResponseTreeNode>();
-        }
-
-        /// <summary>
-        /// Takes a Criteria and creates a new CriteriaTreeNode at the root of the collection.
-        /// </summary>
-        /// <param name="c">A criteria with a key given by the database. The criteria should have a key already (it should not be NoID).</param>
-        /// <returns>The criterias key (which references it in the dictionary as well as the DB).</returns>
-        public int AddNewNode(Criteria c)
-        {
-            CriteriaResponseTreeNode node = new CriteriaResponseTreeNode(c, new Response());
-            nodes.Add(node.Criteria.CriteriaID, node);
-            return node.Criteria.CriteriaID;
-        }
-
-        /// <summary>
-        /// Adds a new node to the given parent.
-        /// </summary>
-        /// <param name="c">A criteria with a key given by the database. The criteria should have a key already (it should not be NoID).</param>
-        /// <param name="parentKey">The valid parent key that the node should be added to.</param>
-        /// <returns>The criterias key (which references it in the dictionary as well as the DB).</returns>
-        public int AddNewNode(Criteria c, int parentKey)
-        {
-            CriteriaResponseTreeNode parentNode;
-            if (nodes.TryGetValue(parentKey, out parentNode))
-            {
-                nodes.Add(c.CriteriaID, new CriteriaResponseTreeNode(c, new Response()));
-                parentNode.Children.AddLast(c.CriteriaID);
-                return c.CriteriaID;
-            }
-            else
-            {
-                // The parent doesn't exist in the dictionary!
-                return -1;
-            }
-        }
-
-        public void ClearResponses()
-        {
-            foreach (CriteriaResponseTreeNode node in nodes.Values)
-            {
-                if (node.Children.Count > 0)
-                {
-                    node.Response = new Response();
-                }
-                else
-                {
-                    node.Response = null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Modifies the existing response to the criteria with the specified criteriaID.
-        /// </summary>
-        /// <param name="criteriaKey">The criteria key of the criteria the response is for.</param>
-        /// <param name="response">The modified response.</param>
-        /// <returns></returns>
-        public bool ModifyResponse(int criteriaKey, Response response)
-        {
-            if (nodes.ContainsKey(criteriaKey))
-            {
-                nodes[criteriaKey].Response = response;
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
     }
