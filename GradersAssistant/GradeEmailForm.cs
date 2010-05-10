@@ -29,12 +29,12 @@ namespace GradersAssistant
             {
                 //EmailTest(textBoxEmailAddress.Text, textBoxExchangePassword.Text);
             }
-            sendEmail(radioButtonProtocolExchange.Checked, "smtp.gmail.com", textBoxEmailAddress.Text, textBoxExchangePassword.Text, "This is a spoof email!", "Hi cousin!", "raptorcantor@gmail.com");
+            sendEmail(false, "This is a spoof email!", "raptorcantor@gmail.com");
         }
 
-        private bool sendEmail(bool authenticated, string host, string username, string password, string text, string subject, string recipient)
+        private bool sendEmail(bool useHTML, string text, string recipient)
         {
-            if (!username.Contains('@'))
+            if (!textBoxEmailAddress.Text.Contains('@'))
             {
                 MessageBox.Show("Please enter a valid email address.", "Invalid Email!");
                 return false;
@@ -45,12 +45,12 @@ namespace GradersAssistant
                 return false;
             }
             SmtpClient smtpClient = new SmtpClient();
-            NetworkCredential theCredential = new NetworkCredential(username, password);
+            NetworkCredential theCredential = new NetworkCredential(textBoxEmailAddress.Text, textBoxExchangePassword.Text);
             MailMessage message = new MailMessage();
-            MailAddress fromAddress = new MailAddress("josh.simmons@gmail.com");
+            MailAddress fromAddress = new MailAddress(textBoxEmailAddress.Text);
 
-            smtpClient.Host = host;
-            if (authenticated)
+            smtpClient.Host = textBoxSMTPServer.Text;
+            if (radioButtonProtocolExchange.Checked)
             {
                 smtpClient.UseDefaultCredentials = false;
                 smtpClient.Port = 587;
@@ -60,22 +60,67 @@ namespace GradersAssistant
             smtpClient.Credentials = theCredential;
 
             message.From = fromAddress;
-            message.Subject = subject;
-            message.IsBodyHtml = false;
+            message.Subject = textBoxSubject.Text;
+            message.IsBodyHtml = useHTML;
             message.Body = text;
             message.To.Add(recipient);
-            
+
             try
             {
                 smtpClient.Send(message);
-                return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error sending email:\n" + ex.Message, ex.Message);
+                return false;
             }
-            return false;
+            return true;
         }
+
+        //private bool sendEmail(bool authenticated, string host, string username, string password, string text, string subject, string recipient)
+        //{
+        //    if (!username.Contains('@'))
+        //    {
+        //        MessageBox.Show("Please enter a valid email address.", "Invalid Email!");
+        //        return false;
+        //    }
+        //    if (!recipient.Contains('@'))
+        //    {
+        //        MessageBox.Show("The recipient \"" + recipient + "\" has an invalid email address.");
+        //        return false;
+        //    }
+        //    SmtpClient smtpClient = new SmtpClient();
+        //    NetworkCredential theCredential = new NetworkCredential(username, password);
+        //    MailMessage message = new MailMessage();
+        //    MailAddress fromAddress = new MailAddress(username);
+
+        //    smtpClient.Host = host;
+        //    if (authenticated)
+        //    {
+        //        smtpClient.UseDefaultCredentials = false;
+        //        smtpClient.Port = 587;
+        //        smtpClient.EnableSsl = true;
+        //        //smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+        //    }
+        //    smtpClient.Credentials = theCredential;
+
+        //    message.From = fromAddress;
+        //    message.Subject = subject;
+        //    message.IsBodyHtml = false;
+        //    message.Body = text;
+        //    message.To.Add(recipient);
+            
+        //    try
+        //    {
+        //        smtpClient.Send(message);
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error sending email:\n" + ex.Message, ex.Message);
+        //    }
+        //    return false;
+        //}
 
         public void EmailTest(string username, string password)
         {   // this function uses code from here: http://stackoverflow.com/questions/298363/how-can-i-make-smtp-authenticated-in-c
