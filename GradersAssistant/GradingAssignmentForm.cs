@@ -16,10 +16,32 @@ namespace GradersAssistant
             InitializeComponent();
         }
 
-        private void treeView1_DoubleClick(object sender, EventArgs e)
+        private Rubric currentRubric;
+
+        public void AddChildNodes(TreeNode parentNode, Rubric rubric, int parentKey)
         {
-            GradingItemForm gradingItemForm = new GradingItemForm();
-            gradingItemForm.Show();
+            foreach (int node in rubric.Nodes[parentKey].Children)
+            {
+                RubricNode parent = rubric.Nodes[node];
+                AddChildNodes(parentNode.Nodes.Add(parent.ToString()), rubric, parent.Criteria.CriteriaID);
+            }
+        }
+
+        public void LoadRubric(Rubric rubric)
+        {
+            currentRubric = rubric;
+
+            rubricTreeView.BeginUpdate();
+
+            rubricTreeView.Nodes.Clear();
+
+            foreach (int node in rubric.RootNodes)
+            {
+                RubricNode parent = rubric.Nodes[node];
+                AddChildNodes(rubricTreeView.Nodes.Add(parent.ToString()), rubric, parent.Criteria.CriteriaID);
+            }
+
+            rubricTreeView.EndUpdate();
         }
     }
 }

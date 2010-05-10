@@ -504,9 +504,9 @@ namespace GradersAssistant
 
         #region Criteria
 
-        public CriteriaResponseTree MakeCriteriaResponseTree(int assignmentID)
+        public Rubric GetRubric(int assignmentID)
         {
-            CriteriaResponseTree tree = new CriteriaResponseTree();
+            Rubric tree = new Rubric();
             string query = String.Format("SELECT * FROM {0} WHERE {1} = {2} AND {3} IS NULL", tables.Criteria.TableName, tables.Criteria.AssignmentID, assignmentID, tables.Criteria.ParentCriteriaID);
 
             try
@@ -521,7 +521,7 @@ namespace GradersAssistant
                     {
                         int cID = (int)row[tables.Criteria.CriteriaID];
                         string cDescription = (string)row[tables.Criteria.Description];
-                        int cPoints = (int)row[tables.Criteria.Points];
+                        int cPoints = 0;
                         tree.AddNewNode(new Criteria(cID, cDescription, cPoints));
                         toVisit.Push(cID);
                     }
@@ -568,6 +568,7 @@ namespace GradersAssistant
         {
             crt.ClearResponses();
 
+            // Join the Criteria and Response tables on the criteria id
             string query = String.Format("SELECT R.{0}, R.{1}, R.{2}, R.{3} ", tables.Response.ResponseID, tables.Response.CriteriaID, tables.Response.PointsReceived, tables.Response.GraderComment);
             query += String.Format("FROM {0} AS R, {1} AS C ", tables.Response.TableName, tables.Criteria.TableName);
             query += String.Format("WHERE R.{0} = C.{1} ", tables.Response.CriteriaID, tables.Criteria.CriteriaID);

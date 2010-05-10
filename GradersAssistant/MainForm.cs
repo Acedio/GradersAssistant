@@ -71,8 +71,6 @@ namespace GradersAssistant
                 studentComboBox.SelectedItem = studentComboBox.Items[0];
             }
             studentComboBox.EndUpdate();
-            CriteriaResponseTree crt = gad.MakeCriteriaResponseTree(1);
-            gad.FillCriteriaResponseTree(crt, 1, 10);
         }
 
         void emailToolStripMenuItem_Click(object sender, System.EventArgs e)
@@ -202,6 +200,11 @@ namespace GradersAssistant
                 dbConnention.ConnectDB(openClass.FileName);
                 mainClass = dbConnention.GetClass();
                 loadStudents(dbConnention);
+                GradingAssignmentForm gaf = new GradingAssignmentForm();
+                gaf.MdiParent = this;
+                gaf.Show();
+                Rubric rubric = dbConnention.GetRubric(1);
+                gaf.LoadRubric(rubric);
                 classOpenEnableMenu();
             }
         }

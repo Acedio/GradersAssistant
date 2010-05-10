@@ -28,14 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Methods (40/40 Pts)");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Comments (40/40 Pts)", new System.Windows.Forms.TreeNode[] {
-            treeNode1});
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Code Quality (50/60 Pts)");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Assignment (90/100 Pts)", new System.Windows.Forms.TreeNode[] {
-            treeNode2,
-            treeNode3});
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.rubricTreeView = new System.Windows.Forms.TreeView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -59,28 +52,13 @@
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // treeView1
+            // rubricTreeView
             // 
-            this.treeView1.CheckBoxes = true;
-            this.treeView1.Location = new System.Drawing.Point(12, 115);
-            this.treeView1.Name = "treeView1";
-            treeNode1.Checked = true;
-            treeNode1.Name = "Node1";
-            treeNode1.Text = "Methods (40/40 Pts)";
-            treeNode2.Checked = true;
-            treeNode2.Name = "Node0";
-            treeNode2.Text = "Comments (40/40 Pts)";
-            treeNode3.Checked = true;
-            treeNode3.Name = "Node5";
-            treeNode3.Text = "Code Quality (50/60 Pts)";
-            treeNode4.Checked = true;
-            treeNode4.Name = "Node4";
-            treeNode4.Text = "Assignment (90/100 Pts)";
-            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode4});
-            this.treeView1.Size = new System.Drawing.Size(631, 255);
-            this.treeView1.TabIndex = 0;
-            this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
+            this.rubricTreeView.CheckBoxes = true;
+            this.rubricTreeView.Location = new System.Drawing.Point(12, 115);
+            this.rubricTreeView.Name = "rubricTreeView";
+            this.rubricTreeView.Size = new System.Drawing.Size(631, 255);
+            this.rubricTreeView.TabIndex = 0;
             // 
             // label1
             // 
@@ -202,7 +180,6 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(75, 20);
             this.textBox3.TabIndex = 6;
-            this.textBox3.Text = "95";
             // 
             // textBox2
             // 
@@ -210,7 +187,6 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(75, 20);
             this.textBox2.TabIndex = 5;
-            this.textBox2.Text = "5";
             // 
             // textBox1
             // 
@@ -218,7 +194,6 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(75, 20);
             this.textBox1.TabIndex = 4;
-            this.textBox1.Text = "90";
             // 
             // label9
             // 
@@ -250,8 +225,6 @@
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Items.AddRange(new object[] {
-            "Turned in early: +5 Pts"});
             this.listBox1.Location = new System.Drawing.Point(12, 475);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(631, 95);
@@ -279,7 +252,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.rubricTreeView);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MinimizeBox = false;
             this.Name = "GradingAssignmentForm";
@@ -297,7 +270,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView rubricTreeView;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;

@@ -103,7 +103,7 @@ namespace GradersAssistant
         }
     }
 
-    class Response
+    public class Response
     {
         private const int noID = -1;
 
@@ -143,7 +143,7 @@ namespace GradersAssistant
         }
     }
 
-    class Criteria
+    public class Criteria
     {
         private const int noID = -1;
 
@@ -180,6 +180,73 @@ namespace GradersAssistant
             criteriaID = cID;
             description = cDescription;
             maxPoints = cMaxPoints;
+        }
+    }
+
+    public class RubricNode
+    {
+        public Criteria Criteria;
+
+        public LinkedList<int> Children;
+
+        public RubricNode(Criteria c)
+        {
+            Criteria = c;
+            Children = new LinkedList<int>();
+        }
+
+        public override string ToString()
+        {
+            return Criteria.Description;
+        }
+    }
+
+    public class Rubric
+    {
+        public Dictionary<int, RubricNode> Nodes;
+
+        public LinkedList<int> RootNodes;
+
+        public Rubric()
+        {
+            Nodes = new Dictionary<int, RubricNode>();
+            RootNodes = new LinkedList<int>();
+
+        }
+
+        /// <summary>
+        /// Takes a Criteria and creates a new CriteriaTreeNode at the root of the collection.
+        /// </summary>
+        /// <param name="c">A criteria with a key given by the database. The criteria should have a key already (it should not be NoID).</param>
+        /// <returns>The criterias key (which references it in the dictionary as well as the DB).</returns>
+        public int AddNewNode(Criteria c)
+        {
+            RubricNode node = new RubricNode(c);
+            Nodes.Add(node.Criteria.CriteriaID, node);
+            RootNodes.AddLast(node.Criteria.CriteriaID);
+            return node.Criteria.CriteriaID;
+        }
+
+        /// <summary>
+        /// Adds a new node to the given parent.
+        /// </summary>
+        /// <param name="c">A criteria with a key given by the database. The criteria should have a key already (it should not be NoID).</param>
+        /// <param name="parentKey">The valid parent key that the node should be added to.</param>
+        /// <returns>The criterias key (which references it in the dictionary as well as the DB).</returns>
+        public int AddNewNode(Criteria c, int parentKey)
+        {
+            RubricNode parentNode;
+            if (Nodes.TryGetValue(parentKey, out parentNode))
+            {
+                Nodes.Add(c.CriteriaID, new RubricNode(c));
+                parentNode.Children.AddLast(c.CriteriaID);
+                return c.CriteriaID;
+            }
+            else
+            {
+                // The parent doesn't exist in the dictionary!
+                return -1;
+            }
         }
     }
 
@@ -306,7 +373,7 @@ namespace GradersAssistant
         }
     }
 
-    class Assignment
+    public class Assignment
     {
         private const int noID = -1;
 
@@ -344,6 +411,8 @@ namespace GradersAssistant
             name = aName;
             dueDate = aDueDate;
         }
+
+        public Rubric Rubric;
     }
 
 
