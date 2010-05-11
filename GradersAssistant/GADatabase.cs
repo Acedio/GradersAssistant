@@ -523,6 +523,10 @@ namespace GradersAssistant
                         int cID = (int)row[tables.Criteria.CriteriaID];
                         string cDescription = (string)row[tables.Criteria.Description];
                         int cPoints = 0;
+                        if (!row.IsNull(tables.Criteria.Points))
+                        {
+                            cPoints = (int)row[tables.Criteria.Points];
+                        }
                         assignment.Rubric.AddNewNode(new Criteria(cID, cDescription, cPoints));
                         toVisit.Push(cID);
                     }
@@ -564,6 +568,10 @@ namespace GradersAssistant
 
             return assignment;
         }
+
+        #endregion
+
+        #region Response
 
         public ResponseList GetResponseList(int assignmentID, int studentID)
         {

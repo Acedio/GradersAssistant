@@ -145,11 +145,20 @@ namespace GradersAssistant
 
     public class ResponseList
     {
+        public const int noID = -1;
+
         public Dictionary<int, Response> Responses;
 
         public int StudentID;
 
         public int AssignmentID;
+
+        public ResponseList()
+        {
+            StudentID = noID;
+            AssignmentID = noID;
+            Responses = new Dictionary<int, Response>();
+        }
     }
 
     public class Criteria
@@ -288,11 +297,13 @@ namespace GradersAssistant
 
         public Assignment()
         {
+            Rubric = new Rubric();
             assignmentID = noID;
         }
 
         public Assignment(int aID, string aName, DateTime aDueDate)
         {
+            Rubric = new Rubric();
             assignmentID = aID;
             name = aName;
             dueDate = aDueDate;
