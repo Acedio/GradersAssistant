@@ -38,6 +38,10 @@ namespace GradersAssistant
         {
             currentAssignment = assignment;
 
+            titleLabel.Text = currentAssignment.Name;
+
+            dueLabel.Text = currentAssignment.DueDate.ToString("MM/dd/yyyy");
+
             rubricTreeView.BeginUpdate();
 
             rubricTreeView.Nodes.Clear();
@@ -60,13 +64,17 @@ namespace GradersAssistant
             rubricTreeView.EndUpdate();
         }
 
-        public void LoadResponseList(ResponseList responseList)
+        public void LoadResponseList(Student student, ResponseList responseList)
         {
             if (currentAssignment == null || responseList.AssignmentID != currentAssignment.AssignmentID)
             {
-                Debug.WriteLine("The assignment response list do not match!");
+                Debug.WriteLine("The assignment and response list IDs do not match!");
                 return;
             }
+
+            studentNameLabel.Text = string.Format("{0}, {1}", student.LastName, student.FirstName);
+
+            studentIDLabel.Text = student.StudentSchoolID;
 
             foreach (KeyValuePair<int, RubricNode> rubricNode in currentAssignment.Rubric.Nodes)
             {
@@ -78,14 +86,34 @@ namespace GradersAssistant
 
                     if (responseList.Responses.TryGetValue(rubricNode.Value.Criteria.CriteriaID, out response))
                     {
-                        rubricTreeNodes[0].Text = string.Format("{0} ({1}/{2})",
-                                            rubricNode.Value.Criteria.Description.ToString(),
-                                            response.PointsReceived.ToString(),
-                                            rubricNode.Value.Criteria.MaxPoints.ToString());
+                        // already created
+                        if (response.PointsReceived > 0)
+                        {
+                            rubricTreeNodes[0].Checked = true;
+                        }
+                        else
+                        {
+                            // no checkmark if they have received 0 pts
+                            rubricTreeNodes[0].Checked = false;
+                        }
                     }
                     else
                     {
+                        response = responseList.Responses[rubricNode.Value.Criteria.CriteriaID] = new Response();
+                        rubricTreeNodes[0].Checked = true;
+                        response.PointsReceived = rubricNode.Value.Criteria.MaxPoints;
                         Debug.WriteLine("The criteria in the rubric does not yet have a response for the given student.");
+                    }
+                    if (rubricNode.Value.Children.Count > 0)
+                    {
+                        rubricTreeNodes[0].Text = rubricNode.Value.Criteria.Description;
+                    }
+                    else
+                    {
+                        rubricTreeNodes[0].Text = string.Format("{0} ({1}): {2}",
+                                            rubricNode.Value.Criteria.Description.ToString(),
+                                            rubricNode.Value.Criteria.MaxPoints.ToString(),
+                                            response.PointsReceived.ToString());
                     }
                 }
                 else if (rubricTreeNodes.Length == 0)

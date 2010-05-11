@@ -32,8 +32,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.studentIDLabel = new System.Windows.Forms.Label();
+            this.studentNameLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -48,6 +48,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.label13 = new System.Windows.Forms.Label();
+            this.titleLabel = new System.Windows.Forms.Label();
+            this.dueLabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -66,9 +68,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(86, 20);
+            this.label1.Size = new System.Drawing.Size(42, 20);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Title: EX01";
+            this.label1.Text = "Title:";
             // 
             // label2
             // 
@@ -76,14 +78,14 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(12, 29);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(148, 20);
+            this.label2.Size = new System.Drawing.Size(43, 20);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Due: April 1st, 2010";
+            this.label2.Text = "Due:";
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.studentIDLabel);
+            this.groupBox1.Controls.Add(this.studentNameLabel);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(13, 53);
@@ -93,23 +95,23 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Student";
             // 
-            // label6
+            // studentIDLabel
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(82, 33);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(49, 13);
-            this.label6.TabIndex = 3;
-            this.label6.Text = "1234567";
+            this.studentIDLabel.AutoSize = true;
+            this.studentIDLabel.Location = new System.Drawing.Point(82, 33);
+            this.studentIDLabel.Name = "studentIDLabel";
+            this.studentIDLabel.Size = new System.Drawing.Size(57, 13);
+            this.studentIDLabel.TabIndex = 3;
+            this.studentIDLabel.Text = "not loaded";
             // 
-            // label5
+            // studentNameLabel
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(82, 20);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 13);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Doe, John";
+            this.studentNameLabel.AutoSize = true;
+            this.studentNameLabel.Location = new System.Drawing.Point(82, 20);
+            this.studentNameLabel.Name = "studentNameLabel";
+            this.studentNameLabel.Size = new System.Drawing.Size(57, 13);
+            this.studentNameLabel.TabIndex = 2;
+            this.studentNameLabel.Text = "not loaded";
             // 
             // label4
             // 
@@ -239,6 +241,26 @@
             this.label13.TabIndex = 10;
             this.label13.Text = "Comments/Adjustments";
             // 
+            // titleLabel
+            // 
+            this.titleLabel.AutoSize = true;
+            this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.titleLabel.Location = new System.Drawing.Point(60, 9);
+            this.titleLabel.Name = "titleLabel";
+            this.titleLabel.Size = new System.Drawing.Size(84, 20);
+            this.titleLabel.TabIndex = 11;
+            this.titleLabel.Text = "not loaded";
+            // 
+            // dueLabel
+            // 
+            this.dueLabel.AutoSize = true;
+            this.dueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dueLabel.Location = new System.Drawing.Point(60, 30);
+            this.dueLabel.Name = "dueLabel";
+            this.dueLabel.Size = new System.Drawing.Size(84, 20);
+            this.dueLabel.TabIndex = 12;
+            this.dueLabel.Text = "not loaded";
+            // 
             // GradingAssignmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -246,6 +268,8 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(655, 582);
             this.ControlBox = false;
+            this.Controls.Add(this.dueLabel);
+            this.Controls.Add(this.titleLabel);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.groupBox2);
@@ -276,8 +300,8 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label studentIDLabel;
+        private System.Windows.Forms.Label studentNameLabel;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label9;
@@ -290,6 +314,8 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.Label dueLabel;
 
 
     }

@@ -757,6 +757,8 @@
             this.studentComboBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.studentComboBox.Name = "studentComboBox";
             this.studentComboBox.Size = new System.Drawing.Size(300, 23);
+            this.studentComboBox.SelectedIndexChanged += new System.EventHandler(this.studentComboBox_SelectedIndexChanged);
+            this.studentComboBox.DropDownClosed += new System.EventHandler(this.studentComboBox_DropDownClosed);
             // 
             // toolStripSeparator7
             // 

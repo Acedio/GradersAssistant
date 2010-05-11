@@ -508,62 +508,84 @@ namespace GradersAssistant
         {
             Assignment assignment = new Assignment();
 
-            string query = String.Format("SELECT * FROM {0} WHERE {1} = {2} AND {3} IS NULL", tables.Criteria.TableName, tables.Criteria.AssignmentID, assignmentID, tables.Criteria.ParentCriteriaID);
+            string assignmentQuery = String.Format("SELECT * FROM {0} WHERE {1} = {2}", tables.Assignment.TableName, tables.Assignment.AssignmentID, assignmentID);
 
             try
             {
-                Stack<int> toVisit = new Stack<int>();
+                DataSet assignmentDataSet = runQuery(assignmentQuery);
+                if (assignmentDataSet.Tables.Count > 0)
+                {
+                    if (assignmentDataSet.Tables[0].Rows.Count > 0)
+                    {
+                        assignment = new Assignment(assignmentID, (string)assignmentDataSet.Tables[0].Rows[0][tables.Assignment.Name], (DateTime)assignmentDataSet.Tables[0].Rows[0][tables.Assignment.DueDate]);
 
-                //first we get the roots...
-                DataSet criteriaDataSet = runQuery(query);
-                if (criteriaDataSet.Tables.Count > 0)
-                {
-                    foreach (DataRow row in criteriaDataSet.Tables[0].Rows)
-                    {
-                        int cID = (int)row[tables.Criteria.CriteriaID];
-                        string cDescription = (string)row[tables.Criteria.Description];
-                        int cPoints = 0;
-                        if (!row.IsNull(tables.Criteria.Points))
-                        {
-                            cPoints = (int)row[tables.Criteria.Points];
-                        }
-                        assignment.Rubric.AddNewNode(new Criteria(cID, cDescription, cPoints));
-                        toVisit.Push(cID);
-                    }
-                }
-                else
-                {
-                    Debug.WriteLine("No criteria table found in results.");
-                }
-                criteriaDataSet.Dispose();
+                        string criteriaQuery = String.Format("SELECT * FROM {0} WHERE {1} = {2} AND {3} IS NULL", tables.Criteria.TableName, tables.Criteria.AssignmentID, assignmentID, tables.Criteria.ParentCriteriaID);
 
-                // ...then we get their CHILDREN! HAHAHAHAHAHA!
-                while (toVisit.Count > 0)
-                {
-                    int parent = toVisit.Pop();
-                    query = String.Format("SELECT * FROM {0} WHERE {1} = {2} AND {3} = {4}", tables.Criteria.TableName, tables.Criteria.AssignmentID, assignmentID, tables.Criteria.ParentCriteriaID, parent);
-                    criteriaDataSet = runQuery(query);
-                    if (criteriaDataSet.Tables.Count > 0)
-                    {
-                        foreach (DataRow row in criteriaDataSet.Tables[0].Rows)
+                        try
                         {
-                            int cID = (int)row[tables.Criteria.CriteriaID];
-                            string cDescription = (string)row[tables.Criteria.Description];
-                            int cPoints = (int)row[tables.Criteria.Points];
-                            assignment.Rubric.AddNewNode(new Criteria(cID, cDescription, cPoints), parent);
-                            toVisit.Push(cID);
+                            Stack<int> toVisit = new Stack<int>();
+
+                            //first we get the roots...
+                            DataSet criteriaDataSet = runQuery(criteriaQuery);
+                            if (criteriaDataSet.Tables.Count > 0)
+                            {
+                                foreach (DataRow row in criteriaDataSet.Tables[0].Rows)
+                                {
+                                    int cID = (int)row[tables.Criteria.CriteriaID];
+                                    string cDescription = (string)row[tables.Criteria.Description];
+                                    int cPoints = 0;
+                                    if (!row.IsNull(tables.Criteria.Points))
+                                    {
+                                        cPoints = (int)row[tables.Criteria.Points];
+                                    }
+                                    assignment.Rubric.AddNewNode(new Criteria(cID, cDescription, cPoints));
+                                    toVisit.Push(cID);
+                                }
+                            }
+                            else
+                            {
+                                Debug.WriteLine("No criteria table found in results.");
+                            }
+                            criteriaDataSet.Dispose();
+
+                            // ...then we get their CHILDREN! HAHAHAHAHAHA!
+                            while (toVisit.Count > 0)
+                            {
+                                int parent = toVisit.Pop();
+                                criteriaQuery = String.Format("SELECT * FROM {0} WHERE {1} = {2} AND {3} = {4}", tables.Criteria.TableName, tables.Criteria.AssignmentID, assignmentID, tables.Criteria.ParentCriteriaID, parent);
+                                criteriaDataSet = runQuery(criteriaQuery);
+                                if (criteriaDataSet.Tables.Count > 0)
+                                {
+                                    foreach (DataRow row in criteriaDataSet.Tables[0].Rows)
+                                    {
+                                        int cID = (int)row[tables.Criteria.CriteriaID];
+                                        string cDescription = (string)row[tables.Criteria.Description];
+                                        int cPoints = 0;
+                                        if (!row.IsNull(tables.Criteria.Points))
+                                        {
+                                            cPoints = (int)row[tables.Criteria.Points];
+                                        }
+                                        assignment.Rubric.AddNewNode(new Criteria(cID, cDescription, cPoints), parent);
+                                        toVisit.Push(cID);
+                                    }
+                                }
+                                else
+                                {
+                                    Debug.WriteLine("No criteria table found in child table results.");
+                                }
+                                criteriaDataSet.Dispose();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine("Unable to fetch criteria for assignment ID = " + assignmentID + "\n");
                         }
                     }
-                    else
-                    {
-                        Debug.WriteLine("No criteria table found in child table results.");
-                    }
-                    criteriaDataSet.Dispose();
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Unable to fetch criteria for assignment ID = " + assignmentID + "\n");
+                Debug.WriteLine("Could not load assignment from DB.");
             }
 
             return assignment;
@@ -576,6 +598,10 @@ namespace GradersAssistant
         public ResponseList GetResponseList(int assignmentID, int studentID)
         {
             ResponseList responseList = new ResponseList();
+
+            responseList.StudentID = studentID;
+
+            responseList.AssignmentID = assignmentID;
 
             // Join the Criteria and Response tables on the criteria id
             string query = String.Format("SELECT R.{0}, R.{1}, R.{2}, R.{3} ", tables.Response.ResponseID, tables.Response.CriteriaID, tables.Response.PointsReceived, tables.Response.GraderComment);

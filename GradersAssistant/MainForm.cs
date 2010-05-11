@@ -14,14 +14,21 @@ namespace GradersAssistant
     public partial class MainForm : Form
     {
         private GADatabase dbConnention;
+
         private GAClass mainClass;
+
+        private int currentAssignmentID;
+
+        private Dictionary<int, Student> students;
+
+        private GradingAssignmentForm gaf;
+
         public MainForm()
         {
             InitializeComponent();
             dbConnention = new GADatabase();
             noClassOpenDisableMenu();
         }
-
         
         private void noClassOpenDisableMenu()
         {
@@ -57,9 +64,8 @@ namespace GradersAssistant
 
         }
 
-        private void loadStudents(GADatabase gad)
+        private void updateStudentComboBox()
         {
-            Dictionary<int, Student> students = gad.GetStudents();
             studentComboBox.BeginUpdate();
             studentComboBox.Items.Clear();
             foreach (Student student in students.Values)
@@ -71,6 +77,12 @@ namespace GradersAssistant
                 studentComboBox.SelectedItem = studentComboBox.Items[0];
             }
             studentComboBox.EndUpdate();
+        }
+
+        private void loadStudents(GADatabase gad)
+        {
+            students = gad.GetStudents();
+            updateStudentComboBox();
         }
 
         void emailToolStripMenuItem_Click(object sender, System.EventArgs e)
@@ -181,6 +193,17 @@ namespace GradersAssistant
             }
         }
 
+        private void loadGradingForm(int assignmentID)
+        {
+            gaf = new GradingAssignmentForm();
+            gaf.MdiParent = this;
+            gaf.Show();
+            Assignment assignment = dbConnention.GetAssignment(1);
+            gaf.LoadAssignment(assignment);
+            ResponseList studentResponses = dbConnention.GetResponseList(1, 10);
+            gaf.LoadResponseList(students[studentResponses.StudentID], studentResponses);
+        }
+
         //open Class, this opens an exisiting class 
         //accessed through open folder icon/open class in the file menu
         private void OpenClass(object sender, EventArgs e)
@@ -199,14 +222,12 @@ namespace GradersAssistant
             {
                 dbConnention.ConnectDB(openClass.FileName);
                 mainClass = dbConnention.GetClass();
+
                 loadStudents(dbConnention);
-                GradingAssignmentForm gaf = new GradingAssignmentForm();
-                gaf.MdiParent = this;
-                gaf.Show();
-                Assignment assignment = dbConnention.GetAssignment(1);
-                gaf.LoadAssignment(assignment);
-                ResponseList studentResponses = dbConnention.GetResponseList(1, 10);
-                gaf.LoadResponseList(studentResponses);
+
+                currentAssignmentID = 1;
+                loadGradingForm(currentAssignmentID);
+
                 classOpenEnableMenu();
             }
         }
@@ -267,6 +288,26 @@ namespace GradersAssistant
         private void Close(object sender, EventArgs e)
         {
 
+        }
+
+        private void studentComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            //if (studentComboBox.SelectedItem != null)
+            //{
+            //    Student student = (Student)studentComboBox.SelectedItem;
+
+            //    gaf.LoadResponseList(student, dbConnention.GetResponseList(currentAssignmentID, student.StudentID));
+            //}
+        }
+
+        private void studentComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (gaf != null && studentComboBox.SelectedItem != null)
+            {
+                Student student = (Student)studentComboBox.SelectedItem;
+
+                gaf.LoadResponseList(student, dbConnention.GetResponseList(currentAssignmentID, student.StudentID));
+            }
         }
     }
 }
