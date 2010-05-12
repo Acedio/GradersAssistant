@@ -626,6 +626,20 @@ namespace GradersAssistant
             return responseList;
         }
 
+        public Dictionary<int, ResponseList> GetAssignmentResponses(int assignmentID)
+        {
+            Dictionary<int, ResponseList> assignmentResponses = new Dictionary<int,ResponseList>();
+
+            Dictionary<int, Student> students = GetStudents();
+
+            foreach (int studentID in students.Keys)
+            {
+                assignmentResponses.Add(studentID, GetResponseList(assignmentID, studentID));
+            }
+
+            return assignmentResponses;
+        }
+
         #endregion
     }
 }
