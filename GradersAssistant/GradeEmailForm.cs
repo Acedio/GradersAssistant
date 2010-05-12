@@ -16,6 +16,8 @@ namespace GradersAssistant
         public GradeEmailForm()//Dictionary<int, Student> students
         {
             InitializeComponent();
+            this.AcceptButton = buttonSendEmails;
+            this.CancelButton = buttonCancel;
         }
 
         private void radioButtonProtocolSMTP_CheckedChanged(object sender, EventArgs e)
@@ -24,6 +26,11 @@ namespace GradersAssistant
         }
 
         private void buttonSendEmails_Click(object sender, EventArgs e)
+        {
+            distributeEmails();
+        }
+
+        private void distributeEmails()
         {
             if (radioButtonProtocolExchange.Checked)
             {
@@ -49,7 +56,15 @@ namespace GradersAssistant
             MailMessage message = new MailMessage();
             MailAddress fromAddress = new MailAddress(textBoxEmailAddress.Text);
 
-            smtpClient.Host = textBoxSMTPServer.Text;
+            try
+            {
+                smtpClient.Host = textBoxSMTPServer.Text;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: Please enter a valid SMTP server.", "No SMTP Server");
+                return false;
+            }
             if (radioButtonProtocolExchange.Checked)
             {
                 smtpClient.UseDefaultCredentials = false;

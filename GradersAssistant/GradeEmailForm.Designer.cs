@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBoxProtocolInfo = new System.Windows.Forms.GroupBox();
+            this.SMTPServerLabel = new System.Windows.Forms.Label();
+            this.textBoxSMTPServer = new System.Windows.Forms.TextBox();
             this.textBoxEmailAddress = new System.Windows.Forms.TextBox();
             this.labelEmailAddress = new System.Windows.Forms.Label();
             this.textBoxExchangePassword = new System.Windows.Forms.TextBox();
@@ -40,14 +42,12 @@
             this.radioButtonEmailOne = new System.Windows.Forms.RadioButton();
             this.radioButtonEmailAll = new System.Windows.Forms.RadioButton();
             this.groupBoxBodyText = new System.Windows.Forms.GroupBox();
+            this.subjectLabel = new System.Windows.Forms.Label();
+            this.textBoxSubject = new System.Windows.Forms.TextBox();
             this.textBoxHeaderText = new System.Windows.Forms.TextBox();
             this.checkBoxAddHeader = new System.Windows.Forms.CheckBox();
             this.buttonSendEmails = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
-            this.textBoxSMTPServer = new System.Windows.Forms.TextBox();
-            this.SMTPServerLabel = new System.Windows.Forms.Label();
-            this.textBoxSubject = new System.Windows.Forms.TextBox();
-            this.subjectLabel = new System.Windows.Forms.Label();
             this.groupBoxProtocolInfo.SuspendLayout();
             this.groupBoxRecipientOptions.SuspendLayout();
             this.groupBoxBodyText.SuspendLayout();
@@ -71,6 +71,22 @@
             this.groupBoxProtocolInfo.TabIndex = 2;
             this.groupBoxProtocolInfo.TabStop = false;
             this.groupBoxProtocolInfo.Text = "Protocol Info";
+            // 
+            // SMTPServerLabel
+            // 
+            this.SMTPServerLabel.AutoSize = true;
+            this.SMTPServerLabel.Location = new System.Drawing.Point(6, 179);
+            this.SMTPServerLabel.Name = "SMTPServerLabel";
+            this.SMTPServerLabel.Size = new System.Drawing.Size(74, 13);
+            this.SMTPServerLabel.TabIndex = 9;
+            this.SMTPServerLabel.Text = "SMTP Server:";
+            // 
+            // textBoxSMTPServer
+            // 
+            this.textBoxSMTPServer.Location = new System.Drawing.Point(88, 176);
+            this.textBoxSMTPServer.Name = "textBoxSMTPServer";
+            this.textBoxSMTPServer.Size = new System.Drawing.Size(100, 20);
+            this.textBoxSMTPServer.TabIndex = 4;
             // 
             // textBoxEmailAddress
             // 
@@ -200,6 +216,24 @@
             this.groupBoxBodyText.TabStop = false;
             this.groupBoxBodyText.Text = "BodyText";
             // 
+            // subjectLabel
+            // 
+            this.subjectLabel.AutoSize = true;
+            this.subjectLabel.Location = new System.Drawing.Point(7, 20);
+            this.subjectLabel.Name = "subjectLabel";
+            this.subjectLabel.Size = new System.Drawing.Size(46, 13);
+            this.subjectLabel.TabIndex = 3;
+            this.subjectLabel.Text = "Subject:";
+            // 
+            // textBoxSubject
+            // 
+            this.textBoxSubject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSubject.Location = new System.Drawing.Point(59, 17);
+            this.textBoxSubject.Name = "textBoxSubject";
+            this.textBoxSubject.Size = new System.Drawing.Size(267, 20);
+            this.textBoxSubject.TabIndex = 0;
+            // 
             // textBoxHeaderText
             // 
             this.textBoxHeaderText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -242,40 +276,6 @@
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
-            // 
-            // textBoxSMTPServer
-            // 
-            this.textBoxSMTPServer.Location = new System.Drawing.Point(88, 176);
-            this.textBoxSMTPServer.Name = "textBoxSMTPServer";
-            this.textBoxSMTPServer.Size = new System.Drawing.Size(100, 20);
-            this.textBoxSMTPServer.TabIndex = 4;
-            // 
-            // SMTPServerLabel
-            // 
-            this.SMTPServerLabel.AutoSize = true;
-            this.SMTPServerLabel.Location = new System.Drawing.Point(6, 179);
-            this.SMTPServerLabel.Name = "SMTPServerLabel";
-            this.SMTPServerLabel.Size = new System.Drawing.Size(74, 13);
-            this.SMTPServerLabel.TabIndex = 9;
-            this.SMTPServerLabel.Text = "SMTP Server:";
-            // 
-            // textBoxSubject
-            // 
-            this.textBoxSubject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxSubject.Location = new System.Drawing.Point(59, 17);
-            this.textBoxSubject.Name = "textBoxSubject";
-            this.textBoxSubject.Size = new System.Drawing.Size(267, 20);
-            this.textBoxSubject.TabIndex = 0;
-            // 
-            // subjectLabel
-            // 
-            this.subjectLabel.AutoSize = true;
-            this.subjectLabel.Location = new System.Drawing.Point(7, 20);
-            this.subjectLabel.Name = "subjectLabel";
-            this.subjectLabel.Size = new System.Drawing.Size(46, 13);
-            this.subjectLabel.TabIndex = 3;
-            this.subjectLabel.Text = "Subject:";
             // 
             // GradeEmailForm
             // 
