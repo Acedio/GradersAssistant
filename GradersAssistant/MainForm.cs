@@ -14,14 +14,21 @@ namespace GradersAssistant
     public partial class MainForm : Form
     {
         private GADatabase dbConnention;
+
         private GAClass mainClass;
+
+        private int currentAssignmentID;
+
+        private Dictionary<int, Student> students;
+
+        private GradingAssignmentForm gaf;
+
         public MainForm()
         {
             InitializeComponent();
             dbConnention = new GADatabase();
             noClassOpenDisableMenu();
         }
-
         
         private void noClassOpenDisableMenu()
         {
@@ -57,9 +64,8 @@ namespace GradersAssistant
 
         }
 
-        private void loadStudents(GADatabase gad)
+        private void updateStudentComboBox()
         {
-            Dictionary<int, Student> students = gad.GetStudents();
             studentComboBox.BeginUpdate();
             studentComboBox.Items.Clear();
             foreach (Student student in students.Values)
@@ -71,8 +77,12 @@ namespace GradersAssistant
                 studentComboBox.SelectedItem = studentComboBox.Items[0];
             }
             studentComboBox.EndUpdate();
-            CriteriaResponseTree crt = gad.MakeCriteriaResponseTree(1);
-            gad.FillCriteriaResponseTree(crt, 1, 10);
+        }
+
+        private void loadStudents(GADatabase gad)
+        {
+            students = gad.GetStudents();
+            updateStudentComboBox();
         }
 
         void emailToolStripMenuItem_Click(object sender, System.EventArgs e)
@@ -183,6 +193,24 @@ namespace GradersAssistant
             }
         }
 
+        private void loadGradingForm(int assignmentID)
+        {
+            gaf = new GradingAssignmentForm();
+            gaf.MdiParent = this;
+            int height = gaf.ClientSize.Height + this.Height - this.ClientSize.Height + mainMenuStrip.Height + upperToolStrip.Height + lowerToolStrip.Height + mainStatusStrip.Height;
+            int width = gaf.ClientSize.Width + this.Width - this.ClientSize.Width;
+            this.Size = new Size(width, height);
+            gaf.Show();
+            gaf.WindowState = FormWindowState.Maximized;
+            if (students.Count > 0)
+            {
+                Assignment assignment = dbConnention.GetAssignment(1);
+                gaf.LoadAssignment(assignment);
+                ResponseList studentResponse = dbConnention.GetResponseList(1, 10);
+                gaf.LoadResponseList(students[studentResponse.StudentID], studentResponse);
+            }
+        }
+
         //open Class, this opens an exisiting class 
         //accessed through open folder icon/open class in the file menu
         private void OpenClass(object sender, EventArgs e)
@@ -201,7 +229,12 @@ namespace GradersAssistant
             {
                 dbConnention.ConnectDB(openClass.FileName);
                 mainClass = dbConnention.GetClass();
+
                 loadStudents(dbConnention);
+
+                currentAssignmentID = 1;
+                loadGradingForm(currentAssignmentID);
+
                 classOpenEnableMenu();
             }
         }
@@ -259,9 +292,35 @@ namespace GradersAssistant
 
         }
 
-        private void Close(object sender, EventArgs e)
+        private void ExitMenuItem_Click(object sender, EventArgs e)
         {
+            if (gaf != null)
+            {
+                gaf.Close();
+                gaf.Dispose();
+            }
+            this.Close();
+            this.Dispose();
+        }
 
+        private void studentComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            //if (studentComboBox.SelectedItem != null)
+            //{
+            //    Student student = (Student)studentComboBox.SelectedItem;
+
+            //    gaf.LoadResponseList(student, dbConnention.GetResponseList(currentAssignmentID, student.StudentID));
+            //}
+        }
+
+        private void studentComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (gaf != null && studentComboBox.SelectedItem != null)
+            {
+                Student student = (Student)studentComboBox.SelectedItem;
+
+                gaf.LoadResponseList(student, dbConnention.GetResponseList(currentAssignmentID, student.StudentID));
+            }
         }
     }
 }

@@ -103,7 +103,7 @@ namespace GradersAssistant
         }
     }
 
-    class Response
+    public class Response
     {
         private const int noID = -1;
 
@@ -143,7 +143,25 @@ namespace GradersAssistant
         }
     }
 
-    class Criteria
+    public class ResponseList
+    {
+        public const int noID = -1;
+
+        public Dictionary<int, Response> Responses;
+
+        public int StudentID;
+
+        public int AssignmentID;
+
+        public ResponseList()
+        {
+            StudentID = noID;
+            AssignmentID = noID;
+            Responses = new Dictionary<int, Response>();
+        }
+    }
+
+    public class Criteria
     {
         private const int noID = -1;
 
@@ -183,58 +201,34 @@ namespace GradersAssistant
         }
     }
 
-    class CriteriaResponseTreeNode
+    public class RubricNode
     {
-        Criteria criteria;
+        public Criteria Criteria;
 
-        public Criteria Criteria
+        public LinkedList<int> Children;
+
+        public RubricNode(Criteria c)
         {
-            get { return criteria; }
-            set { criteria = value; }
-        }
-
-        Response response;
-
-        public Response Response
-        {
-            get { return response; }
-            set { response = value; }
-        }
-
-        LinkedList<int> children;
-
-        public LinkedList<int> Children
-        {
-            get { return children; }
-            set { children = value; }
-        }
-
-        public CriteriaResponseTreeNode(Criteria c, Response r)
-        {
-            criteria = c;
-            response = r;
-            children = new LinkedList<int>();
+            Criteria = c;
+            Children = new LinkedList<int>();
         }
 
         public override string ToString()
         {
-            return String.Format("{0} ({1}/{2})", criteria.Description, response.PointsReceived, criteria.MaxPoints);
+            return Criteria.Description;
         }
     }
 
-    class CriteriaResponseTree
+    public class Rubric
     {
-        Dictionary<int, CriteriaResponseTreeNode> nodes;
+        public Dictionary<int, RubricNode> Nodes;
 
-        public Dictionary<int, CriteriaResponseTreeNode> Nodes
-        {
-            get { return nodes; }
-            set { nodes = value; }
-        }
+        public LinkedList<int> RootNodes;
 
-        public CriteriaResponseTree()
+        public Rubric()
         {
-            nodes = new Dictionary<int, CriteriaResponseTreeNode>();
+            Nodes = new Dictionary<int, RubricNode>();
+            RootNodes = new LinkedList<int>();
         }
 
         /// <summary>
@@ -244,8 +238,9 @@ namespace GradersAssistant
         /// <returns>The criterias key (which references it in the dictionary as well as the DB).</returns>
         public int AddNewNode(Criteria c)
         {
-            CriteriaResponseTreeNode node = new CriteriaResponseTreeNode(c, new Response());
-            nodes.Add(node.Criteria.CriteriaID, node);
+            RubricNode node = new RubricNode(c);
+            Nodes.Add(node.Criteria.CriteriaID, node);
+            RootNodes.AddLast(node.Criteria.CriteriaID);
             return node.Criteria.CriteriaID;
         }
 
@@ -257,10 +252,10 @@ namespace GradersAssistant
         /// <returns>The criterias key (which references it in the dictionary as well as the DB).</returns>
         public int AddNewNode(Criteria c, int parentKey)
         {
-            CriteriaResponseTreeNode parentNode;
-            if (nodes.TryGetValue(parentKey, out parentNode))
+            RubricNode parentNode;
+            if (Nodes.TryGetValue(parentKey, out parentNode))
             {
-                nodes.Add(c.CriteriaID, new CriteriaResponseTreeNode(c, new Response()));
+                Nodes.Add(c.CriteriaID, new RubricNode(c));
                 parentNode.Children.AddLast(c.CriteriaID);
                 return c.CriteriaID;
             }
@@ -270,43 +265,9 @@ namespace GradersAssistant
                 return -1;
             }
         }
-
-        public void ClearResponses()
-        {
-            foreach (CriteriaResponseTreeNode node in nodes.Values)
-            {
-                if (node.Children.Count > 0)
-                {
-                    node.Response = new Response();
-                }
-                else
-                {
-                    node.Response = null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Modifies the existing response to the criteria with the specified criteriaID.
-        /// </summary>
-        /// <param name="criteriaKey">The criteria key of the criteria the response is for.</param>
-        /// <param name="response">The modified response.</param>
-        /// <returns></returns>
-        public bool ModifyResponse(int criteriaKey, Response response)
-        {
-            if (nodes.ContainsKey(criteriaKey))
-            {
-                nodes[criteriaKey].Response = response;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
     }
 
-    class Assignment
+    public class Assignment
     {
         private const int noID = -1;
 
@@ -335,15 +296,19 @@ namespace GradersAssistant
 
         public Assignment()
         {
+            Rubric = new Rubric();
             assignmentID = noID;
         }
 
         public Assignment(int aID, string aName, DateTime aDueDate)
         {
+            Rubric = new Rubric();
             assignmentID = aID;
             name = aName;
             dueDate = aDueDate;
         }
+
+        public Rubric Rubric;
     }
 
 
