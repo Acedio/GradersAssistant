@@ -13,11 +13,20 @@ namespace GradersAssistant
 {
     public partial class GradeEmailForm : Form
     {
-        public GradeEmailForm()//Dictionary<int, Student> students
+        GAClass mainClass;
+        Dictionary<int, Student> students;
+        Assignment currentAssignment;
+        public GradeEmailForm(GAClass mainClass, Dictionary<int, Student> students, Assignment assignment, Dictionary<int,ResponseList> responseLists)
         {
             InitializeComponent();
             this.AcceptButton = buttonSendEmails;
             this.CancelButton = buttonCancel;
+
+            this.mainClass = mainClass;
+            this.students = students;
+            this.currentAssignment = assignment;
+
+            textBoxEmailAddress.Text = mainClass.FromAddress;
         }
 
         private void radioButtonProtocolSMTP_CheckedChanged(object sender, EventArgs e)
@@ -27,16 +36,44 @@ namespace GradersAssistant
 
         private void buttonSendEmails_Click(object sender, EventArgs e)
         {
-            distributeEmails();
+            int successfulEmails = 0;
+            if (textBoxEmailAddress.Text == "")
+            {
+                MessageBox.Show("Please enter an email address.","No email address");
+            }
+            else if (radioButtonProtocolExchange.Checked && textBoxExchangePassword.Text == "")
+            {
+                MessageBox.Show("Please enter a password for authenticated SMTP.","No password");
+            }
+            else if (textBoxSMTPServer.Text == "")
+            {
+                MessageBox.Show("Please enter an smtp server.","No SMTP Server");
+            }
+            else if (radioButtonEmailOne.Checked && comboBoxStudentSelect.SelectedIndex == 0)
+            {
+                MessageBox.Show("Please select a student to send to.", "No student selected");
+            }
+            else if (radioButtonEmailAll.Checked)
+            {   // TODO use student list
+                if (MessageBox.Show("Are you sure you want to send " + 7 + " emails?", "Send " + 7 + " emails?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    successfulEmails = distributeEmails();
+                    if (successfulEmails != 7)   // TODO use student list
+                    {
+                        MessageBox.Show("Some emails failed");
+                    }
+                }
+            }
         }
 
-        private void distributeEmails()
+        private int distributeEmails()
         {
             if (radioButtonProtocolExchange.Checked)
             {
                 //EmailTest(textBoxEmailAddress.Text, textBoxExchangePassword.Text);
             }
             sendEmail(false, "This is a spoof email!", "raptorcantor@gmail.com");
+            return 3;   // TODO actually check how many emails worked
         }
 
         private bool sendEmail(bool useHTML, string text, string recipient)

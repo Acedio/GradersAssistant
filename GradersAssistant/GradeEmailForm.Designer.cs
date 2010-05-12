@@ -96,7 +96,6 @@
             this.textBoxEmailAddress.Name = "textBoxEmailAddress";
             this.textBoxEmailAddress.Size = new System.Drawing.Size(148, 20);
             this.textBoxEmailAddress.TabIndex = 0;
-            this.textBoxEmailAddress.Text = "kknapp@whitworth.edu";
             // 
             // labelEmailAddress
             // 

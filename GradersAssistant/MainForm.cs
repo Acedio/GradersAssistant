@@ -87,7 +87,7 @@ namespace GradersAssistant
 
         void emailToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            GradeEmailForm gef = new GradeEmailForm();
+            GradeEmailForm gef = new GradeEmailForm(mainClass, students, dbConnention.GetAssignment(currentAssignmentID), dbConnention.GetAssignmentResponses(currentAssignmentID));
             gef.Show();
         }
 
