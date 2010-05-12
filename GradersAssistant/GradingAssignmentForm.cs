@@ -125,6 +125,8 @@ namespace GradersAssistant
                     Debug.WriteLine("Multiple criteria share the same key.");
                 }
             }
+
+            rubricTreeView.ExpandAll();
         }
     }
 }

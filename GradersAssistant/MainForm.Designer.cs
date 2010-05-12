@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
             this.createNewClassMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,7 +89,7 @@
             this.prefrencesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutGradersAssistantToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.upperToolStrip = new System.Windows.Forms.ToolStrip();
             this.CreateNewToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -107,7 +107,7 @@
             this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.lowerToolStrip = new System.Windows.Forms.ToolStrip();
             this.studentComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton12 = new System.Windows.Forms.ToolStripButton();
@@ -117,21 +117,21 @@
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton15 = new System.Windows.Forms.ToolStripButton();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.statusStrip1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
+            this.mainStatusStrip.SuspendLayout();
+            this.mainMenuStrip.SuspendLayout();
+            this.upperToolStrip.SuspendLayout();
+            this.lowerToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // statusStrip1
+            // mainStatusStrip
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 451);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(921, 22);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
+            this.mainStatusStrip.Location = new System.Drawing.Point(0, 451);
+            this.mainStatusStrip.Name = "mainStatusStrip";
+            this.mainStatusStrip.Size = new System.Drawing.Size(921, 22);
+            this.mainStatusStrip.TabIndex = 0;
+            this.mainStatusStrip.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
@@ -139,19 +139,19 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(39, 17);
             this.toolStripStatusLabel1.Text = "Ready";
             // 
-            // menuStrip1
+            // mainMenuStrip
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuItemFile,
             this.studentMenuItem,
             this.resultstoolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.toolStripMenuItem5});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(921, 24);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
+            this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.mainMenuStrip.Name = "mainMenuStrip";
+            this.mainMenuStrip.Size = new System.Drawing.Size(921, 24);
+            this.mainMenuStrip.TabIndex = 1;
+            this.mainMenuStrip.Text = "mainMenuStrip";
             // 
             // MenuItemFile
             // 
@@ -253,7 +253,7 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.Close);
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
             // studentMenuItem
             // 
@@ -563,9 +563,9 @@
             this.aboutGradersAssistantToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.aboutGradersAssistantToolStripMenuItem.Text = "About Grader\'s Assistant";
             // 
-            // toolStrip1
+            // upperToolStrip
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.upperToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CreateNewToolStripButton,
             this.openToolStripButton,
             this.saveToolStripButton,
@@ -583,11 +583,11 @@
             this.toolStripButton10,
             this.toolStripSeparator6,
             this.toolStripButton11});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(921, 26);
-            this.toolStrip1.TabIndex = 2;
-            this.toolStrip1.Text = "toolStrip1";
+            this.upperToolStrip.Location = new System.Drawing.Point(0, 24);
+            this.upperToolStrip.Name = "upperToolStrip";
+            this.upperToolStrip.Size = new System.Drawing.Size(921, 26);
+            this.upperToolStrip.TabIndex = 2;
+            this.upperToolStrip.Text = "upperToolStrip";
             // 
             // CreateNewToolStripButton
             // 
@@ -731,10 +731,10 @@
             this.toolStripButton11.Size = new System.Drawing.Size(23, 23);
             this.toolStripButton11.Text = "toolStripButton11";
             // 
-            // toolStrip2
+            // lowerToolStrip
             // 
-            this.toolStrip2.AllowDrop = true;
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lowerToolStrip.AllowDrop = true;
+            this.lowerToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.studentComboBox,
             this.toolStripSeparator7,
             this.toolStripButton12,
@@ -743,11 +743,11 @@
             this.toolStripButton14,
             this.toolStripSeparator9,
             this.toolStripButton15});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 50);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(921, 25);
-            this.toolStrip2.TabIndex = 3;
-            this.toolStrip2.Text = "toolStrip2";
+            this.lowerToolStrip.Location = new System.Drawing.Point(0, 50);
+            this.lowerToolStrip.Name = "lowerToolStrip";
+            this.lowerToolStrip.Size = new System.Drawing.Size(921, 25);
+            this.lowerToolStrip.TabIndex = 3;
+            this.lowerToolStrip.Text = "lowerToolStrip";
             // 
             // studentComboBox
             // 
@@ -826,24 +826,24 @@
             this.BackgroundImage = global::GradersAssistant.Properties.Resources.GA_background;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(921, 473);
-            this.Controls.Add(this.toolStrip2);
-            this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.lowerToolStrip);
+            this.Controls.Add(this.upperToolStrip);
+            this.Controls.Add(this.mainStatusStrip);
+            this.Controls.Add(this.mainMenuStrip);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.mainMenuStrip;
             this.Name = "MainForm";
             this.Text = "Grader\'s Assistant";
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
+            this.mainStatusStrip.ResumeLayout(false);
+            this.mainStatusStrip.PerformLayout();
+            this.mainMenuStrip.ResumeLayout(false);
+            this.mainMenuStrip.PerformLayout();
+            this.upperToolStrip.ResumeLayout(false);
+            this.upperToolStrip.PerformLayout();
+            this.lowerToolStrip.ResumeLayout(false);
+            this.lowerToolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -851,8 +851,7 @@
 
         #endregion
 
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.StatusStrip mainStatusStrip;
         private System.Windows.Forms.ToolStripMenuItem MenuItemFile;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
@@ -860,7 +859,7 @@
         private System.Windows.Forms.ToolStripMenuItem studentMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip upperToolStrip;
         private System.Windows.Forms.ToolStripButton CreateNewToolStripButton;
         private System.Windows.Forms.ToolStripButton openToolStripButton;
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
@@ -878,7 +877,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButton10;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripButton toolStripButton11;
-        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStrip lowerToolStrip;
         private System.Windows.Forms.ToolStripComboBox studentComboBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripButton toolStripButton12;
@@ -939,6 +938,7 @@
 		private System.Windows.Forms.ToolStripMenuItem createCSVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem studentManagerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem prefrencesToolStripMenuItem1;
+        private System.Windows.Forms.MenuStrip mainMenuStrip;
 
     }
 }

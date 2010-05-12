@@ -229,7 +229,6 @@ namespace GradersAssistant
         {
             Nodes = new Dictionary<int, RubricNode>();
             RootNodes = new LinkedList<int>();
-
         }
 
         /// <summary>

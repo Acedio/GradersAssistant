@@ -197,11 +197,18 @@ namespace GradersAssistant
         {
             gaf = new GradingAssignmentForm();
             gaf.MdiParent = this;
+            int height = gaf.ClientSize.Height + this.Height - this.ClientSize.Height + mainMenuStrip.Height + upperToolStrip.Height + lowerToolStrip.Height + mainStatusStrip.Height;
+            int width = gaf.ClientSize.Width + this.Width - this.ClientSize.Width;
+            this.Size = new Size(width, height);
             gaf.Show();
-            Assignment assignment = dbConnention.GetAssignment(1);
-            gaf.LoadAssignment(assignment);
-            ResponseList studentResponses = dbConnention.GetResponseList(1, 10);
-            gaf.LoadResponseList(students[studentResponses.StudentID], studentResponses);
+            gaf.WindowState = FormWindowState.Maximized;
+            if (students.Count > 0)
+            {
+                Assignment assignment = dbConnention.GetAssignment(1);
+                gaf.LoadAssignment(assignment);
+                ResponseList studentResponse = dbConnention.GetResponseList(1, 10);
+                gaf.LoadResponseList(students[studentResponse.StudentID], studentResponse);
+            }
         }
 
         //open Class, this opens an exisiting class 
@@ -285,9 +292,15 @@ namespace GradersAssistant
 
         }
 
-        private void Close(object sender, EventArgs e)
+        private void ExitMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (gaf != null)
+            {
+                gaf.Close();
+                gaf.Dispose();
+            }
+            this.Close();
+            this.Dispose();
         }
 
         private void studentComboBox_DropDownClosed(object sender, EventArgs e)
