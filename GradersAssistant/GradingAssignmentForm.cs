@@ -176,5 +176,25 @@ namespace GradersAssistant
                 }
             }
         }
+
+        public ResponseList GetResponseList()
+        {
+            foreach (KeyValuePair<int, Response> responsePair in currentResponseList.Responses)
+            {
+                int criteriaID = responsePair.Key;
+
+                Response response = responsePair.Value;
+
+                if (rubricTreeView.Nodes.ContainsKey(criteriaID.ToString()))
+                {
+                    if (rubricTreeView.Nodes[criteriaID.ToString()].Checked == false)
+                    { // if a criteria is unchecked, zero points
+                        response.PointsReceived = 0;
+                    }
+                }
+            }
+
+            return currentResponseList;
+        }
     }
 }

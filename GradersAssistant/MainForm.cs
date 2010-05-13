@@ -227,6 +227,13 @@ namespace GradersAssistant
             //if a class was opened generate the database connection
             if (openClass.FileName != "")
             {
+                // close the old class if necessary
+                if (gaf != null)
+                {
+                    gaf.Close();
+                    gaf.Dispose();
+                    gaf = null;
+                }
                 dbConnention.ConnectDB(openClass.FileName);
                 mainClass = dbConnention.GetClass();
 
@@ -303,23 +310,55 @@ namespace GradersAssistant
             this.Dispose();
         }
 
-        private void studentComboBox_DropDownClosed(object sender, EventArgs e)
-        {
-            //if (studentComboBox.SelectedItem != null)
-            //{
-            //    Student student = (Student)studentComboBox.SelectedItem;
-
-            //    gaf.LoadResponseList(student, dbConnention.GetResponseList(currentAssignmentID, student.StudentID));
-            //}
-        }
-
         private void studentComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (gaf != null && studentComboBox.SelectedItem != null)
             {
+                ResponseList responseList = gaf.GetResponseList();
+
+                dbConnention.SaveResponseList(responseList);
+
                 Student student = (Student)studentComboBox.SelectedItem;
 
                 gaf.LoadResponseList(student, dbConnention.GetResponseList(currentAssignmentID, student.StudentID));
+            }
+        }
+
+        private void previousStudentToolStripButton_Click(object sender, EventArgs e)
+        {
+            int numStudents = studentComboBox.Items.Count;
+
+            if (numStudents > 0)
+            {
+                int selectedIndex = studentComboBox.SelectedIndex;
+
+                selectedIndex--;
+
+                if (selectedIndex < 0)
+                {
+                    selectedIndex = numStudents - 1;
+                }
+
+                studentComboBox.SelectedIndex = selectedIndex;
+            }
+        }
+
+        private void nextStudentToolStripButton_Click(object sender, EventArgs e)
+        {
+            int numStudents = studentComboBox.Items.Count;
+
+            if (numStudents > 0)
+            {
+                int selectedIndex = studentComboBox.SelectedIndex;
+
+                selectedIndex++;
+
+                if (selectedIndex >= numStudents)
+                {
+                    selectedIndex = 0;
+                }
+
+                studentComboBox.SelectedIndex = selectedIndex;
             }
         }
     }
