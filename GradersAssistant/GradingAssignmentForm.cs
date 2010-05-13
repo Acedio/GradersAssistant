@@ -16,6 +16,8 @@ namespace GradersAssistant
 
         private ResponseList currentResponseList;
 
+        private Student currentStudent;
+
         public GradingAssignmentForm()
         {
             InitializeComponent();
@@ -72,9 +74,13 @@ namespace GradersAssistant
                 return;
             }
 
-            studentNameLabel.Text = string.Format("{0}, {1}", student.LastName, student.FirstName);
+            currentStudent = student;
 
-            studentIDLabel.Text = student.StudentSchoolID;
+            currentResponseList = responseList;
+
+            studentNameLabel.Text = string.Format("{0}, {1}", currentStudent.LastName, currentStudent.FirstName);
+
+            studentIDLabel.Text = currentStudent.StudentSchoolID;
 
             foreach (KeyValuePair<int, RubricNode> rubricNode in currentAssignment.Rubric.Nodes)
             {
@@ -84,7 +90,7 @@ namespace GradersAssistant
                 {
                     Response response;
 
-                    if (responseList.Responses.TryGetValue(rubricNode.Value.Criteria.CriteriaID, out response))
+                    if (currentResponseList.Responses.TryGetValue(rubricNode.Value.Criteria.CriteriaID, out response))
                     {
                         // already created
                         if (response.PointsReceived > 0)
@@ -99,7 +105,7 @@ namespace GradersAssistant
                     }
                     else
                     {
-                        response = responseList.Responses[rubricNode.Value.Criteria.CriteriaID] = new Response();
+                        response = currentResponseList.Responses[rubricNode.Value.Criteria.CriteriaID] = new Response();
                         rubricTreeNodes[0].Checked = true;
                         response.PointsReceived = rubricNode.Value.Criteria.MaxPoints;
                         Debug.WriteLine("The criteria in the rubric does not yet have a response for the given student.");
@@ -127,6 +133,48 @@ namespace GradersAssistant
             }
 
             rubricTreeView.ExpandAll();
+        }
+
+        private void rubricTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                int criteriaID;
+
+                if (int.TryParse(e.Node.Name, out criteriaID))
+                {
+                    Response response;
+                    if (currentResponseList.Responses.TryGetValue(criteriaID, out response))
+                    {
+                        RubricNode rubricNode;
+                        if (currentAssignment.Rubric.Nodes.TryGetValue(criteriaID, out rubricNode))
+                        {
+                            Criteria criteria = rubricNode.Criteria;
+
+                            GradingItemForm gif = new GradingItemForm(response, criteria, currentStudent);
+
+                            gif.ShowDialog();
+
+                            if (!gif.Cancelled)
+                            {
+                                // update response tree
+                                response.PointsReceived = gif.GraderResponse.PointsReceived;
+                                response.GraderComment = gif.GraderResponse.GraderComment;
+
+                                // update treeview
+                                e.Node.Text = string.Format("{0} ({1}): {2}",
+                                                    criteria.Description.ToString(),
+                                                    criteria.MaxPoints.ToString(),
+                                                    response.PointsReceived.ToString());
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("Could not convert treenode name (CriteriaID) to integer.");
+                }
+            }
         }
     }
 }

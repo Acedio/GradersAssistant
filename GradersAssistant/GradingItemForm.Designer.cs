@@ -28,113 +28,141 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.pointsReceivedNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.maxPointsLabel = new System.Windows.Forms.Label();
+            this.graderCommentTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.studentNameLabel = new System.Windows.Forms.Label();
+            this.criteriaDescLabel = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.pointsReceivedNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
-            // numericUpDown1
+            // pointsReceivedNumericUpDown
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(12, 52);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(52, 20);
-            this.numericUpDown1.TabIndex = 0;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.pointsReceivedNumericUpDown.Location = new System.Drawing.Point(12, 58);
+            this.pointsReceivedNumericUpDown.Name = "pointsReceivedNumericUpDown";
+            this.pointsReceivedNumericUpDown.Size = new System.Drawing.Size(52, 20);
+            this.pointsReceivedNumericUpDown.TabIndex = 0;
+            this.pointsReceivedNumericUpDown.Value = new decimal(new int[] {
             50,
             0,
             0,
             0});
             // 
-            // label1
+            // maxPointsLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(70, 54);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Pts out of 60 Pts";
+            this.maxPointsLabel.AutoSize = true;
+            this.maxPointsLabel.Location = new System.Drawing.Point(70, 60);
+            this.maxPointsLabel.Name = "maxPointsLabel";
+            this.maxPointsLabel.Size = new System.Drawing.Size(123, 13);
+            this.maxPointsLabel.TabIndex = 1;
+            this.maxPointsLabel.Text = "Pts out of not loaded Pts";
             // 
-            // textBox1
+            // graderCommentTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 91);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(500, 169);
-            this.textBox1.TabIndex = 2;
-            this.textBox1.Text = "Should have used for loop in the max() function.";
+            this.graderCommentTextBox.Location = new System.Drawing.Point(12, 97);
+            this.graderCommentTextBox.Multiline = true;
+            this.graderCommentTextBox.Name = "graderCommentTextBox";
+            this.graderCommentTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.graderCommentTextBox.Size = new System.Drawing.Size(500, 169);
+            this.graderCommentTextBox.TabIndex = 2;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 75);
+            this.label2.Location = new System.Drawing.Point(12, 81);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 13);
             this.label2.TabIndex = 3;
             this.label2.Text = "Comments:";
             // 
-            // button1
+            // saveButton
             // 
-            this.button1.Location = new System.Drawing.Point(356, 266);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Save";
-            this.button1.UseVisualStyleBackColor = true;
+            this.saveButton.Location = new System.Drawing.Point(356, 272);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(75, 23);
+            this.saveButton.TabIndex = 4;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // button2
+            // cancelButton
             // 
-            this.button2.Location = new System.Drawing.Point(437, 266);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "Cancel";
-            this.button2.UseVisualStyleBackColor = true;
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancelButton.Location = new System.Drawing.Point(437, 272);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.TabIndex = 5;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(12, 9);
+            this.label3.Location = new System.Drawing.Point(8, 9);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(147, 20);
+            this.label3.Size = new System.Drawing.Size(70, 20);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Student: Doe, John";
+            this.label3.Text = "Student:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(12, 29);
+            this.label4.Location = new System.Drawing.Point(8, 29);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(169, 20);
+            this.label4.Size = new System.Drawing.Size(63, 20);
             this.label4.TabIndex = 7;
-            this.label4.Text = "Criteria: Coding Quality";
+            this.label4.Text = "Criteria:";
+            // 
+            // studentNameLabel
+            // 
+            this.studentNameLabel.AutoSize = true;
+            this.studentNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.studentNameLabel.Location = new System.Drawing.Point(81, 9);
+            this.studentNameLabel.Name = "studentNameLabel";
+            this.studentNameLabel.Size = new System.Drawing.Size(84, 20);
+            this.studentNameLabel.TabIndex = 8;
+            this.studentNameLabel.Text = "not loaded";
+            // 
+            // criteriaDescLabel
+            // 
+            this.criteriaDescLabel.AutoSize = true;
+            this.criteriaDescLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.criteriaDescLabel.Location = new System.Drawing.Point(81, 29);
+            this.criteriaDescLabel.Name = "criteriaDescLabel";
+            this.criteriaDescLabel.Size = new System.Drawing.Size(84, 20);
+            this.criteriaDescLabel.TabIndex = 9;
+            this.criteriaDescLabel.Text = "not loaded";
             // 
             // GradingItemForm
             // 
+            this.AcceptButton = this.saveButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(524, 345);
+            this.CancelButton = this.cancelButton;
+            this.ClientSize = new System.Drawing.Size(518, 303);
+            this.Controls.Add(this.criteriaDescLabel);
+            this.Controls.Add(this.studentNameLabel);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.cancelButton);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.graderCommentTextBox);
+            this.Controls.Add(this.maxPointsLabel);
+            this.Controls.Add(this.pointsReceivedNumericUpDown);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "GradingItemForm";
             this.Text = "Grading Item";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pointsReceivedNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -142,13 +170,15 @@
 
         #endregion
 
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.NumericUpDown pointsReceivedNumericUpDown;
+        private System.Windows.Forms.Label maxPointsLabel;
+        private System.Windows.Forms.TextBox graderCommentTextBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label studentNameLabel;
+        private System.Windows.Forms.Label criteriaDescLabel;
     }
 }

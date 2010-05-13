@@ -61,6 +61,7 @@
             this.rubricTreeView.Name = "rubricTreeView";
             this.rubricTreeView.Size = new System.Drawing.Size(631, 255);
             this.rubricTreeView.TabIndex = 0;
+            this.rubricTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.rubricTreeView_NodeMouseClick);
             // 
             // label1
             // 
