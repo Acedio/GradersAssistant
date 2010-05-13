@@ -219,16 +219,16 @@ namespace GradersAssistant
                 query += String.Format("@{0}, ", tables.Student.ClassSection);
                 query += String.Format("@{0}", tables.Student.StudentSchoolID);
                 query += ");";
-                OleDbCommand update = new OleDbCommand(query, dbConnection);
-                update.Parameters.Add(new OleDbParameter("@" + tables.Student.FirstName, OleDbType.VarChar)).Value = student.FirstName;// student.FirstName;
-                update.Parameters.Add(new OleDbParameter("@" + tables.Student.LastName, OleDbType.VarChar)).Value = student.LastName;
-                update.Parameters.Add(new OleDbParameter("@" + tables.Student.Username, OleDbType.VarChar)).Value = student.Username;
-                update.Parameters.Add(new OleDbParameter("@" + tables.Student.EmailAddress, OleDbType.VarChar)).Value = student.EmailAddress;
-                update.Parameters.Add(new OleDbParameter("@" + tables.Student.ClassSection, OleDbType.Integer)).Value = student.ClassSection;
-                update.Parameters.Add(new OleDbParameter("@" + tables.Student.StudentSchoolID, OleDbType.VarChar)).Value = student.StudentSchoolID;
+                OleDbCommand insert = new OleDbCommand(query, dbConnection);
+                insert.Parameters.Add(new OleDbParameter("@" + tables.Student.FirstName, OleDbType.VarChar)).Value = student.FirstName;// student.FirstName;
+                insert.Parameters.Add(new OleDbParameter("@" + tables.Student.LastName, OleDbType.VarChar)).Value = student.LastName;
+                insert.Parameters.Add(new OleDbParameter("@" + tables.Student.Username, OleDbType.VarChar)).Value = student.Username;
+                insert.Parameters.Add(new OleDbParameter("@" + tables.Student.EmailAddress, OleDbType.VarChar)).Value = student.EmailAddress;
+                insert.Parameters.Add(new OleDbParameter("@" + tables.Student.ClassSection, OleDbType.Integer)).Value = student.ClassSection;
+                insert.Parameters.Add(new OleDbParameter("@" + tables.Student.StudentSchoolID, OleDbType.VarChar)).Value = student.StudentSchoolID;
                 try
                 {
-                    update.ExecuteNonQuery();
+                    insert.ExecuteNonQuery();
                 }
                 catch
                 {
@@ -255,6 +255,8 @@ namespace GradersAssistant
         {
             if (student.HasID())
             {
+                // AAAAAAAAAGH ACCESS AND OLEDB SUCK. You can used named parameters BUT OleDb doesn't respect them and just relies on order. SUCKS.
+
                 // We need to update because the student already has a key.
                 string query = String.Format("UPDATE {0} SET ", tables.Student.TableName);
                 query += String.Format("{0} = @{0}, ", tables.Student.FirstName);
@@ -288,33 +290,7 @@ namespace GradersAssistant
             {
                 foreach (Student student in students.Values)
                 {
-                    // AAAAAAAAAGH ACCESS AND OLEDB SUCK. You can used named parameters BUT OleDb doesn't respect them and just relies on order. SUCKS.
-
-                    if (student.HasID())
-                    {
-                        // We need to update because the student already has a key.
-                        string query = String.Format("UPDATE {0} SET ", tables.Student.TableName);
-                        query += String.Format("{0} = @{0}, ", tables.Student.FirstName);
-                        query += String.Format("{0} = @{0}, ", tables.Student.LastName);
-                        query += String.Format("{0} = @{0}, ", tables.Student.Username);
-                        query += String.Format("{0} = @{0}, ", tables.Student.EmailAddress);
-                        query += String.Format("{0} = @{0}, ", tables.Student.ClassSection);
-                        query += String.Format("{0} = @{0} ", tables.Student.StudentSchoolID);
-                        query += String.Format("WHERE {0} = @{0};", tables.Student.StudentID);
-                        OleDbCommand update = new OleDbCommand(query, dbConnection);
-                        update.Parameters.Add(new OleDbParameter("@" + tables.Student.FirstName, OleDbType.VarChar)).Value = student.FirstName;// student.FirstName;
-                        update.Parameters.Add(new OleDbParameter("@" + tables.Student.LastName, OleDbType.VarChar)).Value = student.LastName;
-                        update.Parameters.Add(new OleDbParameter("@" + tables.Student.Username, OleDbType.VarChar)).Value = student.Username;
-                        update.Parameters.Add(new OleDbParameter("@" + tables.Student.EmailAddress, OleDbType.VarChar)).Value = student.EmailAddress;
-                        update.Parameters.Add(new OleDbParameter("@" + tables.Student.ClassSection, OleDbType.Integer)).Value = student.ClassSection;
-                        update.Parameters.Add(new OleDbParameter("@" + tables.Student.StudentSchoolID, OleDbType.VarChar)).Value = student.StudentSchoolID;
-                        update.Parameters.Add(new OleDbParameter("@" + tables.Student.StudentID, OleDbType.Integer)).Value = student.StudentID;
-                        update.ExecuteNonQuery();
-                    }
-                    else
-                    {
-                        Debug.WriteLine("A student without an ID was found in a student dictionary. That's not good.");
-                    }
+                    UpdateStudent(student);
                 }
             }
             catch (Exception ex)
@@ -638,6 +614,82 @@ namespace GradersAssistant
             }
 
             return assignmentResponses;
+        }
+
+        public bool UpdateResponse(int assignmentID, int studentID, int criteriaID, Response response)
+        {
+            string query = String.Format("UPDATE {0} SET ", tables.Response.TableName);
+            query += String.Format("{0} = @{0}, ", tables.Response.StudentID);
+            query += String.Format("{0} = @{0}, ", tables.Response.CriteriaID);
+            query += String.Format("{0} = @{0}, ", tables.Response.PointsReceived);
+            query += String.Format("{0} = @{0} ", tables.Response.GraderComment);
+            query += String.Format("WHERE {0} = @{0};", tables.Response.ResponseID);
+            OleDbCommand update = new OleDbCommand(query, dbConnection);
+            update.Parameters.Add(new OleDbParameter("@" + tables.Response.StudentID, OleDbType.Integer)).Value = studentID;
+            update.Parameters.Add(new OleDbParameter("@" + tables.Response.CriteriaID, OleDbType.Integer)).Value = criteriaID;
+            update.Parameters.Add(new OleDbParameter("@" + tables.Response.PointsReceived, OleDbType.Integer)).Value = response.PointsReceived;
+            update.Parameters.Add(new OleDbParameter("@" + tables.Response.GraderComment, OleDbType.VarChar)).Value = response.GraderComment;
+            update.Parameters.Add(new OleDbParameter("@" + tables.Response.ResponseID, OleDbType.Integer)).Value = response.ResponseID;
+            if (update.ExecuteNonQuery() == 1)
+            { // we only want to affect one row
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool AddResponse(int assignmentID, int studentID, int criteriaID, Response response)
+        {
+            string query = String.Format("INSERT INTO {0} (", tables.Response.TableName);
+            query += String.Format("{0}, ", tables.Response.StudentID);
+            query += String.Format("{0}, ", tables.Response.CriteriaID);
+            query += String.Format("{0}, ", tables.Response.PointsReceived);
+            query += String.Format("{0}", tables.Response.GraderComment);
+            query += ") VALUES (";
+            query += String.Format("@{0}, ", tables.Response.StudentID);
+            query += String.Format("@{0}, ", tables.Response.CriteriaID);
+            query += String.Format("@{0}, ", tables.Response.PointsReceived);
+            query += String.Format("@{0}", tables.Response.GraderComment);
+            query += ");";
+            OleDbCommand insert = new OleDbCommand(query, dbConnection);
+            insert.Parameters.Add(new OleDbParameter("@" + tables.Response.StudentID, OleDbType.Integer)).Value = studentID;
+            insert.Parameters.Add(new OleDbParameter("@" + tables.Response.CriteriaID, OleDbType.Integer)).Value = criteriaID;
+            insert.Parameters.Add(new OleDbParameter("@" + tables.Response.PointsReceived, OleDbType.Integer)).Value = response.PointsReceived;
+            insert.Parameters.Add(new OleDbParameter("@" + tables.Response.GraderComment, OleDbType.VarChar)).Value = response.GraderComment;
+            try
+            {
+                insert.ExecuteNonQuery();
+            }
+            catch
+            {
+                Debug.WriteLine("Could not insert response.");
+                return false;
+            }
+            return true;
+        }
+
+        public void SaveResponseList(ResponseList responseList)
+        {
+            int assignmentID = responseList.AssignmentID;
+
+            int studentID = responseList.StudentID;
+
+            foreach (KeyValuePair<int,Response> responsePair in responseList.Responses)
+            {
+                int criteriaID = responsePair.Key;
+                Response response = responsePair.Value;
+
+                if (response.ResponseID != -1)
+                { // If we have an ID already.
+                    UpdateResponse(assignmentID, studentID, criteriaID, response);
+                }
+                else
+                {
+                    AddResponse(assignmentID, studentID, criteriaID, response);
+                }
+            }
         }
 
         #endregion
