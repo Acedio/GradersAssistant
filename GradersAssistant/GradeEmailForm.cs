@@ -16,6 +16,9 @@ namespace GradersAssistant
         GAClass mainClass;
         Dictionary<int, Student> students;
         Assignment currentAssignment;
+        Dictionary<int,ResponseList> responseLists;
+
+        bool useHtml = false;
         public GradeEmailForm(GAClass mainClass, Dictionary<int, Student> students, Assignment assignment, Dictionary<int,ResponseList> responseLists)
         {
             InitializeComponent();
@@ -25,6 +28,8 @@ namespace GradersAssistant
             this.mainClass = mainClass;
             this.students = students;
             this.currentAssignment = assignment;
+            this.responseLists = responseLists;
+
 
             textBoxEmailAddress.Text = mainClass.FromAddress;
         }
@@ -36,7 +41,7 @@ namespace GradersAssistant
 
         private void buttonSendEmails_Click(object sender, EventArgs e)
         {
-            int successfulEmails = 0;
+            int failedEmails = 0;
             if (textBoxEmailAddress.Text == "")
             {
                 MessageBox.Show("Please enter an email address.","No email address");
@@ -54,79 +59,149 @@ namespace GradersAssistant
                 MessageBox.Show("Please select a student to send to.", "No student selected");
             }
             else if (radioButtonEmailAll.Checked)
-            {   // TODO use student list
-                if (MessageBox.Show("Are you sure you want to send " + 7 + " emails?", "Send " + 7 + " emails?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {   // send a lot of emails
+                if (MessageBox.Show("Are you sure you want to send " + students.Count + " emails?", "Send " + students.Count + " emails?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    successfulEmails = distributeEmails();
-                    if (successfulEmails != 7)   // TODO use student list
+                    failedEmails = students.Count - distributeEmails();
+                    if (failedEmails == 0)
                     {
-                        MessageBox.Show("Some emails failed");
+                        MessageBox.Show(students.Count.ToString() + " emails sent successfully!", "Success!");
                     }
+                    else
+                    {
+                        MessageBox.Show((students.Count - failedEmails).ToString() + " out of " + students.Count +
+                            " emails sent successfully.  " + failedEmails.ToString() + " email not sent."
+                            , "Failed Emails");                    
+                    }
+                    this.Close();
                 }
+            }
+        }
+
+        private string getEmailText(Student s, bool useHtml)
+        {
+            // check for existence of student id in dictionary responseDict
+            Dictionary<int, Response> responseDict = responseLists[s.StudentID].Responses;
+
+            //Dictionary<int, RubricNode> criterion = currentAssignment.Rubric.Nodes;
+            Rubric currentRubric = currentAssignment.Rubric;
+
+            foreach (int rootNodeID in currentRubric.RootNodes)
+            {
+                getTextFromNodes    //make recursive function 
             }
         }
 
         private int distributeEmails()
         {
-            if (radioButtonProtocolExchange.Checked)
+            int emailsSent = 0;
+            bool keepGoing = true;
+            bool breakNow = false;
+            DialogResult ari = new DialogResult();
+            List<Student> failedStudents = new List<Student>();
+            foreach ( KeyValuePair<int,Student> pair in students)
             {
-                //EmailTest(textBoxEmailAddress.Text, textBoxExchangePassword.Text);
+                keepGoing = true;
+                breakNow = false;
+                while(keepGoing)
+                {
+                    try
+                    {
+                        sendEmail(useHtml, getEmailText(pair.Value,useHtml), pair.Value);
+                        emailsSent++;   // only happens if sendEmail function goes through
+                        keepGoing = false;
+                    }
+                    catch(Exception ex)
+                    {
+                        ari = MessageBox.Show("Email to student " + pair.Value.FirstName + " " +
+                            pair.Value.LastName + " failed. Abort emailing, retry, or ignore and continue.\n\n" +
+                            "Email address: " + pair.Value.EmailAddress +
+                            "\nError Info: " + ex.ToString(),
+                            "Email failed",
+                            MessageBoxButtons.AbortRetryIgnore);
+                        if (ari == DialogResult.Abort)
+                        {   // stop sending emails
+                            keepGoing = false;
+                            breakNow = true;
+                        }
+                        else if (ari == DialogResult.Ignore)
+                        {   // move along
+                            keepGoing = false;
+                            breakNow = false;
+                        }
+                        else
+                        {   // retry or other: try again
+                            keepGoing = true;
+                            breakNow = false;
+                        }
+                    }
+                }
+                if (breakNow)
+                {
+                    break;
+                }
             }
-            sendEmail(false, "This is a spoof email!", "raptorcantor@gmail.com");
-            return 3;   // TODO actually check how many emails worked
+            return emailsSent;   // TODO actually check how many emails worked
         }
 
-        private bool sendEmail(bool useHTML, string text, string recipient)
+        private bool sendEmail(bool useHTML, string text, Student s)
         {
-            if (!textBoxEmailAddress.Text.Contains('@'))
-            {
-                MessageBox.Show("Please enter a valid email address.", "Invalid Email!");
-                return false;
-            }
-            if (!recipient.Contains('@'))
-            {
-                MessageBox.Show("The recipient \"" + recipient + "\" has an invalid email address.");
-                return false;
-            }
-            SmtpClient smtpClient = new SmtpClient();
-            NetworkCredential theCredential = new NetworkCredential(textBoxEmailAddress.Text, textBoxExchangePassword.Text);
-            MailMessage message = new MailMessage();
-            MailAddress fromAddress = new MailAddress(textBoxEmailAddress.Text);
-
             try
             {
-                smtpClient.Host = textBoxSMTPServer.Text;
+                if (!textBoxEmailAddress.Text.Contains('@'))
+                {
+                    MessageBox.Show("Please enter a valid email address.", "Invalid Email!");
+                    throw new Exception("Invalid sender email address.");
+                }
+                if (!s.EmailAddress.Contains('@'))
+                {
+                    //MessageBox.Show("The recipient \"" + s.EmailAddress + "\" has an invalid email address.");
+                    throw new Exception("Invalid student email address.");
+                }
+                SmtpClient smtpClient = new SmtpClient();
+                NetworkCredential theCredential = new NetworkCredential(textBoxEmailAddress.Text, textBoxExchangePassword.Text);
+                MailMessage message = new MailMessage();
+                MailAddress fromAddress = new MailAddress(textBoxEmailAddress.Text);
+
+                try
+                {
+                    smtpClient.Host = textBoxSMTPServer.Text;
+                }
+                catch (Exception ex)
+                {
+                    //MessageBox.Show("Error: Please enter a valid SMTP server.", "No SMTP Server");
+                    throw ex;
+                }
+                if (radioButtonProtocolExchange.Checked)
+                {
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Port = 587;
+                    smtpClient.EnableSsl = true;
+                    //smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                }
+                smtpClient.Credentials = theCredential;
+
+                message.From = fromAddress;
+                message.Subject = textBoxSubject.Text;
+                message.IsBodyHtml = useHTML;
+                message.Body = text;
+                message.To.Add(s.EmailAddress);
+
+                try
+                {
+                    smtpClient.Send(message);
+                }
+                catch (Exception ex)
+                {
+                    //MessageBox.Show("Error sending email:\n" + ex.Message, ex.Message);
+                    throw ex;
+                }
+                return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: Please enter a valid SMTP server.", "No SMTP Server");
-                return false;
+                throw ex;
             }
-            if (radioButtonProtocolExchange.Checked)
-            {
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.Port = 587;
-                smtpClient.EnableSsl = true;
-                //smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            }
-            smtpClient.Credentials = theCredential;
-
-            message.From = fromAddress;
-            message.Subject = textBoxSubject.Text;
-            message.IsBodyHtml = useHTML;
-            message.Body = text;
-            message.To.Add(recipient);
-
-            try
-            {
-                smtpClient.Send(message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error sending email:\n" + ex.Message, ex.Message);
-                return false;
-            }
-            return true;
         }
 
         //private bool sendEmail(bool authenticated, string host, string username, string password, string text, string subject, string recipient)

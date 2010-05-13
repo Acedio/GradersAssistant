@@ -141,6 +141,7 @@
             // radioButtonProtocolExchange
             // 
             this.radioButtonProtocolExchange.AutoSize = true;
+            this.radioButtonProtocolExchange.Checked = true;
             this.radioButtonProtocolExchange.Location = new System.Drawing.Point(9, 75);
             this.radioButtonProtocolExchange.Name = "radioButtonProtocolExchange";
             this.radioButtonProtocolExchange.Size = new System.Drawing.Size(183, 17);
@@ -184,13 +185,13 @@
             this.radioButtonEmailOne.Name = "radioButtonEmailOne";
             this.radioButtonEmailOne.Size = new System.Drawing.Size(107, 17);
             this.radioButtonEmailOne.TabIndex = 1;
-            this.radioButtonEmailOne.TabStop = true;
             this.radioButtonEmailOne.Text = "EmailOneStudent";
             this.radioButtonEmailOne.UseVisualStyleBackColor = true;
             // 
             // radioButtonEmailAll
             // 
             this.radioButtonEmailAll.AutoSize = true;
+            this.radioButtonEmailAll.Checked = true;
             this.radioButtonEmailAll.Location = new System.Drawing.Point(7, 20);
             this.radioButtonEmailAll.Name = "radioButtonEmailAll";
             this.radioButtonEmailAll.Size = new System.Drawing.Size(103, 17);
