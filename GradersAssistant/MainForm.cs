@@ -200,6 +200,7 @@ namespace GradersAssistant
             int height = gaf.ClientSize.Height + this.Height - this.ClientSize.Height + mainMenuStrip.Height + upperToolStrip.Height + lowerToolStrip.Height + mainStatusStrip.Height;
             int width = gaf.ClientSize.Width + this.Width - this.ClientSize.Width;
             this.Size = new Size(width, height);
+            this.MinimumSize = new Size(width, 0);
             gaf.Show();
             gaf.WindowState = FormWindowState.Maximized;
             if (students.Count > 0)
@@ -227,6 +228,13 @@ namespace GradersAssistant
             //if a class was opened generate the database connection
             if (openClass.FileName != "")
             {
+                // close the old class if necessary
+                if (gaf != null)
+                {
+                    gaf.Close();
+                    gaf.Dispose();
+                    gaf = null;
+                }
                 dbConnention.ConnectDB(openClass.FileName);
                 mainClass = dbConnention.GetClass();
 
@@ -303,23 +311,57 @@ namespace GradersAssistant
             this.Dispose();
         }
 
-        private void studentComboBox_DropDownClosed(object sender, EventArgs e)
-        {
-            //if (studentComboBox.SelectedItem != null)
-            //{
-            //    Student student = (Student)studentComboBox.SelectedItem;
-
-            //    gaf.LoadResponseList(student, dbConnention.GetResponseList(currentAssignmentID, student.StudentID));
-            //}
-        }
-
         private void studentComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (gaf != null && studentComboBox.SelectedItem != null)
             {
+                ResponseList responseList = gaf.GetResponseList();
+
+                dbConnention.SaveResponseList(responseList);
+
+                dbConnention.DeleteAdjustments(gaf.DeletedAdjustments);
+
                 Student student = (Student)studentComboBox.SelectedItem;
 
                 gaf.LoadResponseList(student, dbConnention.GetResponseList(currentAssignmentID, student.StudentID));
+            }
+        }
+
+        private void previousStudentToolStripButton_Click(object sender, EventArgs e)
+        {
+            int numStudents = studentComboBox.Items.Count;
+
+            if (numStudents > 0)
+            {
+                int selectedIndex = studentComboBox.SelectedIndex;
+
+                selectedIndex--;
+
+                if (selectedIndex < 0)
+                {
+                    selectedIndex = numStudents - 1;
+                }
+
+                studentComboBox.SelectedIndex = selectedIndex;
+            }
+        }
+
+        private void nextStudentToolStripButton_Click(object sender, EventArgs e)
+        {
+            int numStudents = studentComboBox.Items.Count;
+
+            if (numStudents > 0)
+            {
+                int selectedIndex = studentComboBox.SelectedIndex;
+
+                selectedIndex++;
+
+                if (selectedIndex >= numStudents)
+                {
+                    selectedIndex = 0;
+                }
+
+                studentComboBox.SelectedIndex = selectedIndex;
             }
         }
     }

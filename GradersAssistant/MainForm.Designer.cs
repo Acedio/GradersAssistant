@@ -110,8 +110,8 @@
             this.lowerToolStrip = new System.Windows.Forms.ToolStrip();
             this.studentComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton12 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton13 = new System.Windows.Forms.ToolStripButton();
+            this.previousStudentToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.nextStudentToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton14 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
@@ -583,6 +583,7 @@
             this.toolStripButton10,
             this.toolStripSeparator6,
             this.toolStripButton11});
+            this.upperToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.upperToolStrip.Location = new System.Drawing.Point(0, 24);
             this.upperToolStrip.Name = "upperToolStrip";
             this.upperToolStrip.Size = new System.Drawing.Size(921, 26);
@@ -597,7 +598,7 @@
             this.CreateNewToolStripButton.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.CreateNewToolStripButton.Name = "CreateNewToolStripButton";
             this.CreateNewToolStripButton.Size = new System.Drawing.Size(23, 23);
-            this.CreateNewToolStripButton.Text = "newButton";
+            this.CreateNewToolStripButton.Text = "New Class";
             this.CreateNewToolStripButton.Click += new System.EventHandler(this.CreateNewClass);
             // 
             // openToolStripButton
@@ -608,7 +609,7 @@
             this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.openToolStripButton.Name = "openToolStripButton";
             this.openToolStripButton.Size = new System.Drawing.Size(23, 23);
-            this.openToolStripButton.Text = "openButton";
+            this.openToolStripButton.Text = "Open Class";
             this.openToolStripButton.Click += new System.EventHandler(this.OpenClass);
             // 
             // saveToolStripButton
@@ -619,7 +620,7 @@
             this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.saveToolStripButton.Name = "saveToolStripButton";
             this.saveToolStripButton.Size = new System.Drawing.Size(23, 23);
-            this.saveToolStripButton.Text = "saveButton";
+            this.saveToolStripButton.Text = "Save Class";
             // 
             // toolStripSeparator1
             // 
@@ -737,12 +738,13 @@
             this.lowerToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.studentComboBox,
             this.toolStripSeparator7,
-            this.toolStripButton12,
-            this.toolStripButton13,
+            this.previousStudentToolStripButton,
+            this.nextStudentToolStripButton,
             this.toolStripSeparator8,
             this.toolStripButton14,
             this.toolStripSeparator9,
             this.toolStripButton15});
+            this.lowerToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.lowerToolStrip.Location = new System.Drawing.Point(0, 50);
             this.lowerToolStrip.Name = "lowerToolStrip";
             this.lowerToolStrip.Size = new System.Drawing.Size(921, 25);
@@ -758,32 +760,34 @@
             this.studentComboBox.Name = "studentComboBox";
             this.studentComboBox.Size = new System.Drawing.Size(300, 23);
             this.studentComboBox.SelectedIndexChanged += new System.EventHandler(this.studentComboBox_SelectedIndexChanged);
-            this.studentComboBox.DropDownClosed += new System.EventHandler(this.studentComboBox_DropDownClosed);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton12
+            // previousStudentToolStripButton
             // 
-            this.toolStripButton12.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton12.Image = global::GradersAssistant.Properties.Resources.left;
-            this.toolStripButton12.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButton12.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.toolStripButton12.Name = "toolStripButton12";
-            this.toolStripButton12.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton12.Text = "toolStripButton12";
+            this.previousStudentToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.previousStudentToolStripButton.Image = global::GradersAssistant.Properties.Resources.left;
+            this.previousStudentToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.previousStudentToolStripButton.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.previousStudentToolStripButton.Name = "previousStudentToolStripButton";
+            this.previousStudentToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.previousStudentToolStripButton.Text = "Previous Student";
+            this.previousStudentToolStripButton.ToolTipText = "Previous Student";
+            this.previousStudentToolStripButton.Click += new System.EventHandler(this.previousStudentToolStripButton_Click);
             // 
-            // toolStripButton13
+            // nextStudentToolStripButton
             // 
-            this.toolStripButton13.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton13.Image = global::GradersAssistant.Properties.Resources.right;
-            this.toolStripButton13.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButton13.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.toolStripButton13.Name = "toolStripButton13";
-            this.toolStripButton13.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton13.Text = "toolStripButton13";
+            this.nextStudentToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.nextStudentToolStripButton.Image = global::GradersAssistant.Properties.Resources.right;
+            this.nextStudentToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.nextStudentToolStripButton.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.nextStudentToolStripButton.Name = "nextStudentToolStripButton";
+            this.nextStudentToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.nextStudentToolStripButton.Text = "Next Student";
+            this.nextStudentToolStripButton.Click += new System.EventHandler(this.nextStudentToolStripButton_Click);
             // 
             // toolStripSeparator8
             // 
@@ -880,8 +884,8 @@
         private System.Windows.Forms.ToolStrip lowerToolStrip;
         private System.Windows.Forms.ToolStripComboBox studentComboBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-        private System.Windows.Forms.ToolStripButton toolStripButton12;
-        private System.Windows.Forms.ToolStripButton toolStripButton13;
+        private System.Windows.Forms.ToolStripButton previousStudentToolStripButton;
+        private System.Windows.Forms.ToolStripButton nextStudentToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripButton toolStripButton14;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
