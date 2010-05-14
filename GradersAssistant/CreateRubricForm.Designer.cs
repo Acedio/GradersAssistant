@@ -41,6 +41,7 @@
             this.DescriptionLbl = new System.Windows.Forms.Label();
             this.DescriptionTextbox = new System.Windows.Forms.TextBox();
             this.ExpandCollapseAllButton = new System.Windows.Forms.Button();
+            this.deselectbtn = new System.Windows.Forms.Button();
             this.EditCriteriaPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,13 +49,13 @@
             // 
             this.CriteriaDisplay.AllowDrop = true;
             this.CriteriaDisplay.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.CriteriaDisplay.HideSelection = false;
             this.CriteriaDisplay.ImeMode = System.Windows.Forms.ImeMode.AlphaFull;
             this.CriteriaDisplay.ItemHeight = 15;
             this.CriteriaDisplay.Location = new System.Drawing.Point(12, 12);
             this.CriteriaDisplay.Name = "CriteriaDisplay";
             this.CriteriaDisplay.Size = new System.Drawing.Size(475, 313);
             this.CriteriaDisplay.TabIndex = 1;
-            this.CriteriaDisplay.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.CriteriaDisplay_NodeMouseClick);
             // 
             // SaveButton
             // 
@@ -184,6 +185,16 @@
             this.ExpandCollapseAllButton.UseVisualStyleBackColor = true;
             this.ExpandCollapseAllButton.Click += new System.EventHandler(this.ExpandCollapseAllButton_Click);
             // 
+            // deselectbtn
+            // 
+            this.deselectbtn.Location = new System.Drawing.Point(287, 331);
+            this.deselectbtn.Name = "deselectbtn";
+            this.deselectbtn.Size = new System.Drawing.Size(96, 23);
+            this.deselectbtn.TabIndex = 6;
+            this.deselectbtn.Text = "Deselect";
+            this.deselectbtn.UseVisualStyleBackColor = true;
+            this.deselectbtn.Click += new System.EventHandler(this.deselectbtn_Click);
+            // 
             // CreateRubricForm
             // 
             this.AcceptButton = this.SaveButton;
@@ -191,6 +202,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(499, 485);
+            this.Controls.Add(this.deselectbtn);
             this.Controls.Add(this.ExpandCollapseAllButton);
             this.Controls.Add(this.EditCriteriaPanel);
             this.Controls.Add(this.AwesomeCancelButton);
@@ -203,6 +215,7 @@
             this.MinimizeBox = false;
             this.Name = "CreateRubricForm";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Rubric Creator";
             this.Load += new System.EventHandler(this.CreateRubricForm_Load);
             this.EditCriteriaPanel.ResumeLayout(false);
@@ -226,6 +239,7 @@
         private System.Windows.Forms.Button RemoveButton;
         private System.Windows.Forms.Button SaveCriteriaButton;
         private System.Windows.Forms.Button ExpandCollapseAllButton;
+        private System.Windows.Forms.Button deselectbtn;
 
     }
 }
