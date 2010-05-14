@@ -18,12 +18,13 @@ namespace GradersAssistant
         Assignment currentAssignment;
         Dictionary<int,ResponseList> responseLists;
         Dictionary<int,int> studentScores = new Dictionary<int,int>();
-        int totalScore;
+        int numStudentsGraded, totalScore, zeroScores;
 
         bool useHtml = false;
         public GradeEmailForm(GAClass mainClass, Dictionary<int, Student> students, Assignment assignment, Dictionary<int,ResponseList> responseLists)
         {
             InitializeComponent();
+            this.Text = "Email Grades - " + assignment.Name + " - " + mainClass.ClassName;
             this.AcceptButton = buttonSendEmails;
             this.CancelButton = buttonCancel;
 
@@ -31,13 +32,15 @@ namespace GradersAssistant
             this.students = students;
             this.currentAssignment = assignment;
             this.responseLists = responseLists;
-            try
-            {
+            try {
                 studentScores = getStudentTotals();
-                totalScore = 0;
-                foreach (int i in studentScores.Values)
-                {
+                numStudentsGraded = zeroScores = totalScore = 0;
+                foreach (int i in studentScores.Values) {
                     totalScore += i;
+                    numStudentsGraded++;
+                    if (i == 0) {
+                        zeroScores++;
+                    }
                 }
             }
             catch (Exception ex)
@@ -72,7 +75,7 @@ namespace GradersAssistant
         /// <returns>An integer indicating the Student's score.</returns>
         private int getOneTotal(Student s)
         {   // this is ridiculous!      -- Josh
-            if (responseLists.ContainsKey(s.StudentID))
+            if (!responseLists.ContainsKey(s.StudentID))
             {
                 throw new Exception("Student " + s.FirstName + " " + s.LastName +
                     " (" + s.StudentID +
@@ -118,20 +121,29 @@ namespace GradersAssistant
 
         /// <summary>
         /// This function returns the text for a text formatted email for one Student.  Includes
-        /// comments, grades, etc.  Throws an exception if the Student has no responses.
+        /// comments, grades, etc.  Throws an exception if the Student has no responses.  Change
+        /// this function to change formatting and such, but be careful!
         /// </summary>
         /// <param name="s">The Student whose email text should be obtained.</param>
         /// <returns>Returns the string that should be sent to the sendEmail function.</returns>
         private string getEmailText(Student s)
         {   // this is ridiculous!      -- Josh
-            if (responseLists.ContainsKey(s.StudentID))
+            if (!responseLists.ContainsKey(s.StudentID))
             {
                 throw new Exception("Student " + s.FirstName + " " + s.LastName +
                     " (" + s.StudentID + 
                     ") does not have any responses.  Please check the grading guide.");
             }
             Dictionary<int, Response> responseDict = responseLists[s.StudentID].Responses;
-            string theString = "The scores:\n\n";
+            string theString = "";
+            if (checkBoxAddHeader.Checked)
+            {
+                theString += textBoxHeaderText;
+            }
+            theString += mainClass.ClassName +" grades for " + currentAssignment.Name + "\n\n" +
+                "Your Score: " + studentScores[s.StudentID] + "\n" +
+                "Average Score: " + ((double)totalScore/(double)students.Count).ToString("F2") + "\n +
+                "Zero Scores: " +
 
             //Dictionary<int, RubricNode> criterion = currentAssignment.Rubric.Nodes;
             Rubric currentRubric = currentAssignment.Rubric;
