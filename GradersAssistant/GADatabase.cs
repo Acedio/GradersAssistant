@@ -590,13 +590,13 @@ namespace GradersAssistant
             responseList.AssignmentID = assignmentID;
 
             // Join the Criteria and Response tables on the criteria id
-            string query = String.Format("SELECT R.{0}, R.{1}, R.{2}, R.{3} ", tables.Response.ResponseID, tables.Response.CriteriaID, tables.Response.PointsReceived, tables.Response.GraderComment);
-            query += String.Format("FROM {0} AS R, {1} AS C ", tables.Response.TableName, tables.Criteria.TableName);
-            query += String.Format("WHERE R.{0} = C.{1} ", tables.Response.CriteriaID, tables.Criteria.CriteriaID);
-            query += String.Format("AND {0} = {1} ", tables.Criteria.AssignmentID, assignmentID);
-            query += String.Format("AND {0} = {1} ", tables.Response.StudentID, studentID);
+            string responseQuery = String.Format("SELECT R.{0}, R.{1}, R.{2}, R.{3} ", tables.Response.ResponseID, tables.Response.CriteriaID, tables.Response.PointsReceived, tables.Response.GraderComment);
+            responseQuery += String.Format("FROM {0} AS R, {1} AS C ", tables.Response.TableName, tables.Criteria.TableName);
+            responseQuery += String.Format("WHERE R.{0} = C.{1} ", tables.Response.CriteriaID, tables.Criteria.CriteriaID);
+            responseQuery += String.Format("AND {0} = {1} ", tables.Response.StudentID, studentID);
+            responseQuery += String.Format("AND {0} = {1} ", tables.Criteria.AssignmentID, assignmentID);
 
-            DataSet responseSet = runQuery(query);
+            DataSet responseSet = runQuery(responseQuery);
 
             if(responseSet.Tables.Count > 0){
                 foreach (DataRow row in responseSet.Tables[0].Rows)
@@ -606,6 +606,24 @@ namespace GradersAssistant
                     int pointsReceived = (int)row[tables.Response.PointsReceived];
                     string graderComment = row[tables.Response.GraderComment].ToString();
                     responseList.Responses.Add(criteriaID, new Response(responseID, pointsReceived, graderComment));
+                }
+            }
+
+            // Get all adjustments for current students assignment
+            string adjustmentQuery = String.Format("SELECT * FROM {0} ", tables.Adjustment.TableName);
+            adjustmentQuery += String.Format("WHERE {0} = {1} ", tables.Adjustment.StudentID, studentID);
+            adjustmentQuery += String.Format("AND {0} = {1} ", tables.Adjustment.AssignmentID, assignmentID);
+
+            DataSet adjustmentSet = runQuery(adjustmentQuery);
+
+            if (adjustmentSet.Tables.Count > 0)
+            {
+                foreach (DataRow row in adjustmentSet.Tables[0].Rows)
+                {
+                    int adjustmentID = (int)row[tables.Adjustment.AdjustmentID];
+                    string comment = row[tables.Adjustment.Comment].ToString();
+                    int pointAdjustment = (int)row[tables.Adjustment.PointAdjustment];
+                    responseList.Adjustments.AddLast(new Adjustment(adjustmentID, comment, pointAdjustment));
                 }
             }
 

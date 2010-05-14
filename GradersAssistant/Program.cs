@@ -167,6 +167,22 @@ namespace GradersAssistant
             Comment = aComment;
             PointAdjustment = aPointAdjustment;
         }
+
+        public override string ToString()
+        {
+            if (PointAdjustment > 0)
+            {
+                return String.Format("{0}: +{1}", Comment, PointAdjustment.ToString());
+            }
+            else if (PointAdjustment < 0)
+            {
+                return String.Format("{0}: {1}", Comment, PointAdjustment.ToString());
+            }
+            else
+            {
+                return String.Format("{0}", Comment, PointAdjustment.ToString());
+            }
+        }
     }
 
     public class ResponseList
@@ -186,6 +202,7 @@ namespace GradersAssistant
             StudentID = noID;
             AssignmentID = noID;
             Responses = new Dictionary<int, Response>();
+            Adjustments = new LinkedList<Adjustment>();
         }
     }
 

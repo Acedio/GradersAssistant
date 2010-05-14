@@ -138,6 +138,11 @@ namespace GradersAssistant
 
             rubricTreeView.ExpandAll();
 
+            foreach (Adjustment adjustment in responseList.Adjustments)
+            {
+                adjustmentsListBox.Items.Add(adjustment);
+            }
+
             updatePoints();
         }
 
@@ -226,6 +231,11 @@ namespace GradersAssistant
                         }
                     }
                 }
+            }
+
+            foreach (Adjustment adjustment in currentResponseList.Adjustments)
+            {
+                pointsAdjustment += adjustment.PointAdjustment;
             }
 
             pointsSubtotalTextBox.Text = pointsSubtotal.ToString();

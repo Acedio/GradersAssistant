@@ -45,7 +45,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.adjustmentsListBox = new System.Windows.Forms.ListBox();
             this.label13 = new System.Windows.Forms.Label();
             this.titleLabel = new System.Windows.Forms.Label();
             this.dueLabel = new System.Windows.Forms.Label();
@@ -222,15 +222,15 @@
             this.label8.TabIndex = 2;
             this.label8.Text = "Adjustment";
             // 
-            // listBox1
+            // adjustmentsListBox
             // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.adjustmentsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 434);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(631, 95);
-            this.listBox1.TabIndex = 5;
+            this.adjustmentsListBox.FormattingEnabled = true;
+            this.adjustmentsListBox.Location = new System.Drawing.Point(12, 434);
+            this.adjustmentsListBox.Name = "adjustmentsListBox";
+            this.adjustmentsListBox.Size = new System.Drawing.Size(631, 95);
+            this.adjustmentsListBox.TabIndex = 5;
             // 
             // label13
             // 
@@ -307,7 +307,7 @@
             this.Controls.Add(this.dueLabel);
             this.Controls.Add(this.titleLabel);
             this.Controls.Add(this.label13);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.adjustmentsListBox);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
@@ -350,7 +350,7 @@
         private System.Windows.Forms.TextBox pointsTotalTextBox;
         private System.Windows.Forms.TextBox pointsAdjustmentTextBox;
         private System.Windows.Forms.Label maxPointsLabel;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox adjustmentsListBox;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Label dueLabel;
