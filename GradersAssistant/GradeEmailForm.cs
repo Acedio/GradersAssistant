@@ -24,6 +24,7 @@ namespace GradersAssistant
         public GradeEmailForm(GAClass mainClass, Dictionary<int, Student> students, Assignment assignment, Dictionary<int,ResponseList> responseLists)
         {
             InitializeComponent();
+            this.Text = "Email Grades - " + assignment.Name + " - " + mainClass.ClassName;
             this.AcceptButton = buttonSendEmails;
             this.CancelButton = buttonCancel;
 
