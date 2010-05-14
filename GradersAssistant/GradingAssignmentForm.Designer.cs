@@ -37,12 +37,12 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label12 = new System.Windows.Forms.Label();
+            this.maxPointsLabel = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.pointsTotalTextBox = new System.Windows.Forms.TextBox();
+            this.pointsAdjustmentTextBox = new System.Windows.Forms.TextBox();
+            this.pointsSubtotalTextBox = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -62,6 +62,7 @@
             this.rubricTreeView.Size = new System.Drawing.Size(631, 255);
             this.rubricTreeView.TabIndex = 0;
             this.rubricTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.rubricTreeView_NodeMouseClick);
+            this.rubricTreeView.Click += new System.EventHandler(this.rubricTreeView_Click);
             // 
             // label1
             // 
@@ -134,12 +135,12 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Controls.Add(this.maxPointsLabel);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.textBox3);
-            this.groupBox2.Controls.Add(this.textBox2);
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.pointsTotalTextBox);
+            this.groupBox2.Controls.Add(this.pointsAdjustmentTextBox);
+            this.groupBox2.Controls.Add(this.pointsSubtotalTextBox);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label8);
@@ -150,14 +151,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Score";
             // 
-            // label12
+            // maxPointsLabel
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(287, 35);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(57, 13);
-            this.label12.TabIndex = 9;
-            this.label12.Text = "Out of 100";
+            this.maxPointsLabel.AutoSize = true;
+            this.maxPointsLabel.Location = new System.Drawing.Point(287, 35);
+            this.maxPointsLabel.Name = "maxPointsLabel";
+            this.maxPointsLabel.Size = new System.Drawing.Size(107, 13);
+            this.maxPointsLabel.TabIndex = 9;
+            this.maxPointsLabel.Text = "Out of not loaded Pts";
             // 
             // label11
             // 
@@ -177,26 +178,29 @@
             this.label10.TabIndex = 7;
             this.label10.Text = "+";
             // 
-            // textBox3
+            // pointsTotalTextBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(206, 32);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(75, 20);
-            this.textBox3.TabIndex = 6;
+            this.pointsTotalTextBox.Location = new System.Drawing.Point(206, 32);
+            this.pointsTotalTextBox.Name = "pointsTotalTextBox";
+            this.pointsTotalTextBox.ReadOnly = true;
+            this.pointsTotalTextBox.Size = new System.Drawing.Size(75, 20);
+            this.pointsTotalTextBox.TabIndex = 6;
             // 
-            // textBox2
+            // pointsAdjustmentTextBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(106, 32);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(75, 20);
-            this.textBox2.TabIndex = 5;
+            this.pointsAdjustmentTextBox.Location = new System.Drawing.Point(106, 32);
+            this.pointsAdjustmentTextBox.Name = "pointsAdjustmentTextBox";
+            this.pointsAdjustmentTextBox.ReadOnly = true;
+            this.pointsAdjustmentTextBox.Size = new System.Drawing.Size(75, 20);
+            this.pointsAdjustmentTextBox.TabIndex = 5;
             // 
-            // textBox1
+            // pointsSubtotalTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(6, 32);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(75, 20);
-            this.textBox1.TabIndex = 4;
+            this.pointsSubtotalTextBox.Location = new System.Drawing.Point(6, 32);
+            this.pointsSubtotalTextBox.Name = "pointsSubtotalTextBox";
+            this.pointsSubtotalTextBox.ReadOnly = true;
+            this.pointsSubtotalTextBox.Size = new System.Drawing.Size(75, 20);
+            this.pointsSubtotalTextBox.TabIndex = 4;
             // 
             // label9
             // 
@@ -306,15 +310,15 @@
         private System.Windows.Forms.Label studentIDLabel;
         private System.Windows.Forms.Label studentNameLabel;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox pointsSubtotalTextBox;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox pointsTotalTextBox;
+        private System.Windows.Forms.TextBox pointsAdjustmentTextBox;
+        private System.Windows.Forms.Label maxPointsLabel;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label titleLabel;

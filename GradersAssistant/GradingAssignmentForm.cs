@@ -132,6 +132,8 @@ namespace GradersAssistant
             }
 
             rubricTreeView.ExpandAll();
+
+            updatePoints();
         }
 
         private void rubricTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -196,6 +198,42 @@ namespace GradersAssistant
             }
 
             return currentResponseList;
+        }
+
+        private void updatePoints()
+        {
+            int pointsSubtotal = 0;
+
+            int pointsAdjustment = 0;
+
+            int maxPoints = 0;
+
+            // TODO: adjustments
+
+            foreach (KeyValuePair<int, Response> responsePair in currentResponseList.Responses)
+            {
+                TreeNode[] rubricTreeNodes = rubricTreeView.Nodes.Find(responsePair.Key.ToString(), true);
+                if (rubricTreeNodes.Length > 0)
+                {
+                    if (rubricTreeNodes[0].Nodes.Count == 0)
+                    { // If this is not a header
+                        if(rubricTreeNodes[0].Checked){
+                            // If they are receiving points for this criteria, give them points
+                            pointsSubtotal += responsePair.Value.PointsReceived;
+                        }
+                    }
+                }
+            }
+
+            pointsSubtotalTextBox.Text = pointsSubtotal.ToString();
+            pointsAdjustmentTextBox.Text = pointsAdjustment.ToString();
+            pointsTotalTextBox.Text = (pointsSubtotal + pointsAdjustment).ToString();
+            //maxPointsLabel.Text = string.Format("Out of {0} Pts",
+        }
+
+        private void rubricTreeView_Click(object sender, EventArgs e)
+        {
+            updatePoints();
         }
 
         //private void rubricTreeView_AfterCheck(object sender, TreeViewEventArgs e)
