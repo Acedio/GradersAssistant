@@ -31,6 +31,8 @@ namespace GradersAssistant
 
             pointsReceivedNumericUpDown.Minimum = 0;
 
+            pointsReceivedNumericUpDown.Value = GraderResponse.PointsReceived;
+
             maxPointsLabel.Text = string.Format("Pts out of {0} Pts", criteria.MaxPoints.ToString());
 
             graderCommentTextBox.Text = GraderResponse.GraderComment;

@@ -91,8 +91,7 @@ namespace GradersAssistant
                     Response response;
 
                     if (currentResponseList.Responses.TryGetValue(rubricNode.Value.Criteria.CriteriaID, out response))
-                    {
-                        // already created
+                    { // already created
                         if (response.PointsReceived > 0)
                         {
                             rubricTreeNodes[0].Checked = true;
@@ -103,21 +102,21 @@ namespace GradersAssistant
                             rubricTreeNodes[0].Checked = false;
                         }
                     }
-                    else
-                    {
+                    else if(rubricNode.Value.Children.Count == 0)
+                    { // we need to create a response
                         response = currentResponseList.Responses[rubricNode.Value.Criteria.CriteriaID] = new Response();
                         rubricTreeNodes[0].Checked = true;
                         response.PointsReceived = rubricNode.Value.Criteria.MaxPoints;
-                        Debug.WriteLine("The criteria in the rubric does not yet have a response for the given student.");
                     }
                     if (rubricNode.Value.Children.Count > 0)
                     {
+                        rubricTreeNodes[0].Checked = true;
                         rubricTreeNodes[0].Text = rubricNode.Value.Criteria.Description;
                     }
                     else
                     {
                         rubricTreeNodes[0].Text = string.Format("{0} ({1}): {2}",
-                                            rubricNode.Value.Criteria.Description.ToString(),
+                                            rubricNode.Value.Criteria.Description,
                                             rubricNode.Value.Criteria.MaxPoints.ToString(),
                                             response.PointsReceived.ToString());
                     }
@@ -137,7 +136,7 @@ namespace GradersAssistant
 
         private void rubricTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Right && e.Node.Nodes.Count == 0)
             {
                 int criteriaID;
 
@@ -185,9 +184,11 @@ namespace GradersAssistant
 
                 Response response = responsePair.Value;
 
-                if (rubricTreeView.Nodes.ContainsKey(criteriaID.ToString()))
+                TreeNode[] rubricTreeNodes = rubricTreeView.Nodes.Find(criteriaID.ToString(), true);
+
+                if (rubricTreeNodes.Length > 0)
                 {
-                    if (rubricTreeView.Nodes[criteriaID.ToString()].Checked == false)
+                    if (rubricTreeNodes[0].Checked == false)
                     { // if a criteria is unchecked, zero points
                         response.PointsReceived = 0;
                     }
@@ -196,5 +197,45 @@ namespace GradersAssistant
 
             return currentResponseList;
         }
+
+        //private void rubricTreeView_AfterCheck(object sender, TreeViewEventArgs e)
+        //{
+        //    if (e.Node.Nodes.Count == 0 && e.Action != TreeViewAction.Unknown)
+        //    { // if this is a leaf
+        //        int criteriaID;
+
+        //        if (int.TryParse(e.Node.Name, out criteriaID))
+        //        {
+        //            Response response;
+        //            if (currentResponseList.Responses.TryGetValue(criteriaID, out response))
+        //            {
+        //                RubricNode rubricNode;
+        //                if (currentAssignment.Rubric.Nodes.TryGetValue(criteriaID, out rubricNode))
+        //                {
+        //                    Criteria criteria = rubricNode.Criteria;
+
+        //                    if (e.Node.Checked)
+        //                    {
+        //                        response.PointsReceived = criteria.MaxPoints;
+        //                    }
+        //                    else
+        //                    {
+        //                        response.PointsReceived = 0;
+        //                    }
+
+        //                    // update treeview
+        //                    e.Node.Text = string.Format("{0} ({1}): {2}",
+        //                                        criteria.Description.ToString(),
+        //                                        criteria.MaxPoints.ToString(),
+        //                                        response.PointsReceived.ToString());
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Debug.WriteLine("Could not convert treenode name (CriteriaID) to integer.");
+        //        }
+        //    }
+        //}
     }
 }

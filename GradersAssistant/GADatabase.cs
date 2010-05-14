@@ -621,14 +621,20 @@ namespace GradersAssistant
             string query = String.Format("UPDATE {0} SET ", tables.Response.TableName);
             query += String.Format("{0} = @{0}, ", tables.Response.StudentID);
             query += String.Format("{0} = @{0}, ", tables.Response.CriteriaID);
-            query += String.Format("{0} = @{0}, ", tables.Response.PointsReceived);
-            query += String.Format("{0} = @{0} ", tables.Response.GraderComment);
-            query += String.Format("WHERE {0} = @{0};", tables.Response.ResponseID);
+            query += String.Format("{0} = @{0}", tables.Response.PointsReceived);
+            if (response.GraderComment != string.Empty)
+            {
+                query += String.Format(", {0} = @{0}", tables.Response.GraderComment);
+            }
+            query += String.Format(" WHERE {0} = @{0};", tables.Response.ResponseID);
             OleDbCommand update = new OleDbCommand(query, dbConnection);
             update.Parameters.Add(new OleDbParameter("@" + tables.Response.StudentID, OleDbType.Integer)).Value = studentID;
             update.Parameters.Add(new OleDbParameter("@" + tables.Response.CriteriaID, OleDbType.Integer)).Value = criteriaID;
             update.Parameters.Add(new OleDbParameter("@" + tables.Response.PointsReceived, OleDbType.Integer)).Value = response.PointsReceived;
-            update.Parameters.Add(new OleDbParameter("@" + tables.Response.GraderComment, OleDbType.VarChar)).Value = response.GraderComment;
+            if (response.GraderComment != string.Empty)
+            {
+                update.Parameters.Add(new OleDbParameter("@" + tables.Response.GraderComment, OleDbType.VarChar)).Value = response.GraderComment;
+            }
             update.Parameters.Add(new OleDbParameter("@" + tables.Response.ResponseID, OleDbType.Integer)).Value = response.ResponseID;
             if (update.ExecuteNonQuery() == 1)
             { // we only want to affect one row
@@ -645,24 +651,33 @@ namespace GradersAssistant
             string query = String.Format("INSERT INTO {0} (", tables.Response.TableName);
             query += String.Format("{0}, ", tables.Response.StudentID);
             query += String.Format("{0}, ", tables.Response.CriteriaID);
-            query += String.Format("{0}, ", tables.Response.PointsReceived);
-            query += String.Format("{0}", tables.Response.GraderComment);
+            query += String.Format("{0}", tables.Response.PointsReceived);
+            if (response.GraderComment != string.Empty)
+            {
+                query += String.Format(", {0}", tables.Response.GraderComment);
+            }
             query += ") VALUES (";
             query += String.Format("@{0}, ", tables.Response.StudentID);
             query += String.Format("@{0}, ", tables.Response.CriteriaID);
-            query += String.Format("@{0}, ", tables.Response.PointsReceived);
-            query += String.Format("@{0}", tables.Response.GraderComment);
+            query += String.Format("@{0}", tables.Response.PointsReceived);
+            if (response.GraderComment != string.Empty)
+            {
+                query += String.Format(", @{0}", tables.Response.GraderComment);
+            }
             query += ");";
             OleDbCommand insert = new OleDbCommand(query, dbConnection);
             insert.Parameters.Add(new OleDbParameter("@" + tables.Response.StudentID, OleDbType.Integer)).Value = studentID;
             insert.Parameters.Add(new OleDbParameter("@" + tables.Response.CriteriaID, OleDbType.Integer)).Value = criteriaID;
             insert.Parameters.Add(new OleDbParameter("@" + tables.Response.PointsReceived, OleDbType.Integer)).Value = response.PointsReceived;
-            insert.Parameters.Add(new OleDbParameter("@" + tables.Response.GraderComment, OleDbType.VarChar)).Value = response.GraderComment;
+            if (response.GraderComment != string.Empty)
+            {
+                insert.Parameters.Add(new OleDbParameter("@" + tables.Response.GraderComment, OleDbType.VarChar)).Value = response.GraderComment;
+            }
             try
             {
                 insert.ExecuteNonQuery();
             }
-            catch
+            catch (Exception ex)
             {
                 Debug.WriteLine("Could not insert response.");
                 return false;

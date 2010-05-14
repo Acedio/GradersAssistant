@@ -94,7 +94,7 @@ namespace GradersAssistant
 
         public override string ToString()
         {
-            return String.Format("({0}) {2}, {1} [{3}]",studentID,firstName,lastName,emailAddress);
+            return String.Format("{2}, {1} [{0}]",studentSchoolID,firstName,lastName);
         }
 
         public bool HasID()
@@ -133,6 +133,7 @@ namespace GradersAssistant
         public Response()
         {
             responseID = noID;
+            graderComment = string.Empty;
         }
 
         public Response(int rID, int rPointsReceived, string rGraderComment)
