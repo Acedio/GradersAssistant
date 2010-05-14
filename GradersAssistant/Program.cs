@@ -266,6 +266,18 @@ namespace GradersAssistant
                 return -1;
             }
         }
+
+        public int MaxPoints()
+        {
+            int maxPoints = 0;
+
+            foreach (RubricNode rn in Nodes.Values)
+            {
+                maxPoints += rn.Criteria.MaxPoints;
+            }
+
+            return maxPoints;
+        }
     }
 
     public class Assignment

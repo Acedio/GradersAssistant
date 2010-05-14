@@ -36,6 +36,8 @@ namespace GradersAssistant
             }
         }
 
+        // TODO: Make sure headers are unchecked if they have no checked children
+
         public void LoadAssignment(Assignment assignment)
         {
             currentAssignment = assignment;
@@ -64,6 +66,8 @@ namespace GradersAssistant
             }
 
             rubricTreeView.EndUpdate();
+
+            maxPointsLabel.Text = string.Format("out of {0} Pts", assignment.Rubric.MaxPoints().ToString());
         }
 
         public void LoadResponseList(Student student, ResponseList responseList)
@@ -91,7 +95,7 @@ namespace GradersAssistant
                     Response response;
 
                     if (currentResponseList.Responses.TryGetValue(rubricNode.Value.Criteria.CriteriaID, out response))
-                    { // already created
+                    { // if we have already created a response for this criteria/student
                         if (response.PointsReceived > 0)
                         {
                             rubricTreeNodes[0].Checked = true;
@@ -103,11 +107,12 @@ namespace GradersAssistant
                         }
                     }
                     else if(rubricNode.Value.Children.Count == 0)
-                    { // we need to create a response
+                    { // we need to create a response if none exists and this isn't a header
                         response = currentResponseList.Responses[rubricNode.Value.Criteria.CriteriaID] = new Response();
                         rubricTreeNodes[0].Checked = true;
                         response.PointsReceived = rubricNode.Value.Criteria.MaxPoints;
                     }
+
                     if (rubricNode.Value.Children.Count > 0)
                     {
                         rubricTreeNodes[0].Checked = true;
@@ -236,44 +241,75 @@ namespace GradersAssistant
             updatePoints();
         }
 
-        //private void rubricTreeView_AfterCheck(object sender, TreeViewEventArgs e)
-        //{
-        //    if (e.Node.Nodes.Count == 0 && e.Action != TreeViewAction.Unknown)
-        //    { // if this is a leaf
-        //        int criteriaID;
+        private void rubricTreeView_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            if (e.Action != TreeViewAction.Unknown)
+            { // Only un/check all children if the click came from the user
+                Queue<TreeNode> toVisit = new Queue<TreeNode>();
+                toVisit.Enqueue(e.Node);
+                while (toVisit.Count > 0)
+                {
+                    TreeNode node = toVisit.Dequeue();
 
-        //        if (int.TryParse(e.Node.Name, out criteriaID))
-        //        {
-        //            Response response;
-        //            if (currentResponseList.Responses.TryGetValue(criteriaID, out response))
-        //            {
-        //                RubricNode rubricNode;
-        //                if (currentAssignment.Rubric.Nodes.TryGetValue(criteriaID, out rubricNode))
-        //                {
-        //                    Criteria criteria = rubricNode.Criteria;
+                    node.Checked = e.Node.Checked;
 
-        //                    if (e.Node.Checked)
-        //                    {
-        //                        response.PointsReceived = criteria.MaxPoints;
-        //                    }
-        //                    else
-        //                    {
-        //                        response.PointsReceived = 0;
-        //                    }
+                    if (node.Nodes.Count == 0)
+                    { // if this is a leaf, toggle the point values
+                        int criteriaID;
 
-        //                    // update treeview
-        //                    e.Node.Text = string.Format("{0} ({1}): {2}",
-        //                                        criteria.Description.ToString(),
-        //                                        criteria.MaxPoints.ToString(),
-        //                                        response.PointsReceived.ToString());
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Debug.WriteLine("Could not convert treenode name (CriteriaID) to integer.");
-        //        }
-        //    }
-        //}
+                        if (int.TryParse(node.Name, out criteriaID))
+                        {
+                            Response response;
+                            if (currentResponseList.Responses.TryGetValue(criteriaID, out response))
+                            {
+                                RubricNode rubricNode;
+                                if (currentAssignment.Rubric.Nodes.TryGetValue(criteriaID, out rubricNode))
+                                {
+                                    Criteria criteria = rubricNode.Criteria;
+
+                                    if (node.Checked)
+                                    {
+                                        response.PointsReceived = criteria.MaxPoints;
+                                    }
+                                    else
+                                    {
+                                        response.PointsReceived = 0;
+                                    }
+
+                                    // update treeview
+                                    node.Text = string.Format("{0} ({1}): {2}",
+                                                        criteria.Description.ToString(),
+                                                        criteria.MaxPoints.ToString(),
+                                                        response.PointsReceived.ToString());
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Debug.WriteLine("Could not convert treenode name (CriteriaID) to integer.");
+                        }
+                    }
+                    foreach (TreeNode n in node.Nodes)
+                    {
+                        toVisit.Enqueue(n);
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// The NoExpandTreeView is necessary because the double-click event interferes with events tied to checkbox actions.
+    /// All we have to do is catch all these double clicks (Msg = 515) and not process them.
+    /// </summary>
+    public class NoExpandTreeView : TreeView
+    {
+        protected override void DefWndProc(ref Message m)
+        {
+            if (m.Msg != 515)
+            {
+                base.DefWndProc(ref m);
+            }
+        }
     }
 }

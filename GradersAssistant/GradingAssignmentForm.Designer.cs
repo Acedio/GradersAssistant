@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.rubricTreeView = new System.Windows.Forms.TreeView();
+            this.rubricTreeView = new NoExpandTreeView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -61,6 +61,7 @@
             this.rubricTreeView.Name = "rubricTreeView";
             this.rubricTreeView.Size = new System.Drawing.Size(631, 255);
             this.rubricTreeView.TabIndex = 0;
+            this.rubricTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.rubricTreeView_AfterCheck);
             this.rubricTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.rubricTreeView_NodeMouseClick);
             this.rubricTreeView.Click += new System.EventHandler(this.rubricTreeView_Click);
             // 
@@ -301,7 +302,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TreeView rubricTreeView;
+        private NoExpandTreeView rubricTreeView;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;

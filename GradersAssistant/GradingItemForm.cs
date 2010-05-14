@@ -31,6 +31,15 @@ namespace GradersAssistant
 
             pointsReceivedNumericUpDown.Minimum = 0;
 
+            if (GraderResponse.PointsReceived < 0)
+            {
+                GraderResponse.PointsReceived = 0;
+            }
+            else if (GraderResponse.PointsReceived > criteria.MaxPoints)
+            {
+                GraderResponse.PointsReceived = criteria.MaxPoints;
+            }
+
             pointsReceivedNumericUpDown.Value = GraderResponse.PointsReceived;
 
             maxPointsLabel.Text = string.Format("Pts out of {0} Pts", criteria.MaxPoints.ToString());
