@@ -172,36 +172,36 @@ namespace GradersAssistant
             }
             Dictionary<int, Response> responseDict = responseLists[s.StudentID].Responses;
             // initialize html tags and add header text // NOTE: New lines are for minor source readability
-            string theString = "<html><body>\n" + "<p>" + textBoxHeaderText.Text + "</p>\n";
+            string theString = "<html><body>" + "<p>" + textBoxHeaderText.Text + "</p>";
             // add intro
-            theString += "<p>Grading Report for " + mainClass.ClassName + "<br />\n" +
-                "Assignment: " + currentAssignment.Name + "</p>\n";
+            theString += "<p>Grading Report for " + mainClass.ClassName + "<br />" +
+                "Assignment: " + currentAssignment.Name + "</p>";
             // class statistics
-            theString += "<p>Statistics:\n" +
-                "     Number of Students: " + students.Count + "<br />\n" +
-                "     Numer of Students Graded: " + numGraded + "<br />\n" +
-                "     Number of Zero Grades: " + numZeros + "<br />\n" +
-                "     Average Grade: " + ((double)totalScore / (double)students.Count).ToString("F2") + "<br />\n" +
-                "     Average (no zeros): " + ((double)totalScore / (double)studentScores.Count).ToString("F2") + "</p>\n";
+            theString += "<p>Statistics:" +
+                "     Number of Students: " + students.Count + "<br />" +
+                "     Numer of Students Graded: " + numGraded + "<br />" +
+                "     Number of Zero Grades: " + numZeros + "<br />" +
+                "     Average Grade: " + ((double)totalScore / (double)students.Count).ToString("F2") + "<br />" +
+                "     Average (no zeros): " + ((double)totalScore / (double)studentScores.Count).ToString("F2") + "</p>";
 
             //Dictionary<int, RubricNode> criterion = currentAssignment.Rubric.Nodes;
             Rubric currentRubric = currentAssignment.Rubric;
 
-            theString += "<p>Your Grades:<br />";
+            theString += "<p>Your Grades:<ul>";
             tempInt = 0;
             foreach (int rootNodeID in currentRubric.RootNodes)
             {
                 theString += getHtmlFromNode(rootNodeID, currentRubric.Nodes, responseDict, ref tempInt, ref commentStrings);
             }
-            theString += "<br />";
+            theString += "</ul>";
             theString += "Total Score: " + studentScores[s.StudentID] + " out of " + maxScore +
-                " -- " + (100 * studentScores[s.StudentID] / maxScore).ToString("F2") + "%</p>\n<p>";
-            theString += "Comments:</p>\n";
+                " -- " + (100 * studentScores[s.StudentID] / maxScore).ToString("F2") + "%</p><p>";
+            theString += "Comments:</p>";
             foreach (string aComment in commentStrings)
             {
                 theString += aComment;
             }
-            
+            theString += "</body></html>";
             return theString;
         }
 
@@ -220,35 +220,39 @@ namespace GradersAssistant
         private string getHtmlFromNode(int nodeID, Dictionary<int, RubricNode> nodes, Dictionary<int, Response> responseDict, ref int anchorNum, ref List<string> commentStrings)
         {
             LinkedList<int> children = nodes[nodeID].Children;
-            string theString = "<blockquote>";
+            string theString = "<li>";
 
             if (children.Count > 0)
             {   // go deeper in recursion
 
-                theString += nodes[nodeID].Criteria.Description + ":</br>\n";
+                theString += nodes[nodeID].Criteria.Description + ":" + "<ul>";
                 foreach (int nID in children)
                 {
-                    theString += getHtmlFromNode(nID, nodes, responseDict, ref anchorNum, ref commentStrings) + "<br />";
+                    theString += getHtmlFromNode(nID, nodes, responseDict, ref anchorNum, ref commentStrings);
                 }
-                theString += "</blockquote>";
+                theString += "</ul></li>";
                 return theString;
             }
             else
             {   // reached end, return a string now
-                theString += "<table width=\"100%\">\n<tr>\n<td>";
-                theString += nodes[nodeID].Criteria.Description + ": " +
-                    responseDict[nodeID].PointsReceived + " out of " +
-                    nodes[nodeID].Criteria.MaxPoints + "</td>\n<td>";
-                if (responseDict[nodeID].GraderComment != "")
+                theString += nodes[nodeID].Criteria.Description + ": ";
+                if (responseDict[nodeID].GraderComment == "")
+                {
+                    theString += responseDict[nodeID].PointsReceived + " out of " +
+                        nodes[nodeID].Criteria.MaxPoints;
+                }
+                else
                 {   // if we have a comment, insert anchor
-                    theString += "<a href=\"#C" + anchorNum + "\">" + "Comment " + anchorNum + "</a>";
+                    theString += "<a href=\"#C" + anchorNum + "\">" +
+                        responseDict[nodeID].PointsReceived + " out of " +
+                        nodes[nodeID].Criteria.MaxPoints + "</a>";
                     // add comment string to be rendered at end of email
                     commentStrings.Add("<h2><a name=\"C" + anchorNum + "\">" +
-                        "Comment " + anchorNum + ": " + nodes[nodeID].Criteria.Description + "</a></h2><p>" +
-                        responseDict[nodeID].GraderComment.Replace("\n","</br>") + "</p>");
+                        "</a></h2><p>" + nodes[nodeID].Criteria.Description + ": " + "<br />" +
+                        responseDict[nodeID].GraderComment.Replace("\n", "</br>") + "</p>");
                     anchorNum++;
                 }
-                theString += "</td>\n</tr>\n</blockquote>";
+                theString += "</li>";
                 return theString;
             }
         }
@@ -338,7 +342,7 @@ namespace GradersAssistant
                 {
                     indentString = indentString + tabString;
                     theString += indentString + "Comments:\n" + indentString +
-                        responseDict[nodeID].GraderComment.Replace("\n", "\n" + indentString);
+                        responseDict[nodeID].GraderComment.Replace("\n", "\n" + indentString) + "\n";
                 }
                 return theString;
             }
@@ -349,7 +353,7 @@ namespace GradersAssistant
         /// Assumes all appropriate boxes have appropriate information.
         /// </summary>
         /// <returns>Number of successfull emails.</returns>
-        private int distributeEmails()
+        private int distributeEmails(ref bool setOnAbort)
         {
             int emailsSent = 0;
             bool keepGoing = true;
@@ -387,6 +391,7 @@ namespace GradersAssistant
                         {   // stop sending emails
                             keepGoing = false;
                             breakNow = true;
+                            setOnAbort = true;
                         }
                         else if (ari == DialogResult.Ignore)
                         {   // move along
@@ -484,6 +489,7 @@ namespace GradersAssistant
         /// <param name="e">The event args.</param>
         private void buttonSendEmails_Click(object sender, EventArgs e)
         {
+            bool tempCheckAbort;
             int failedEmails = 0;
             if (textBoxEmailAddress.Text == "")
             {
@@ -505,7 +511,8 @@ namespace GradersAssistant
             {   // send a lot of emails
                 if (MessageBox.Show("Are you sure you want to send " + students.Count + " emails?", "Send " + students.Count + " emails?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    failedEmails = students.Count - distributeEmails();
+                    tempCheckAbort = false;
+                    failedEmails = students.Count - distributeEmails(ref tempCheckAbort);
                     if (failedEmails == 0)
                     {
                         MessageBox.Show(students.Count.ToString() + " emails sent successfully!", "Success!");
@@ -516,7 +523,10 @@ namespace GradersAssistant
                             " emails sent successfully.  " + failedEmails.ToString() + " email not sent."
                             , "Failed Emails");
                     }
-                    this.Close();
+                    if (!tempCheckAbort)
+                    {
+                        this.Close();
+                    }
                 }
             }
         }
@@ -627,7 +637,7 @@ namespace GradersAssistant
 
         private void radioButtonPlainText_CheckedChanged(object sender, EventArgs e)
         {
-            useHtml = radioButtonPlainText.Checked;
+            useHtml = !radioButtonPlainText.Checked;
         }
     }
 }

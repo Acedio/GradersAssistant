@@ -230,7 +230,7 @@
             this.radioButtonPlainText.Location = new System.Drawing.Point(10, 66);
             this.radioButtonPlainText.Name = "radioButtonPlainText";
             this.radioButtonPlainText.Size = new System.Drawing.Size(146, 17);
-            this.radioButtonPlainText.TabIndex = 5;
+            this.radioButtonPlainText.TabIndex = 2;
             this.radioButtonPlainText.Text = "Use Plain Text Formatting";
             this.radioButtonPlainText.UseVisualStyleBackColor = true;
             this.radioButtonPlainText.CheckedChanged += new System.EventHandler(this.radioButtonPlainText_CheckedChanged);
@@ -242,7 +242,7 @@
             this.radioButtonHtml.Location = new System.Drawing.Point(10, 43);
             this.radioButtonHtml.Name = "radioButtonHtml";
             this.radioButtonHtml.Size = new System.Drawing.Size(126, 17);
-            this.radioButtonHtml.TabIndex = 4;
+            this.radioButtonHtml.TabIndex = 1;
             this.radioButtonHtml.TabStop = true;
             this.radioButtonHtml.Text = "Use HTML formatting";
             this.radioButtonHtml.UseVisualStyleBackColor = true;
@@ -276,7 +276,7 @@
             this.textBoxHeaderText.Multiline = true;
             this.textBoxHeaderText.Name = "textBoxHeaderText";
             this.textBoxHeaderText.Size = new System.Drawing.Size(395, 144);
-            this.textBoxHeaderText.TabIndex = 2;
+            this.textBoxHeaderText.TabIndex = 4;
             // 
             // checkBoxAddHeader
             // 
@@ -284,7 +284,7 @@
             this.checkBoxAddHeader.Location = new System.Drawing.Point(6, 89);
             this.checkBoxAddHeader.Name = "checkBoxAddHeader";
             this.checkBoxAddHeader.Size = new System.Drawing.Size(108, 17);
-            this.checkBoxAddHeader.TabIndex = 1;
+            this.checkBoxAddHeader.TabIndex = 3;
             this.checkBoxAddHeader.Text = "Add email header";
             this.checkBoxAddHeader.UseVisualStyleBackColor = true;
             this.checkBoxAddHeader.CheckedChanged += new System.EventHandler(this.checkBoxAddHeader_CheckedChanged);
