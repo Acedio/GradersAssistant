@@ -577,6 +577,71 @@ namespace GradersAssistant
             return assignment;
         }
 
+
+        /// for quick reference
+        //public struct Criteria
+        //{
+        //    public const string TableName = "Criteria";
+        //    public const string CriteriaID = "CriteriaID";
+        //    public const string Description = "Description";
+        //    public const string Points = "Points";
+        //    public const string ParentCriteriaID = "ParentCriteriaID";
+        //    public const string AssignmentID = "AssignmentID";
+        //}
+
+
+        public int AddCriteria(Criteria criteria)
+        {
+            if (criteria.CriteriaID != null)
+            {
+                Debug.WriteLine("You should not add criteria if it already has an ID assigned.");
+                return criteria.CriteriaID;
+            }
+            else
+            {
+                // We need to insert rather than update because the criteria has no key.
+                string query = String.Format("INSERT INTO {0} (", tables.Criteria.TableName);
+                query += String.Format("{0}, ", tables.Criteria.Description);
+                query += String.Format("{0}, ", tables.Criteria.Points);
+                query += String.Format("{0}, ", tables.Criteria.ParentCriteriaID);
+                query += String.Format("{0}", tables.Criteria.AssignmentID);
+
+                query += ") VALUES (";
+                query += String.Format("@{0}, ", tables.Criteria.Description);
+                query += String.Format("@{0}, ", tables.Criteria.Points);
+                query += String.Format("@{0}, ", tables.Criteria.ParentCriteriaID);
+                query += String.Format("@{0}", tables.Criteria.AssignmentID);
+                query += ");";
+                OleDbCommand insert = new OleDbCommand(query, dbConnection);
+                insert.Parameters.Add(new OleDbParameter("@" + tables.Criteria.Description, OleDbType.VarChar)).Value = criteria.Description;// student.FirstName;
+                insert.Parameters.Add(new OleDbParameter("@" + tables.Criteria.Points, OleDbType.VarChar)).Value = criteria.MaxPoints;
+                insert.Parameters.Add(new OleDbParameter("@" + tables.Criteria.ParentCriteriaID, OleDbType.VarChar)).Value = //criteria.;
+                insert.Parameters.Add(new OleDbParameter("@" + tables.Criteria.AssignmentID, OleDbType.VarChar)).Value = student.EmailAddress;
+                try
+                {
+                    insert.ExecuteNonQuery();
+                }
+                catch
+                {
+                    Debug.WriteLine("Could not insert student.");
+                }
+
+                // Now that we inserted the student, we need to get its ID
+                query = "SELECT @@IDENTITY;";
+                OleDbCommand getID = new OleDbCommand(query, dbConnection);
+                int key = student.StudentID;
+                try
+                {
+                    key = (int)getID.ExecuteScalar();
+                }
+                catch
+                {
+                    Debug.WriteLine("Could not retrieve student ID.");
+                }
+                return key;
+            }
+        }
+
         #endregion
 
         #region Response

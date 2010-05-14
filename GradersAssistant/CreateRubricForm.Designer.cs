@@ -55,6 +55,7 @@
             this.CriteriaDisplay.Name = "CriteriaDisplay";
             this.CriteriaDisplay.Size = new System.Drawing.Size(475, 313);
             this.CriteriaDisplay.TabIndex = 1;
+            this.CriteriaDisplay.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.CriteriaDisplay_NodeMouseClick);
             // 
             // SaveButton
             // 
@@ -77,6 +78,7 @@
             this.AwesomeCancelButton.TabIndex = 3;
             this.AwesomeCancelButton.Text = "Cancel";
             this.AwesomeCancelButton.UseVisualStyleBackColor = true;
+            this.AwesomeCancelButton.Click += new System.EventHandler(this.AwesomeCancelButton_Click);
             // 
             // EditCriteriaPanel
             // 

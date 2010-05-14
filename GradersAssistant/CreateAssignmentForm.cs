@@ -16,6 +16,8 @@ namespace GradersAssistant
             InitializeComponent();
         }
 
+        public LinkedList<CriteriaNode> CriteriaTree = new LinkedList<CriteriaNode>();
+        public bool IsClosed = false;
         private string D_date;
         private string A_name;
 
@@ -33,9 +35,7 @@ namespace GradersAssistant
 
         private void CreateAssignmentForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            CreateRubricForm newRubric = new CreateRubricForm();
-            newRubric.ROOTNODE.Text = a_name;
-            newRubric.Show();
+            IsClosed = true;
         }
 
         private void acceptbtn_Click(object sender, EventArgs e)
@@ -46,6 +46,17 @@ namespace GradersAssistant
             Assignment assignment = new Assignment();
             assignment.Name = a_name;
             //assignment.DueDate = DateTime.Parse(d_date_box);
+
+            CreateRubricForm newRubric = new CreateRubricForm();
+            newRubric.ROOTNODE.Text = a_name;
+            newRubric.Show();
+            this.Hide();
+
+            if (newRubric.SaveCriteria == true)
+            {
+                CriteriaTree = newRubric.CriteriaTree;
+            }
+
             this.Close();
         }
     }

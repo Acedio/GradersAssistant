@@ -17,9 +17,8 @@ namespace GradersAssistant
             InitializeComponent();
         }
 
-        private bool SaveCriteria = false;
-
-        LinkedList<CriteriaNode> CriteriaTree = new LinkedList<CriteriaNode>();
+        public bool SaveCriteria = false;
+        public LinkedList<CriteriaNode> CriteriaTree = new LinkedList<CriteriaNode>();
 
         public int TotalNodes = 0;
 
@@ -99,22 +98,18 @@ namespace GradersAssistant
             }
         }
 
-        private void CriteriaDisplay_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-
-            for (int i = 0; i < CriteriaDisplay.Nodes.Count; i++)
-            {
-                if (CriteriaTree.ElementAt(i).Name == e.Node.Name)
-                {
-                    DescriptionTextbox.Text = CriteriaTree.ElementAt(i).Description;
-                    if (CriteriaTree.ElementAt(i).NumberOfChildren == 0)
-                    {
-                        PointsTextBox.Text = CriteriaTree.ElementAt(i).Points.ToString();
-                    }
-                }
-            }
-            CriteriaDisplay.HideSelection = false;
-        }
+            //for (int i = 0; i < CriteriaDisplay.Nodes.Count; i++)
+            //{
+            //    if (CriteriaTree.ElementAt(i).Name == e.Node.Name)
+            //    {
+            //        DescriptionTextbox.Text = CriteriaTree.ElementAt(i).Description;
+            //        if (CriteriaTree.ElementAt(i).NumberOfChildren == 0)
+            //        {
+            //            PointsTextBox.Text = CriteriaTree.ElementAt(i).Points.ToString();
+            //        }
+            //    }
+            //}
+            //CriteriaDisplay.HideSelection = false;
 
         private void AddCriteriaButton_Click(object sender, EventArgs e)
         {
@@ -262,6 +257,31 @@ namespace GradersAssistant
         private void deselectbtn_Click(object sender, EventArgs e)
         {
             CriteriaDisplay.SelectedNode = null;
+        }
+
+        private void AwesomeCancelButton_Click(object sender, EventArgs e)
+        {
+            DialogResult d = MessageBox.Show("Are you sure you want to exit Rubric Creation?", "Alert!", MessageBoxButtons.YesNo);
+            if (d == DialogResult.Yes)
+                this.Close();
+        }
+
+        private void CriteriaDisplay_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+
+            for (int i = 0; i < CriteriaDisplay.Nodes.Count; i++)
+            {
+                if (CriteriaTree.ElementAt(i).Name == e.Node.Name)
+                {
+                    DescriptionTextbox.Text = CriteriaTree.ElementAt(i).Description;
+                    if (CriteriaTree.ElementAt(i).NumberOfChildren == 0)
+                    {
+                        PointsTextBox.Text = CriteriaTree.ElementAt(i).Points.ToString();
+                    }
+                }
+            }
+            CriteriaDisplay.HideSelection = false;
+
         }
 
     }

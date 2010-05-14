@@ -63,6 +63,11 @@ namespace GradersAssistant
             // Set the Parent Form of the Child window.
            // newMDIChild.MdiParent = this;
             // Display the new form.
+
+            if (assign.IsClosed == true)
+            {
+                // start savin the criteria!!
+            }
            
 
         }
