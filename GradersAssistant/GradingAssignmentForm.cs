@@ -47,6 +47,8 @@ namespace GradersAssistant
 
             titleLabel.Text = currentAssignment.Name;
 
+            this.Text = currentAssignment.Name;
+
             dueLabel.Text = currentAssignment.DueDate.ToString("MM/dd/yyyy");
 
             rubricTreeView.BeginUpdate();

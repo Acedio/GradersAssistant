@@ -129,6 +129,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox2.Controls.Add(this.maxPointsLabel);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label10);
@@ -225,7 +226,7 @@
             // 
             // adjustmentsListBox
             // 
-            this.adjustmentsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.adjustmentsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.adjustmentsListBox.FormattingEnabled = true;
             this.adjustmentsListBox.Location = new System.Drawing.Point(12, 434);
@@ -235,6 +236,7 @@
             // 
             // label13
             // 
+            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(9, 418);
             this.label13.Name = "label13";
@@ -264,40 +266,41 @@
             // 
             // editAdjustmentButton
             // 
-            this.editAdjustmentButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.editAdjustmentButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.editAdjustmentButton.Location = new System.Drawing.Point(487, 535);
             this.editAdjustmentButton.Name = "editAdjustmentButton";
             this.editAdjustmentButton.Size = new System.Drawing.Size(75, 23);
-            this.editAdjustmentButton.TabIndex = 13;
+            this.editAdjustmentButton.TabIndex = 14;
             this.editAdjustmentButton.Text = "Edit";
             this.editAdjustmentButton.UseVisualStyleBackColor = true;
             this.editAdjustmentButton.Click += new System.EventHandler(this.editAdjustmentButton_Click);
             // 
             // deleteAdjustmentButton
             // 
-            this.deleteAdjustmentButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteAdjustmentButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteAdjustmentButton.Location = new System.Drawing.Point(568, 535);
             this.deleteAdjustmentButton.Name = "deleteAdjustmentButton";
             this.deleteAdjustmentButton.Size = new System.Drawing.Size(75, 23);
-            this.deleteAdjustmentButton.TabIndex = 14;
+            this.deleteAdjustmentButton.TabIndex = 15;
             this.deleteAdjustmentButton.Text = "Delete";
             this.deleteAdjustmentButton.UseVisualStyleBackColor = true;
             this.deleteAdjustmentButton.Click += new System.EventHandler(this.deleteAdjustmentButton_Click);
             // 
             // addAdjustmentButton
             // 
-            this.addAdjustmentButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.addAdjustmentButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.addAdjustmentButton.Location = new System.Drawing.Point(406, 535);
             this.addAdjustmentButton.Name = "addAdjustmentButton";
             this.addAdjustmentButton.Size = new System.Drawing.Size(75, 23);
-            this.addAdjustmentButton.TabIndex = 15;
+            this.addAdjustmentButton.TabIndex = 13;
             this.addAdjustmentButton.Text = "Add";
             this.addAdjustmentButton.UseVisualStyleBackColor = true;
             this.addAdjustmentButton.Click += new System.EventHandler(this.addAdjustmentButton_Click);
             // 
             // rubricTreeView
             // 
-            this.rubricTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.rubricTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.rubricTreeView.CheckBoxes = true;
             this.rubricTreeView.Location = new System.Drawing.Point(11, 74);
@@ -335,7 +338,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
-            this.Text = "Form2";
+            this.Text = "Grading";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
