@@ -144,6 +144,31 @@ namespace GradersAssistant
         }
     }
 
+    public class Adjustment
+    {
+        private const int noID = -1;
+
+        public int AdjustmentID;
+
+        public string Comment;
+
+        public int PointAdjustment;
+
+        public Adjustment()
+        {
+            AdjustmentID = noID;
+            Comment = string.Empty;
+            PointAdjustment = 0;
+        }
+
+        public Adjustment(int aID, string aComment, int aPointAdjustment)
+        {
+            AdjustmentID = aID;
+            Comment = aComment;
+            PointAdjustment = aPointAdjustment;
+        }
+    }
+
     public class ResponseList
     {
         public const int noID = -1;
@@ -153,6 +178,8 @@ namespace GradersAssistant
         public int StudentID;
 
         public int AssignmentID;
+
+        public LinkedList<Adjustment> Adjustments;
 
         public ResponseList()
         {
@@ -324,8 +351,7 @@ namespace GradersAssistant
         public Rubric Rubric;
     }
 
-
-   public class GAClass
+    public class GAClass
     {
         public string ClassName;
         public string GraderName;

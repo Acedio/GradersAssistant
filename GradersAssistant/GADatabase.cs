@@ -49,6 +49,16 @@ namespace GradersAssistant
                 public const string CriteriaID = "CriteriaID";
             }
 
+            public struct Adjustment
+            {
+                public const string TableName = "Adjustment";
+                public const string AdjustmentID = "AdjustmentID";
+                public const string StudentID = "StudentID";
+                public const string AssignmentID = "AssignmentID";
+                public const string Comment = "Comment";
+                public const string PointAdjustment = "PointAdjustment";
+            }
+
             public struct Criteria
             {
                 public const string TableName = "Criteria";

@@ -211,8 +211,6 @@ namespace GradersAssistant
 
             int pointsAdjustment = 0;
 
-            int maxPoints = 0;
-
             // TODO: adjustments
 
             foreach (KeyValuePair<int, Response> responsePair in currentResponseList.Responses)
