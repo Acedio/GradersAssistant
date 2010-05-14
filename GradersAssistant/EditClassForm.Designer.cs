@@ -38,13 +38,8 @@
             this.textClassName = new System.Windows.Forms.TextBox();
             this.labelClassName = new System.Windows.Forms.Label();
             this.panelResultOutput = new System.Windows.Forms.Panel();
-            this.checkBoxDisplayTotalPoints = new System.Windows.Forms.CheckBox();
             this.checkBoxDisplayClassStats = new System.Windows.Forms.CheckBox();
-            this.checkBoxShowOutOfTotals = new System.Windows.Forms.CheckBox();
-            this.checkBoxIncludeComments = new System.Windows.Forms.CheckBox();
-            this.checkBoxOutputOnlyGraded = new System.Windows.Forms.CheckBox();
             this.checkBoxEmailStudentsNoGrade = new System.Windows.Forms.CheckBox();
-            this.checkBoxFormatAsHTML = new System.Windows.Forms.CheckBox();
             this.panelGeneral = new System.Windows.Forms.Panel();
             this.checkBoxIncludeSection = new System.Windows.Forms.CheckBox();
             this.checkBoxIncludeNames = new System.Windows.Forms.CheckBox();
@@ -54,6 +49,8 @@
             this.labelUsername = new System.Windows.Forms.Label();
             this.labelFormAddress = new System.Windows.Forms.Label();
             this.panelEmail = new System.Windows.Forms.Panel();
+            this.textServerName = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.comboBoxHostType = new System.Windows.Forms.ComboBox();
             this.textFromAddress = new System.Windows.Forms.TextBox();
             this.textUsername = new System.Windows.Forms.TextBox();
@@ -63,6 +60,9 @@
             this.labelResultsOutput = new System.Windows.Forms.Label();
             this.buttonCancelClass = new System.Windows.Forms.Button();
             this.buttonUpdateClass = new System.Windows.Forms.Button();
+            this.textPortNumber = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.checkBoxFormatAsHTML = new System.Windows.Forms.CheckBox();
             this.panelDetails.SuspendLayout();
             this.panelResultOutput.SuspendLayout();
             this.panelGeneral.SuspendLayout();
@@ -101,14 +101,15 @@
             this.comboBoxNumberOfSections.Location = new System.Drawing.Point(132, 92);
             this.comboBoxNumberOfSections.Name = "comboBoxNumberOfSections";
             this.comboBoxNumberOfSections.Size = new System.Drawing.Size(57, 21);
-            this.comboBoxNumberOfSections.TabIndex = 5;
+            this.comboBoxNumberOfSections.TabIndex = 2;
             // 
             // textGraderName
             // 
+            this.textGraderName.AcceptsTab = true;
             this.textGraderName.Location = new System.Drawing.Point(100, 49);
             this.textGraderName.Name = "textGraderName";
             this.textGraderName.Size = new System.Drawing.Size(165, 20);
-            this.textGraderName.TabIndex = 4;
+            this.textGraderName.TabIndex = 1;
             // 
             // labelNumberOfSection
             // 
@@ -130,10 +131,11 @@
             // 
             // textClassName
             // 
+            this.textClassName.AcceptsTab = true;
             this.textClassName.Location = new System.Drawing.Point(102, 12);
             this.textClassName.Name = "textClassName";
             this.textClassName.Size = new System.Drawing.Size(165, 20);
-            this.textClassName.TabIndex = 1;
+            this.textClassName.TabIndex = 0;
             // 
             // labelClassName
             // 
@@ -147,87 +149,33 @@
             // panelResultOutput
             // 
             this.panelResultOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelResultOutput.Controls.Add(this.checkBoxDisplayTotalPoints);
-            this.panelResultOutput.Controls.Add(this.checkBoxDisplayClassStats);
-            this.panelResultOutput.Controls.Add(this.checkBoxShowOutOfTotals);
-            this.panelResultOutput.Controls.Add(this.checkBoxIncludeComments);
-            this.panelResultOutput.Controls.Add(this.checkBoxOutputOnlyGraded);
-            this.panelResultOutput.Controls.Add(this.checkBoxEmailStudentsNoGrade);
             this.panelResultOutput.Controls.Add(this.checkBoxFormatAsHTML);
-            this.panelResultOutput.Location = new System.Drawing.Point(347, 148);
+            this.panelResultOutput.Controls.Add(this.checkBoxDisplayClassStats);
+            this.panelResultOutput.Controls.Add(this.checkBoxEmailStudentsNoGrade);
+            this.panelResultOutput.Location = new System.Drawing.Point(347, 165);
             this.panelResultOutput.Name = "panelResultOutput";
-            this.panelResultOutput.Size = new System.Drawing.Size(234, 151);
-            this.panelResultOutput.TabIndex = 2;
-            // 
-            // checkBoxDisplayTotalPoints
-            // 
-            this.checkBoxDisplayTotalPoints.AutoSize = true;
-            this.checkBoxDisplayTotalPoints.Location = new System.Drawing.Point(13, 121);
-            this.checkBoxDisplayTotalPoints.Name = "checkBoxDisplayTotalPoints";
-            this.checkBoxDisplayTotalPoints.Size = new System.Drawing.Size(169, 17);
-            this.checkBoxDisplayTotalPoints.TabIndex = 16;
-            this.checkBoxDisplayTotalPoints.Text = "Display Total Points on Output";
-            this.checkBoxDisplayTotalPoints.UseVisualStyleBackColor = true;
+            this.panelResultOutput.Size = new System.Drawing.Size(234, 96);
+            this.panelResultOutput.TabIndex = 3;
             // 
             // checkBoxDisplayClassStats
             // 
             this.checkBoxDisplayClassStats.AutoSize = true;
-            this.checkBoxDisplayClassStats.Location = new System.Drawing.Point(13, 103);
+            this.checkBoxDisplayClassStats.Location = new System.Drawing.Point(13, 65);
             this.checkBoxDisplayClassStats.Name = "checkBoxDisplayClassStats";
             this.checkBoxDisplayClassStats.Size = new System.Drawing.Size(208, 17);
-            this.checkBoxDisplayClassStats.TabIndex = 14;
+            this.checkBoxDisplayClassStats.TabIndex = 1;
             this.checkBoxDisplayClassStats.Text = "Display Class Statistics in Result E-mail";
             this.checkBoxDisplayClassStats.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxShowOutOfTotals
-            // 
-            this.checkBoxShowOutOfTotals.AutoSize = true;
-            this.checkBoxShowOutOfTotals.Location = new System.Drawing.Point(13, 86);
-            this.checkBoxShowOutOfTotals.Name = "checkBoxShowOutOfTotals";
-            this.checkBoxShowOutOfTotals.Size = new System.Drawing.Size(167, 17);
-            this.checkBoxShowOutOfTotals.TabIndex = 13;
-            this.checkBoxShowOutOfTotals.Text = "Show Out of Totals on Output";
-            this.checkBoxShowOutOfTotals.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxIncludeComments
-            // 
-            this.checkBoxIncludeComments.AutoSize = true;
-            this.checkBoxIncludeComments.Location = new System.Drawing.Point(13, 69);
-            this.checkBoxIncludeComments.Name = "checkBoxIncludeComments";
-            this.checkBoxIncludeComments.Size = new System.Drawing.Size(184, 17);
-            this.checkBoxIncludeComments.TabIndex = 12;
-            this.checkBoxIncludeComments.Text = "Include All Comments with Output";
-            this.checkBoxIncludeComments.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxOutputOnlyGraded
-            // 
-            this.checkBoxOutputOnlyGraded.AutoSize = true;
-            this.checkBoxOutputOnlyGraded.Location = new System.Drawing.Point(13, 50);
-            this.checkBoxOutputOnlyGraded.Name = "checkBoxOutputOnlyGraded";
-            this.checkBoxOutputOnlyGraded.Size = new System.Drawing.Size(165, 17);
-            this.checkBoxOutputOnlyGraded.TabIndex = 11;
-            this.checkBoxOutputOnlyGraded.Text = "Output Only Graded Students";
-            this.checkBoxOutputOnlyGraded.UseVisualStyleBackColor = true;
             // 
             // checkBoxEmailStudentsNoGrade
             // 
             this.checkBoxEmailStudentsNoGrade.AutoSize = true;
-            this.checkBoxEmailStudentsNoGrade.Location = new System.Drawing.Point(13, 32);
+            this.checkBoxEmailStudentsNoGrade.Location = new System.Drawing.Point(13, 42);
             this.checkBoxEmailStudentsNoGrade.Name = "checkBoxEmailStudentsNoGrade";
             this.checkBoxEmailStudentsNoGrade.Size = new System.Drawing.Size(171, 17);
-            this.checkBoxEmailStudentsNoGrade.TabIndex = 9;
+            this.checkBoxEmailStudentsNoGrade.TabIndex = 0;
             this.checkBoxEmailStudentsNoGrade.Text = "E-mail Students With no Grade";
             this.checkBoxEmailStudentsNoGrade.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxFormatAsHTML
-            // 
-            this.checkBoxFormatAsHTML.AutoSize = true;
-            this.checkBoxFormatAsHTML.Location = new System.Drawing.Point(13, 15);
-            this.checkBoxFormatAsHTML.Name = "checkBoxFormatAsHTML";
-            this.checkBoxFormatAsHTML.Size = new System.Drawing.Size(143, 17);
-            this.checkBoxFormatAsHTML.TabIndex = 8;
-            this.checkBoxFormatAsHTML.Text = "Format Results as HTML";
-            this.checkBoxFormatAsHTML.UseVisualStyleBackColor = true;
             // 
             // panelGeneral
             // 
@@ -238,36 +186,36 @@
             this.panelGeneral.Controls.Add(this.checkBoxAlertOnLate);
             this.panelGeneral.Location = new System.Drawing.Point(347, 29);
             this.panelGeneral.Name = "panelGeneral";
-            this.panelGeneral.Size = new System.Drawing.Size(223, 95);
-            this.panelGeneral.TabIndex = 3;
+            this.panelGeneral.Size = new System.Drawing.Size(223, 114);
+            this.panelGeneral.TabIndex = 2;
             // 
             // checkBoxIncludeSection
             // 
             this.checkBoxIncludeSection.AutoSize = true;
-            this.checkBoxIncludeSection.Location = new System.Drawing.Point(15, 69);
+            this.checkBoxIncludeSection.Location = new System.Drawing.Point(13, 84);
             this.checkBoxIncludeSection.Name = "checkBoxIncludeSection";
             this.checkBoxIncludeSection.Size = new System.Drawing.Size(187, 17);
-            this.checkBoxIncludeSection.TabIndex = 7;
+            this.checkBoxIncludeSection.TabIndex = 3;
             this.checkBoxIncludeSection.Text = "Include Section in Drop Down List";
             this.checkBoxIncludeSection.UseVisualStyleBackColor = true;
             // 
             // checkBoxIncludeNames
             // 
             this.checkBoxIncludeNames.AutoSize = true;
-            this.checkBoxIncludeNames.Location = new System.Drawing.Point(15, 50);
+            this.checkBoxIncludeNames.Location = new System.Drawing.Point(15, 61);
             this.checkBoxIncludeNames.Name = "checkBoxIncludeNames";
             this.checkBoxIncludeNames.Size = new System.Drawing.Size(184, 17);
-            this.checkBoxIncludeNames.TabIndex = 6;
+            this.checkBoxIncludeNames.TabIndex = 2;
             this.checkBoxIncludeNames.Text = "Include Names in Drop Down List";
             this.checkBoxIncludeNames.UseVisualStyleBackColor = true;
             // 
             // checkBoxSetFullPoints
             // 
             this.checkBoxSetFullPoints.AutoSize = true;
-            this.checkBoxSetFullPoints.Location = new System.Drawing.Point(15, 32);
+            this.checkBoxSetFullPoints.Location = new System.Drawing.Point(15, 38);
             this.checkBoxSetFullPoints.Name = "checkBoxSetFullPoints";
             this.checkBoxSetFullPoints.Size = new System.Drawing.Size(142, 17);
-            this.checkBoxSetFullPoints.TabIndex = 5;
+            this.checkBoxSetFullPoints.TabIndex = 1;
             this.checkBoxSetFullPoints.Text = "Set Full Points as default";
             this.checkBoxSetFullPoints.UseVisualStyleBackColor = true;
             // 
@@ -277,7 +225,7 @@
             this.checkBoxAlertOnLate.Location = new System.Drawing.Point(15, 15);
             this.checkBoxAlertOnLate.Name = "checkBoxAlertOnLate";
             this.checkBoxAlertOnLate.Size = new System.Drawing.Size(149, 17);
-            this.checkBoxAlertOnLate.TabIndex = 4;
+            this.checkBoxAlertOnLate.TabIndex = 0;
             this.checkBoxAlertOnLate.Text = "Alert On Late Submissions";
             this.checkBoxAlertOnLate.UseVisualStyleBackColor = true;
             // 
@@ -311,6 +259,8 @@
             // panelEmail
             // 
             this.panelEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelEmail.Controls.Add(this.textServerName);
+            this.panelEmail.Controls.Add(this.label1);
             this.panelEmail.Controls.Add(this.comboBoxHostType);
             this.panelEmail.Controls.Add(this.textFromAddress);
             this.panelEmail.Controls.Add(this.textUsername);
@@ -319,8 +269,24 @@
             this.panelEmail.Controls.Add(this.labelUsername);
             this.panelEmail.Location = new System.Drawing.Point(27, 174);
             this.panelEmail.Name = "panelEmail";
-            this.panelEmail.Size = new System.Drawing.Size(296, 113);
-            this.panelEmail.TabIndex = 4;
+            this.panelEmail.Size = new System.Drawing.Size(296, 151);
+            this.panelEmail.TabIndex = 1;
+            // 
+            // textServerName
+            // 
+            this.textServerName.Location = new System.Drawing.Point(93, 96);
+            this.textServerName.Name = "textServerName";
+            this.textServerName.Size = new System.Drawing.Size(171, 20);
+            this.textServerName.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(21, 99);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(69, 13);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Server Name";
             // 
             // comboBoxHostType
             // 
@@ -332,21 +298,21 @@
             this.comboBoxHostType.Location = new System.Drawing.Point(83, 13);
             this.comboBoxHostType.Name = "comboBoxHostType";
             this.comboBoxHostType.Size = new System.Drawing.Size(106, 21);
-            this.comboBoxHostType.TabIndex = 6;
+            this.comboBoxHostType.TabIndex = 0;
             // 
             // textFromAddress
             // 
             this.textFromAddress.Location = new System.Drawing.Point(94, 70);
             this.textFromAddress.Name = "textFromAddress";
             this.textFromAddress.Size = new System.Drawing.Size(171, 20);
-            this.textFromAddress.TabIndex = 11;
+            this.textFromAddress.TabIndex = 2;
             // 
             // textUsername
             // 
             this.textUsername.Location = new System.Drawing.Point(83, 45);
             this.textUsername.Name = "textUsername";
             this.textUsername.Size = new System.Drawing.Size(182, 20);
-            this.textUsername.TabIndex = 10;
+            this.textUsername.TabIndex = 1;
             // 
             // labelEmail
             // 
@@ -365,7 +331,7 @@
             this.labelDetails.Location = new System.Drawing.Point(30, 19);
             this.labelDetails.Name = "labelDetails";
             this.labelDetails.Size = new System.Drawing.Size(51, 17);
-            this.labelDetails.TabIndex = 6;
+            this.labelDetails.TabIndex = 5;
             this.labelDetails.Text = "Details";
             // 
             // labelGeneral
@@ -382,7 +348,7 @@
             // 
             this.labelResultsOutput.AutoSize = true;
             this.labelResultsOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelResultsOutput.Location = new System.Drawing.Point(350, 138);
+            this.labelResultsOutput.Location = new System.Drawing.Point(350, 155);
             this.labelResultsOutput.Name = "labelResultsOutput";
             this.labelResultsOutput.Size = new System.Drawing.Size(102, 17);
             this.labelResultsOutput.TabIndex = 8;
@@ -393,7 +359,7 @@
             this.buttonCancelClass.Location = new System.Drawing.Point(174, 342);
             this.buttonCancelClass.Name = "buttonCancelClass";
             this.buttonCancelClass.Size = new System.Drawing.Size(118, 41);
-            this.buttonCancelClass.TabIndex = 9;
+            this.buttonCancelClass.TabIndex = 5;
             this.buttonCancelClass.Text = "Cancel";
             this.buttonCancelClass.UseVisualStyleBackColor = true;
             this.buttonCancelClass.Click += new System.EventHandler(this.buttonCancelClass_Click);
@@ -403,16 +369,44 @@
             this.buttonUpdateClass.Location = new System.Drawing.Point(334, 342);
             this.buttonUpdateClass.Name = "buttonUpdateClass";
             this.buttonUpdateClass.Size = new System.Drawing.Size(118, 41);
-            this.buttonUpdateClass.TabIndex = 10;
+            this.buttonUpdateClass.TabIndex = 4;
             this.buttonUpdateClass.Text = "Update";
             this.buttonUpdateClass.UseVisualStyleBackColor = true;
             this.buttonUpdateClass.Click += new System.EventHandler(this.buttonUpdateClass_Click);
+            // 
+            // textPortNumber
+            // 
+            this.textPortNumber.Location = new System.Drawing.Point(121, 297);
+            this.textPortNumber.Name = "textPortNumber";
+            this.textPortNumber.Size = new System.Drawing.Size(73, 20);
+            this.textPortNumber.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(49, 300);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(66, 13);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Port Number";
+            // 
+            // checkBoxFormatAsHTML
+            // 
+            this.checkBoxFormatAsHTML.AutoSize = true;
+            this.checkBoxFormatAsHTML.Location = new System.Drawing.Point(13, 19);
+            this.checkBoxFormatAsHTML.Name = "checkBoxFormatAsHTML";
+            this.checkBoxFormatAsHTML.Size = new System.Drawing.Size(106, 17);
+            this.checkBoxFormatAsHTML.TabIndex = 2;
+            this.checkBoxFormatAsHTML.Text = "Format As HTML";
+            this.checkBoxFormatAsHTML.UseVisualStyleBackColor = true;
             // 
             // EditClassForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(605, 410);
+            this.Controls.Add(this.textPortNumber);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.buttonUpdateClass);
             this.Controls.Add(this.buttonCancelClass);
             this.Controls.Add(this.labelResultsOutput);
@@ -423,9 +417,12 @@
             this.Controls.Add(this.panelGeneral);
             this.Controls.Add(this.panelResultOutput);
             this.Controls.Add(this.panelDetails);
+            this.MaximumSize = new System.Drawing.Size(621, 448);
+            this.MinimumSize = new System.Drawing.Size(621, 448);
             this.Name = "EditClassForm";
             this.Text = "Edit Class";
             this.Load += new System.EventHandler(this.EditClassForm_Load);
+            this.Shown += new System.EventHandler(this.EditClassForm_Load);
             this.panelDetails.ResumeLayout(false);
             this.panelDetails.PerformLayout();
             this.panelResultOutput.ResumeLayout(false);
@@ -463,16 +460,16 @@
         private System.Windows.Forms.CheckBox checkBoxIncludeNames;
         private System.Windows.Forms.CheckBox checkBoxSetFullPoints;
         private System.Windows.Forms.CheckBox checkBoxAlertOnLate;
-        private System.Windows.Forms.CheckBox checkBoxDisplayTotalPoints;
         private System.Windows.Forms.CheckBox checkBoxDisplayClassStats;
-        private System.Windows.Forms.CheckBox checkBoxShowOutOfTotals;
-        private System.Windows.Forms.CheckBox checkBoxIncludeComments;
-        private System.Windows.Forms.CheckBox checkBoxOutputOnlyGraded;
         private System.Windows.Forms.CheckBox checkBoxEmailStudentsNoGrade;
-        private System.Windows.Forms.CheckBox checkBoxFormatAsHTML;
         private System.Windows.Forms.Label labelGeneral;
         private System.Windows.Forms.Label labelResultsOutput;
         private System.Windows.Forms.Button buttonCancelClass;
         private System.Windows.Forms.Button buttonUpdateClass;
+        private System.Windows.Forms.TextBox textServerName;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textPortNumber;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox checkBoxFormatAsHTML;
     }
 }
