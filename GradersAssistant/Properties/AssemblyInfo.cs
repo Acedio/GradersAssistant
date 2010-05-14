@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GradersAssistant")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Graders Assistant")]
+[assembly: AssemblyDescription("A grader's assistant.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("GradersAssistant")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2010")]
+[assembly: AssemblyCompany("Markersoft")]
+[assembly: AssemblyProduct("Graders Assistant")]
+[assembly: AssemblyCopyright("Copyright © Markersoft 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -117,48 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="mainStatusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="mainMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>133, 17</value>
-  </metadata>
-  <metadata name="upperToolStrip.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="upperToolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>248, 17</value>
-  </metadata>
-  <metadata name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>458, 17</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        AAABAAEAExEAAAEAIAB4BQAAFgAAACgAAAATAAAAIgAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAD//vz7//78+//+/Pv//vz7//78+//+/Pv//vz7//78+//+/Pv//vz7//78+//+/Psnf/8AJ3//ACd/
-        /wAnf/8AJ3//ACd//wAnf/8A//78+//+/Pv//vz7//78+//+/Pv//vz7//78+//+/Pv//vz7//78+//+
-        /Pv//vz7J3//ACd//wBSuQDdUrkA3Sd//wAnf/8AJ3//AP/+/PsAAAD///78+wAAAP///vz7AAAA///+
-        /PsAAAD///78+wAAAP///vz7//78+yd//wBSuQDdUrkA3VK5AN1SuQDdJ3//ACd//wD//vz7//78+wAA
-        AP///vz7AAAA///+/PsAAAD///78+wAAAP///vz7//78+//+/PtSuQDdUrkA3Sd//wBSuQDdUrkA3Sd/
-        /wAnf/8A//78+//+/Pv//vz7//78+//+/Pv//vz7//78+//+/Pv//vz7//78+//+/Pv//vz7J3//ACd/
-        /wAnf/8AJ3//AFK5AN1SuQDdJ3//AP/+/PsAAAD///78+wAAAP///vz7AAAA///+/PsAAAD///78+wAA
-        AP///vz7//78+yd//wAnf/8AJ3//ACd//wAnf/8AUrkA3VK5AN3//vz7//78+wAAAP///vz7AAAA///+
-        /PsAAAD///78+wAAAP///vz7//78+//+/Psnf/8AJ3//AFK5AN1SuQDdJ3//ACd//wBSuQDd//78+//+
-        /Pv//vz7//78+//+/Pv//vz7//78+//+/Pv//vz7//78+//+/Pv//vz7J3//AFK5AN1SuQDdUrkA3VK5
-        AN0nf/8AJ3//AP/+/PsAAAD///78+wAAAP///vz7AAAA///+/PsAAAD///78+wAAAP///vz7//78+1K5
-        AN1SuQDdJ3//AFK5AN1SuQDdJ3//ACd//wD//vz7//78+wAAAP///vz7AAAA///+/PsAAAD///78+wAA
-        AP///vz7//78+//+/Psnf/8AJ3//ACd//wAnf/8AUrkA3VK5AN0nf/8A//78+//+/Pv//vz7//78+//+
-        /Pv//vz7//78+//+/Pv//vz7//78+//+/Pv//vz7J3//ACd//wAnf/8AJ3//ACd//wBSuQDdUrkA3f/+
-        /PsAAAD///78+wAAAP///vz7AAAA///+/PsAAAD///78+wAAAP///vz7//78+yd//wAnf/8AUrkA3VK5
-        AN0nf/8AJ3//AFK5AN3//vz7//78+wAAAP///vz7AAAA///+/PsAAAD///78+wAAAP///vz7//78+//+
-        /Psnf/8AUrkA3VK5AN1SuQDdUrkA3Sd//wAnf/8A//78+//+/PtSuQDd//78+//+/Pv//vz7//78+yMA
-        6McjAOjH//78+//+/Pv//vz7UrkA3VK5AN0nf/8AUrkA3VK5AN0nf/8AJ3//AP/+/PtSuQDd//78+1K5
-        AN3//vz7//78+//+/PsjAOjH//78+yMA6Mf//vz7//78+yd//wAnf/8AJ3//ACd//wBSuQDdUrkA3Sd/
-        /wD//vz7//78+//+/Pv//vz7UrkA3f/+/Pv//vz7//78+yMA6McjAOjH//78+//+/Psnf/8AJ3//ACd/
-        /wAnf/8AJ3//AFK5AN1SuQDdJ3//ACd//wAnf/8AJ3//ACd//wAnf/8AJ3//ACd//wAnf/8AJ3//ACd/
-        /wAnf/8AJ3//ACd//wAnf/8AJ3//ACd//wAnf/8AUrkA3QAP4AAADOAAAAhgAAACYAAADyAAAA+AAAAM
-        wAAACGAAAAJgAAAPIAAAD4AAAAzAAAAIYAAAAmAAAA8gAAAPgAD//8AA
-</value>
-  </data>
 </root>

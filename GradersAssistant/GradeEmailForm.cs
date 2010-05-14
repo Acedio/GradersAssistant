@@ -18,12 +18,14 @@ namespace GradersAssistant
         Assignment currentAssignment;
         Dictionary<int,ResponseList> responseLists;
         Dictionary<int,int> studentScores = new Dictionary<int,int>();
-        int totalScore;
+        int totalScore, numZeros, numGraded, maxScore;
+        bool useHtml = true;
+        string smtpServer;
 
-        bool useHtml = false;
         public GradeEmailForm(GAClass mainClass, Dictionary<int, Student> students, Assignment assignment, Dictionary<int,ResponseList> responseLists)
         {
             InitializeComponent();
+            this.Text = "Email Grades - " + assignment.Name + " - " + mainClass.ClassName;
             this.AcceptButton = buttonSendEmails;
             this.CancelButton = buttonCancel;
 
@@ -31,20 +33,29 @@ namespace GradersAssistant
             this.students = students;
             this.currentAssignment = assignment;
             this.responseLists = responseLists;
-            try
+            this.useHtml = mainClass.FormatAsHTML;
+            this.smtpServer = textBoxSMTPServer.Text = mainClass.ServerName;
+            this.Text = "Email Grades - " + currentAssignment.Name + " - " + mainClass.ClassName;
+
+            studentScores = getStudentTotals();
+            totalScore = 0;
+            foreach (int i in studentScores.Values)
             {
-                studentScores = getStudentTotals();
-                totalScore = 0;
-                foreach (int i in studentScores.Values)
+                try
                 {
                     totalScore += i;
+                    if (i == 0)
+                    {
+                        numZeros++;
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Student score not found, database may be corrupt." +
-                    ex.ToString(),
-                    "Student score not found!");
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        "Crazy error!  Glad I'm not you, man (or woman).\nYeah, here's some error stuff!\n\n" +
+                        ex.ToString(),
+                        "Umm...");
+                }
             }
 
 
@@ -53,38 +64,72 @@ namespace GradersAssistant
 
         /// <summary>
         /// This returns a Dictionary<studentID, studentScore> using the class' students list.
+        /// Side effect: Also sets numGraded.
         /// </summary>
         /// <returns>Dictionary connecting studentIDs to studentScores.</returns>
         private Dictionary<int,int> getStudentTotals()
         {
+            numGraded = students.Count;
             Dictionary<int,int> tempDict = new Dictionary<int,int>();
             foreach (Student s in students.Values)
             {
-                tempDict.Add(s.StudentID,getOneTotal(s));
+                try
+                {
+                    tempDict.Add(s.StudentID, getOneTotal(s));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Student responses not found, database may be corrupt.\n\n" +
+                        ex.ToString(),
+                        "Student score not found!");
+                    numGraded--;
+                }
             }
             return tempDict;
         }
 
         /// <summary>
         /// This function returns the total score of one Student.
+        /// Side effect:  Also sets the maxScore object variable.  Messy, I know.
         /// </summary>
         /// <param name="s">The Student whose score is to be gotten.</param>
         /// <returns>An integer indicating the Student's score.</returns>
         private int getOneTotal(Student s)
-        {   // this is ridiculous!      -- Josh
-            if (responseLists.ContainsKey(s.StudentID))
+        {
+            if (!responseLists.ContainsKey(s.StudentID))
             {
                 throw new Exception("Student " + s.FirstName + " " + s.LastName +
                     " (" + s.StudentID +
                     ") does not have any responses.  Please check the grading guide.");
             }
             Dictionary<int, Response> responseDict = responseLists[s.StudentID].Responses;
+            if (responseDict.Count == 0)
+            {
+                throw new Exception("Student " + s.FirstName + " " + s.LastName +
+                    " (" + s.StudentID +
+                    ") does not have any responses.  Please check the grading guide.");
+            }
             Rubric currentRubric = currentAssignment.Rubric;
             int theTotal = 0;
+            maxScore = 0;
 
             foreach (int rootNodeID in currentRubric.RootNodes)
             {
-                theTotal += getScoreFromNode(rootNodeID, currentRubric.Nodes, responseDict);
+                try
+                {
+                    theTotal += getScoreFromNode(rootNodeID, currentRubric.Nodes, responseDict);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Some responses missing for student "
+                        + s.FirstName + " " + s.LastName + ".  Try regrading this student.  " +
+                        "If that doesn't work, the database is probably corrupt.\n\n" + ex.ToString(),
+                        "Missing responses!");
+                }
+            }
+            foreach (Adjustment a in responseLists[s.StudentID].Adjustments)
+            {
+                theTotal += a.PointAdjustment;
             }
             return theTotal;
         }
@@ -112,26 +157,171 @@ namespace GradersAssistant
             }
             else
             {   // reached end, return an int now
+                maxScore += currentAssignment.Rubric.Nodes[nodeID].Criteria.MaxPoints;
                 return responseDict[nodeID].PointsReceived;
             }
         }
 
         /// <summary>
-        /// This function returns the text for a text formatted email for one Student.  Includes
+        /// This function returns the HTML text for an HTML formatted email for one Student.  Includes
         /// comments, grades, etc.  Throws an exception if the Student has no responses.
+        /// </summary>
+        /// <param name="s">The Student whose email HTML should be obtained.</param>
+        /// <returns>Returns the string that should be sent to the sendEmail function.</returns>
+        private string getEmailHtml(Student s)
+        {
+            int tempInt;
+            int adjustmentTotal = 0;
+            List<string> commentStrings = new List<string>();
+
+            if (!responseLists.ContainsKey(s.StudentID))
+            {
+                throw new Exception("Student " + s.FirstName + " " + s.LastName +
+                    " (" + s.StudentID +
+                    ") does not have any responses.  Please check the grading guide.");
+            }
+            Dictionary<int, Response> responseDict = responseLists[s.StudentID].Responses;
+            // initialize html tags and add header text // NOTE: New lines are for minor source readability
+            string theString = "<html><body>" + "<p>" + textBoxHeaderText.Text + "</p>";
+            // add intro
+            theString += "<h4>Grading Report for " + mainClass.ClassName + "</h4>" +
+                "<h5>Assignment: " + currentAssignment.Name + "</h5>";
+            // class statistics
+            theString += "<h5>Statistics:</h5><p>" +
+                "     Number of Students: " + students.Count + "<br />" +
+                "     Numer of Students Graded: " + numGraded + "<br />" +
+                "     Number of Zero Grades: " + numZeros + "<br />" +
+                "     Average Grade: " + ((double)totalScore / (double)students.Count).ToString("F2") + "<br />" +
+                "     Average (no zeros): " + ((double)totalScore / (double)studentScores.Count).ToString("F2") + "</p>";
+
+            //Dictionary<int, RubricNode> criterion = currentAssignment.Rubric.Nodes;
+            Rubric currentRubric = currentAssignment.Rubric;
+
+            theString += "<h5>Your Grades:</h5><ul>";
+            tempInt = 0;
+            foreach (int rootNodeID in currentRubric.RootNodes)
+            {
+                theString += getHtmlFromNode(rootNodeID, currentRubric.Nodes, responseDict, ref tempInt, ref commentStrings);
+            }
+            theString += "</ul>";
+            // Now add adjustments... if there are any
+            if (responseLists[s.StudentID].Adjustments.Count != 0)
+            {
+                theString += "<h5>Adjustments:</h5>";
+                theString += "<table width=\"100%\">";
+                foreach (Adjustment a in responseLists[s.StudentID].Adjustments)
+                {
+                    theString += "<tr><td>" + a.Comment + "</td><td>" + a.PointAdjustment + "</td></tr>";
+                    adjustmentTotal += a.PointAdjustment;
+                }
+                theString += "</table>";
+            }
+            // Now do full summary
+            theString += "<p>Subtotal: " + (studentScores[s.StudentID] - adjustmentTotal) +
+                " out of " + maxScore + "<br />";
+            if (adjustmentTotal > 0)
+            {
+                theString += "Adjustments: +" + adjustmentTotal + "<br />";
+            }
+            else
+            {
+                theString += "Adjustments: " + adjustmentTotal + "<br />";
+            }
+            theString += "Total Score: " + studentScores[s.StudentID] + " out of " + maxScore +
+                " -- " + (100 * (double)studentScores[s.StudentID] / (double)maxScore).ToString("F2") + "%</p>";
+            // Now comments
+            theString += "<h5>Comments:</h5>";
+            foreach (string aComment in commentStrings)
+            {
+                theString += aComment;
+            }
+            theString += "</body></html>";
+            return theString;
+        }
+
+        /// <summary>
+        /// This function is called recursively to navigate the criteria tree and get some of the
+        /// HTML for a student's email, starting at a single node.
+        /// </summary>
+        /// <param name="nodeID">Start node.</param>
+        /// <param name="nodes">Dictionary of all nodes in the criteria tree.</param>
+        /// <param name="responseDict">Dictionary of all responses for this student.</param>
+        /// <param name="depth">This number indicates the level of recursion, starting at
+        /// zero.  This will control the indentation in the returned HTML string.</param>
+        /// <param name="anchorNum">Passed by reference, this tells which anchor number
+        /// should be used for the next anchor reference (for comments).</param>
+        /// <returns>The string to be added to the email to be sent for this student.</returns>
+        private string getHtmlFromNode(int nodeID, Dictionary<int, RubricNode> nodes, Dictionary<int, Response> responseDict, ref int anchorNum, ref List<string> commentStrings)
+        {
+            LinkedList<int> children = nodes[nodeID].Children;
+            string theString = "<li>";
+
+            if (children.Count > 0)
+            {   // go deeper in recursion
+
+                theString += nodes[nodeID].Criteria.Description + ":" + "<ul>";
+                foreach (int nID in children)
+                {
+                    theString += getHtmlFromNode(nID, nodes, responseDict, ref anchorNum, ref commentStrings);
+                }
+                theString += "</ul></li>";
+                return theString;
+            }
+            else
+            {   // reached end, return a string now
+                theString += nodes[nodeID].Criteria.Description + ": ";
+                if (responseDict[nodeID].GraderComment == "")
+                {
+                    theString += responseDict[nodeID].PointsReceived + " out of " +
+                        nodes[nodeID].Criteria.MaxPoints;
+                }
+                else
+                {   // if we have a comment, insert anchor
+                    theString += "<a href=\"#C" + anchorNum + "\">" +
+                        responseDict[nodeID].PointsReceived + " out of " +
+                        nodes[nodeID].Criteria.MaxPoints + "</a>";
+                    // add comment string to be rendered at end of email
+                    commentStrings.Add("<h2><a name=\"C" + anchorNum + "\">" +
+                        "</a></h2><p>" + nodes[nodeID].Criteria.Description + ": " + "<br />" +
+                        responseDict[nodeID].GraderComment.Replace("\n", "</br>") + "</p>");
+                    anchorNum++;
+                }
+                theString += "</li>";
+                return theString;
+            }
+        }
+
+        /// <summary>
+        /// This function is called recursively to navigate the criteria tree and get some of the
+        /// text for a student's email, starting at a single node.
         /// </summary>
         /// <param name="s">The Student whose email text should be obtained.</param>
         /// <returns>Returns the string that should be sent to the sendEmail function.</returns>
         private string getEmailText(Student s)
-        {   // this is ridiculous!      -- Josh
-            if (responseLists.ContainsKey(s.StudentID))
+        {
+            if (!responseLists.ContainsKey(s.StudentID))
             {
                 throw new Exception("Student " + s.FirstName + " " + s.LastName +
                     " (" + s.StudentID + 
                     ") does not have any responses.  Please check the grading guide.");
             }
             Dictionary<int, Response> responseDict = responseLists[s.StudentID].Responses;
-            string theString = "The scores:\n\n";
+            int adjustmentTotal = 0;
+            // initialize text with header and blank line
+            string theString = textBoxHeaderText.Text + "\n\n";
+            // add intro
+            theString += "Grading Report for " + mainClass.ClassName + "\n" +
+                "Assignment: " + currentAssignment.Name + "\n\n";
+            // class statistics
+            theString += "Statistics:\n" +
+                "     Number of Students: " + students.Count + "\n" +
+                "     Numer of Students Graded: " + numGraded + "\n" +
+                "     Number of Zero Grades: " + numZeros + "\n" +
+                "     Average Grade: " + ((double)totalScore / (double)students.Count).ToString("F2") + "\n" +
+                "     Average (no zeros): " + ((double)totalScore / (double)studentScores.Count).ToString("F2") + "\n\n";
+            theString += "Your Score:\n\n";
+
+
 
             //Dictionary<int, RubricNode> criterion = currentAssignment.Rubric.Nodes;
             Rubric currentRubric = currentAssignment.Rubric;
@@ -140,6 +330,29 @@ namespace GradersAssistant
             {
                 theString += getTextFromNode(rootNodeID, currentRubric.Nodes, responseDict, 0) + "\n";
             }
+            theString += "\n";
+            if (responseLists[s.StudentID].Adjustments.Count != 0)
+            {
+                theString += "Adjustments:\n";
+                foreach (Adjustment a in responseLists[s.StudentID].Adjustments)
+                {
+                    theString += a.Comment + "     " + a.PointAdjustment + "\n";
+                    adjustmentTotal += a.PointAdjustment;
+                }
+            }
+            // Final summary strings:
+            theString += "\nSubtotal: " + (studentScores[s.StudentID] - adjustmentTotal) +
+                " out of " + maxScore + "\n";
+            if (adjustmentTotal > 0)
+            {
+                theString += "Adjustments: +" + adjustmentTotal + "\n";
+            }
+            else
+            {
+                theString += "Adjustments: " + adjustmentTotal + "\n";
+            }
+            theString += "Total Score: " + studentScores[s.StudentID] + " out of " + maxScore +
+                " -- " + (100.0*((double)studentScores[s.StudentID])/(double)maxScore).ToString("F2") + "%";
             return theString;
         }
 
@@ -184,7 +397,7 @@ namespace GradersAssistant
                 {
                     indentString = indentString + tabString;
                     theString += indentString + "Comments:\n" + indentString +
-                        responseDict[nodeID].GraderComment.Replace("\n", "\n" + indentString);
+                        responseDict[nodeID].GraderComment.Replace("\n", "\n" + indentString) + "\n";
                 }
                 return theString;
             }
@@ -195,7 +408,7 @@ namespace GradersAssistant
         /// Assumes all appropriate boxes have appropriate information.
         /// </summary>
         /// <returns>Number of successfull emails.</returns>
-        private int distributeEmails()
+        private int distributeEmails(ref bool setOnAbort)
         {
             int emailsSent = 0;
             bool keepGoing = true;
@@ -210,7 +423,14 @@ namespace GradersAssistant
                 {
                     try
                     {
-                        sendEmail(useHtml, getEmailText(pair.Value), pair.Value);
+                        if (useHtml)
+                        {
+                            sendEmail(useHtml, getEmailHtml(pair.Value), pair.Value);
+                        }
+                        else
+                        {
+                            sendEmail(useHtml, getEmailText(pair.Value), pair.Value);
+                        }
                         emailsSent++;   // only happens if sendEmail function goes through
                         keepGoing = false;
                     }
@@ -226,6 +446,7 @@ namespace GradersAssistant
                         {   // stop sending emails
                             keepGoing = false;
                             breakNow = true;
+                            setOnAbort = true;
                         }
                         else if (ari == DialogResult.Ignore)
                         {   // move along
@@ -246,10 +467,11 @@ namespace GradersAssistant
             }
             return emailsSent;   // TODO actually check how many emails worked
         }
+
         /// <summary>
         /// This function actually does the email sending, using SMTP.
         /// </summary>
-        /// <param name="useHTML">Boolean indicating whether or nto to use HTML.</param>
+        /// <param name="useHTML">Boolean indicating whether or not to use send HTML or plain text.</param>
         /// <param name="text">The actual text of the email, with or without HTML formatting.</param>
         /// <param name="s">The student to whom the email should be sent.</param>
         /// <returns>Returns a boolean indicating whether or not the email went through,
@@ -322,6 +544,7 @@ namespace GradersAssistant
         /// <param name="e">The event args.</param>
         private void buttonSendEmails_Click(object sender, EventArgs e)
         {
+            bool tempCheckAbort;
             int failedEmails = 0;
             if (textBoxEmailAddress.Text == "")
             {
@@ -343,7 +566,8 @@ namespace GradersAssistant
             {   // send a lot of emails
                 if (MessageBox.Show("Are you sure you want to send " + students.Count + " emails?", "Send " + students.Count + " emails?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    failedEmails = students.Count - distributeEmails();
+                    tempCheckAbort = false;
+                    failedEmails = students.Count - distributeEmails(ref tempCheckAbort);
                     if (failedEmails == 0)
                     {
                         MessageBox.Show(students.Count.ToString() + " emails sent successfully!", "Success!");
@@ -354,7 +578,10 @@ namespace GradersAssistant
                             " emails sent successfully.  " + failedEmails.ToString() + " email not sent."
                             , "Failed Emails");
                     }
-                    this.Close();
+                    if (!tempCheckAbort)
+                    {
+                        this.Close();
+                    }
                 }
             }
         }
@@ -456,6 +683,16 @@ namespace GradersAssistant
             {
                 textBoxHeaderText.Enabled = false;
             }
+        }
+
+        private void radioButtonHtml_CheckedChanged(object sender, EventArgs e)
+        {
+            useHtml = radioButtonHtml.Checked;
+        }
+
+        private void radioButtonPlainText_CheckedChanged(object sender, EventArgs e)
+        {
+            useHtml = !radioButtonPlainText.Checked;
         }
     }
 }

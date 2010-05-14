@@ -49,13 +49,7 @@ namespace GradersAssistant
             set { emailAddress = value; }
         }
 
-        int classSection;
-
-        public int ClassSection
-        {
-            get { return classSection; }
-            set { ClassSection = value; }
-        }
+        public int ClassSection;
 
         string studentSchoolID;
 
@@ -77,7 +71,7 @@ namespace GradersAssistant
             lastName = sLastName;
             username = sUsername;
             emailAddress = sEmailAddress;
-            classSection = sClassSection;
+            ClassSection = sClassSection;
             studentSchoolID = sStudentSchoolID;
         }
 
@@ -88,13 +82,13 @@ namespace GradersAssistant
             lastName = sLastName;
             username = sUsername;
             emailAddress = sEmailAddress;
-            classSection = sClassSection;
+            ClassSection = sClassSection;
             studentSchoolID = sStudentSchoolID;
         }
 
         public override string ToString()
         {
-            return String.Format("({0}) {2}, {1} [{3}]",studentID,firstName,lastName,emailAddress);
+            return String.Format("{2}, {1} [{0}]",studentSchoolID,firstName,lastName);
         }
 
         public bool HasID()
@@ -133,6 +127,7 @@ namespace GradersAssistant
         public Response()
         {
             responseID = noID;
+            graderComment = string.Empty;
         }
 
         public Response(int rID, int rPointsReceived, string rGraderComment)
@@ -140,6 +135,57 @@ namespace GradersAssistant
             responseID = rID;
             pointsReceived = rPointsReceived;
             graderComment = rGraderComment;
+        }
+
+        public bool HasID()
+        {
+            return responseID != noID;
+        }
+    }
+
+    public class Adjustment
+    {
+        private const int noID = -1;
+
+        public int AdjustmentID;
+
+        public string Comment;
+
+        public int PointAdjustment;
+
+        public Adjustment()
+        {
+            AdjustmentID = noID;
+            Comment = string.Empty;
+            PointAdjustment = 0;
+        }
+
+        public Adjustment(int aID, string aComment, int aPointAdjustment)
+        {
+            AdjustmentID = aID;
+            Comment = aComment;
+            PointAdjustment = aPointAdjustment;
+        }
+
+        public override string ToString()
+        {
+            if (PointAdjustment > 0)
+            {
+                return String.Format("{0}: +{1}", Comment, PointAdjustment.ToString());
+            }
+            else if (PointAdjustment < 0)
+            {
+                return String.Format("{0}: {1}", Comment, PointAdjustment.ToString());
+            }
+            else
+            {
+                return String.Format("{0}", Comment, PointAdjustment.ToString());
+            }
+        }
+
+        public bool HasID()
+        {
+            return AdjustmentID != noID;
         }
     }
 
@@ -153,11 +199,14 @@ namespace GradersAssistant
 
         public int AssignmentID;
 
+        public List<Adjustment> Adjustments;
+
         public ResponseList()
         {
             StudentID = noID;
             AssignmentID = noID;
             Responses = new Dictionary<int, Response>();
+            Adjustments = new List<Adjustment>();
         }
     }
 
@@ -265,6 +314,18 @@ namespace GradersAssistant
                 return -1;
             }
         }
+
+        public int MaxPoints()
+        {
+            int maxPoints = 0;
+
+            foreach (RubricNode rn in Nodes.Values)
+            {
+                maxPoints += rn.Criteria.MaxPoints;
+            }
+
+            return maxPoints;
+        }
     }
 
     public class Assignment
@@ -311,8 +372,7 @@ namespace GradersAssistant
         public Rubric Rubric;
     }
 
-
-   public class GAClass
+    public class GAClass
     {
         public string ClassName;
         public string GraderName;
@@ -320,18 +380,15 @@ namespace GradersAssistant
         public int HostType;
         public string UserName;
         public string FromAddress;
-        public string AddressExtension;
+        public string ServerName;
+        public int PortNumber;
         public bool AlertOnLate;
         public bool SetFullPoints;
         public bool IncludeNames;
         public bool IncludeSections;
         public bool FormatAsHTML;
         public bool EmailStudentsNoGrade;
-        public bool OutputOnlyGraded;
-        public bool IncludeAllComments;
-        public bool ShowOutOfTotals;
         public bool DisplayClassStats;
-        public bool DisplayTotalPoints;
 
         public GAClass()
         {
@@ -341,21 +398,18 @@ namespace GradersAssistant
             HostType = 0;
             UserName = "";
             FromAddress = "";
-            AddressExtension = "";
+            ServerName = "";
+            PortNumber = 0;
             AlertOnLate = false;
             SetFullPoints = false;
             IncludeNames = false;
             IncludeSections = false;
             FormatAsHTML = false;
             EmailStudentsNoGrade = false;
-            OutputOnlyGraded = false;
-            IncludeAllComments = false;
-            ShowOutOfTotals = false;
             DisplayClassStats = false;
-            DisplayTotalPoints = false;
         }
 
-        public GAClass(string cClassName, string cGraderName, int cNumberOfSections, int cHostType, string cUserName, string cFromAddress, string cAddressExtension, bool cAlertOnLate, bool cSetFullPoints, bool cIncludeNames, bool cIncludeSections, bool cFormatAsHTML, bool cEmailStudentsNoGrade, bool cOutputOnlyGraded, bool cIncludeAllComments, bool cShowOutOfTotals, bool cDisplayClassStats, bool cDisplayTotalPoints)
+        public GAClass(string cClassName, string cGraderName, int cNumberOfSections, int cHostType, string cUserName, string cFromAddress, string cServerName, int cPortNumber, bool cAlertOnLate, bool cSetFullPoints, bool cIncludeNames, bool cIncludeSections, bool cFormatAsHTML, bool cEmailStudentsNoGrade, bool cDisplayClassStats)
         {
             ClassName = cClassName;
             GraderName = cGraderName;
@@ -363,18 +417,15 @@ namespace GradersAssistant
             HostType = cHostType;
             UserName = cUserName;
             FromAddress = cFromAddress;
-            AddressExtension = cAddressExtension;
+            ServerName = cServerName;
+            PortNumber = cPortNumber;
             AlertOnLate = cAlertOnLate;
             SetFullPoints = cSetFullPoints;
             IncludeNames = cIncludeNames;
             IncludeSections = cIncludeSections;
             FormatAsHTML = cFormatAsHTML;
             EmailStudentsNoGrade = cEmailStudentsNoGrade;
-            OutputOnlyGraded = cOutputOnlyGraded;
-            IncludeAllComments = cIncludeAllComments;
-            ShowOutOfTotals = cShowOutOfTotals;
             DisplayClassStats = cDisplayClassStats;
-            DisplayTotalPoints = cDisplayTotalPoints;
        }
 
     }

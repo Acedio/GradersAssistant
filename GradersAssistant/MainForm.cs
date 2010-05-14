@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.OleDb;
+using System.Media;
 
 namespace GradersAssistant
 {
@@ -104,7 +105,7 @@ namespace GradersAssistant
         }
 
         //creates a new class
-        //TODO still needs to acount for functionality to re populate the new main form once hte class is created
+        //TODO still needs to acount for functionality to re populate the new main form once the class is created
         private void CreateNewClass(object sender, EventArgs e)
         {
             //open 
@@ -120,8 +121,11 @@ namespace GradersAssistant
             {
                 try
                 {
+                    studentComboBox.Items.Clear();
+
                     Stream template = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("GradersAssistant.template.gat");
-                    FileStream fileOut = new FileStream(saveFile.FileName, FileMode.Create, FileAccess.Write);
+                    FileStream fileOut = new FileStream(saveFile.FileName, FileMode.OpenOrCreate, FileAccess.Write);
+                    //FileStream fileOut = new FileStream(saveFile.FileName, FileMode.Create, FileAccess.Write);
 
                     // Now that we have the stream, we have to save it.
 
@@ -138,8 +142,9 @@ namespace GradersAssistant
 
                     //open edit class form in add mode
                     EditClassForm addClass = new EditClassForm();
+                    addClass.FormStatus = 0;
                     addClass.ShowDialog();
-
+                    
                     //if the values on the form have been updated then commit the changes to the database
                     if (addClass.FormStatus == 1)
                     {
@@ -147,9 +152,15 @@ namespace GradersAssistant
                         if (dbConnention.ConnectDB(saveFile.FileName))
                         {
                             //insert
-                            dbConnention.AddClass(addClass.PublicClass);
-                            mainClass = addClass.PublicClass;
-                            classOpenEnableMenu();
+                            if (dbConnention.AddClass(addClass.PublicClass))
+                            {
+                                mainClass = addClass.PublicClass;
+                                classOpenEnableMenu();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Class data failed to save to file!");
+                            }
                         }
                         else
                         {
@@ -197,9 +208,10 @@ namespace GradersAssistant
         {
             gaf = new GradingAssignmentForm();
             gaf.MdiParent = this;
-            int height = gaf.ClientSize.Height + this.Height - this.ClientSize.Height + mainMenuStrip.Height + upperToolStrip.Height + lowerToolStrip.Height + mainStatusStrip.Height;
+            int height = gaf.ClientSize.Height + this.Height - this.ClientSize.Height + mainMenuStrip.Height + upperToolStrip.Height + mainStatusStrip.Height;
             int width = gaf.ClientSize.Width + this.Width - this.ClientSize.Width;
             this.Size = new Size(width, height);
+            this.MinimumSize = new Size(width, 0);
             gaf.Show();
             gaf.WindowState = FormWindowState.Maximized;
             if (students.Count > 0)
@@ -227,6 +239,13 @@ namespace GradersAssistant
             //if a class was opened generate the database connection
             if (openClass.FileName != "")
             {
+                // close the old class if necessary
+                if (gaf != null)
+                {
+                    gaf.Close();
+                    gaf.Dispose();
+                    gaf = null;
+                }
                 dbConnention.ConnectDB(openClass.FileName);
                 mainClass = dbConnention.GetClass();
 
@@ -242,21 +261,23 @@ namespace GradersAssistant
         private void EditStudent(object sender, EventArgs e)
         {
             EditStudentForm editStudent = new EditStudentForm();
-            editStudent.status = 1;
+            editStudent.FormStatus = 1;
+            editStudent.PublicStudent = (Student)studentComboBox.SelectedItem;
             editStudent.populateForm();
             //TODO load the right student into the public student of the form
             //editStudent.PublicStudent. = studentComboBox.SelectedItem
             editStudent.ShowDialog();
 
             //if the dialog is closed with a status of 1 the student needs to be updated
-            if (editStudent.status == 1)
+            if (editStudent.FormStatus == 1)
             {
                 //check to make sure a connection exisists
                 if (dbConnention.IsConnected())
                 {
                     //update the class table in the database
                     dbConnention.UpdateStudent(editStudent.PublicStudent);
-                    dbConnention.GetStudents();
+                    //dbConnention.GetStudents();
+                    loadStudents(dbConnention);
                 }
                 else
                 {
@@ -268,17 +289,19 @@ namespace GradersAssistant
         private void AddNewStudent(object sender, EventArgs e)
         {
             EditStudentForm addStudent = new EditStudentForm();
-            addStudent.Text = "Add New Student";
-            addStudent.status = 0;
+            addStudent.FormStatus = 0;
+            addStudent.NumOfSections = mainClass.NumberOfSections;
+            addStudent.populateForm();
             addStudent.ShowDialog();
             //if the dialog is closed with a status of 1 the student needs to be added
-            if (addStudent.status == 1)
+            if (addStudent.FormStatus == 1)
             {
                 if (dbConnention.IsConnected())
                 {
                     //update the class table in the database
                     dbConnention.AddStudent(addStudent.PublicStudent);
-                    dbConnention.GetStudents();
+                   // dbConnention.GetStudents();
+                    loadStudents(dbConnention);
                 }
                 else
                 {
@@ -289,7 +312,16 @@ namespace GradersAssistant
 
         private void deleteStudent(object sender, EventArgs e)
         {
+            Student currentStudent = (Student)studentComboBox.SelectedItem; 
+            WarningFormWithContinue deleteStudent = new WarningFormWithContinue();
+            deleteStudent.Message = "You are about to delete " + currentStudent.FirstName + " " + currentStudent.LastName + " \nFrom the class this action cannot be \nundone.  Do  you want to proceed?";
+            deleteStudent.ShowDialog();
 
+            if(deleteStudent.Proceed)
+            {
+                dbConnention.DeleteStudent(currentStudent);
+                loadStudents(dbConnention);
+            }
         }
 
         private void ExitMenuItem_Click(object sender, EventArgs e)
@@ -303,23 +335,107 @@ namespace GradersAssistant
             this.Dispose();
         }
 
-        private void studentComboBox_DropDownClosed(object sender, EventArgs e)
+        private void saveResponseList(ResponseList responseList)
         {
-            //if (studentComboBox.SelectedItem != null)
-            //{
-            //    Student student = (Student)studentComboBox.SelectedItem;
-
-            //    gaf.LoadResponseList(student, dbConnention.GetResponseList(currentAssignmentID, student.StudentID));
-            //}
+            dbConnention.SaveResponseList(responseList);
         }
 
         private void studentComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (gaf != null && studentComboBox.SelectedItem != null)
             {
+                dbConnention.SaveResponseList(gaf.GetResponseList());
+
+                dbConnention.DeleteAdjustments(gaf.DeletedAdjustments);
+
                 Student student = (Student)studentComboBox.SelectedItem;
 
                 gaf.LoadResponseList(student, dbConnention.GetResponseList(currentAssignmentID, student.StudentID));
+            }
+        }
+
+        private void previousStudent()
+        {
+            int numStudents = studentComboBox.Items.Count;
+
+            if (numStudents > 0)
+            {
+                int selectedIndex = studentComboBox.SelectedIndex;
+
+                selectedIndex--;
+
+                if (selectedIndex < 0)
+                {
+                    selectedIndex = numStudents - 1;
+                }
+
+                studentComboBox.SelectedIndex = selectedIndex;
+            }
+        }
+
+        private void nextStudent()
+        {
+            int numStudents = studentComboBox.Items.Count;
+
+            if (numStudents > 0)
+            {
+                int selectedIndex = studentComboBox.SelectedIndex;
+
+                selectedIndex++;
+
+                if (selectedIndex >= numStudents)
+                {
+                    selectedIndex = 0;
+                }
+
+                studentComboBox.SelectedIndex = selectedIndex;
+            }
+        }
+
+        private void previousStudentToolStripButton_Click(object sender, EventArgs e)
+        {
+            previousStudent();
+        }
+
+        private void nextStudentToolStripButton_Click(object sender, EventArgs e)
+        {
+            nextStudent();
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Left | Keys.Control:
+                    previousStudent();
+                    return false;
+                case Keys.Right | Keys.Control:
+                    nextStudent();
+                    return false;
+            }
+
+            return false;
+        }
+
+        private void topHatToolStripButton_Click(object sender, EventArgs e)
+        {
+            SystemSounds.Asterisk.Play();
+        }
+
+        private void aboutGradersAssistantToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox aboutBox = new AboutBox();
+
+            aboutBox.ShowDialog();
+        }
+
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (gaf != null)
+            {
+                dbConnention.SaveResponseList(gaf.GetResponseList());
+
+                dbConnention.DeleteAdjustments(gaf.DeletedAdjustments);
             }
         }
     }

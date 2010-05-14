@@ -19,10 +19,8 @@ namespace GradersAssistant
         public EditClassForm()
         {
             InitializeComponent();
-            if (Text == "Add New Class")
-            {
-                buttonUpdateClass.Text = "Add";
-            }
+            this.CancelButton = buttonCancelClass;
+            this.AcceptButton = buttonUpdateClass;
             FormStatus = -1;
             PublicClass = new GAClass();
         }
@@ -32,24 +30,23 @@ namespace GradersAssistant
             textClassName.Text = PublicClass.ClassName;
             textGraderName.Text = PublicClass.GraderName;
             comboBoxNumberOfSections.SelectedItem = PublicClass.NumberOfSections;
-            comboBoxHostType.SelectedItem = PublicClass.HostType;
+            comboBoxHostType.SelectedIndex = PublicClass.HostType;
             textUsername.Text = PublicClass.UserName;
             textFromAddress.Text = PublicClass.FromAddress;
-            checkBoxAlertOnLate.Checked = PublicClass.AlertOnLate;
+            textServerName.Text = PublicClass.ServerName;
+            textPortNumber.Text = PublicClass.PortNumber.ToString();
             checkBoxSetFullPoints.Checked = PublicClass.SetFullPoints;
             checkBoxIncludeNames.Checked = PublicClass.IncludeNames;
             checkBoxIncludeSection.Checked = PublicClass.IncludeSections;
             checkBoxFormatAsHTML.Checked = PublicClass.FormatAsHTML;
             checkBoxEmailStudentsNoGrade.Checked = PublicClass.EmailStudentsNoGrade;
-            checkBoxOutputOnlyGraded.Checked = PublicClass.OutputOnlyGraded;
-            checkBoxIncludeComments.Checked = PublicClass.IncludeAllComments;
-            checkBoxShowOutOfTotals.Checked = PublicClass.ShowOutOfTotals;
             checkBoxDisplayClassStats.Checked = PublicClass.DisplayClassStats;
-            checkBoxDisplayTotalPoints.Checked = PublicClass.DisplayTotalPoints;
+            
         }
 
         private bool validateClassForm()
         {
+            Int32 blank;
             string strErrorMessage;
             strErrorMessage = "";
             if (textClassName.Text.Trim() == "")
@@ -60,7 +57,6 @@ namespace GradersAssistant
                 strErrorMessage = strErrorMessage + "Number Of Sections Is Required.\n";
             else
             {
-                Int32 blank;
                 if (!Int32.TryParse(comboBoxNumberOfSections.SelectedItem.ToString(), out blank))
                 {
                     strErrorMessage = strErrorMessage + "Number Of Sections is not a valid value.\n";
@@ -72,6 +68,12 @@ namespace GradersAssistant
                 strErrorMessage = strErrorMessage + "Username Is Required.\n";
             if (textFromAddress.Text.Trim() == "")
                 strErrorMessage = strErrorMessage + "From Address Is Required.\n";
+            if (textServerName.Text.Trim() == "")
+                strErrorMessage = strErrorMessage + "Server Name Is Required.\n";
+            if (!Int32.TryParse(textPortNumber.Text.Trim(), out blank))
+                strErrorMessage = strErrorMessage + "Port Number is not valid";
+            else if ( Int32.Parse(textPortNumber.Text.Trim()) > 65536)
+                strErrorMessage = strErrorMessage + "Port Number is not within the acceptable range";
 
             if (strErrorMessage == "")
                 return true;
@@ -84,6 +86,11 @@ namespace GradersAssistant
 
         private void EditClassForm_Load(object sender, EventArgs e)
         {
+            if (FormStatus == 0)
+            {
+                Text = "Add New Class";
+                buttonUpdateClass.Text = "Add";
+            }
             FormStatus = -1;
         }
 
@@ -93,23 +100,21 @@ namespace GradersAssistant
             {
                 FormStatus = 1;
 
-                PublicClass.ClassName = textClassName.Text;
-                PublicClass.GraderName = textGraderName.Text;
+                PublicClass.ClassName = textClassName.Text.Trim();
+                PublicClass.GraderName = textGraderName.Text.Trim();
                 PublicClass.NumberOfSections = Int32.Parse(comboBoxNumberOfSections.SelectedItem.ToString());
                 PublicClass.HostType = comboBoxHostType.SelectedIndex;
-                PublicClass.UserName = textUsername.Text;
-                PublicClass.FromAddress = textFromAddress.Text;
+                PublicClass.UserName = textUsername.Text.Trim();
+                PublicClass.FromAddress = textFromAddress.Text.Trim();
+                PublicClass.ServerName = textServerName.Text.Trim();
+                PublicClass.PortNumber = Int32.Parse(textPortNumber.Text.Trim());
                 PublicClass.AlertOnLate = checkBoxAlertOnLate.Checked;
                 PublicClass.SetFullPoints = checkBoxSetFullPoints.Checked;
                 PublicClass.IncludeNames = checkBoxIncludeNames.Checked;
                 PublicClass.IncludeSections = checkBoxIncludeSection.Checked;
                 PublicClass.FormatAsHTML = checkBoxFormatAsHTML.Checked;
                 PublicClass.EmailStudentsNoGrade = checkBoxEmailStudentsNoGrade.Checked;
-                PublicClass.OutputOnlyGraded = checkBoxOutputOnlyGraded.Checked;
-                PublicClass.IncludeAllComments = checkBoxIncludeComments.Checked;
-                PublicClass.ShowOutOfTotals = checkBoxShowOutOfTotals.Checked;
                 PublicClass.DisplayClassStats = checkBoxDisplayClassStats.Checked;
-                PublicClass.DisplayTotalPoints = checkBoxDisplayTotalPoints.Checked;
 
                 this.Close();
             }
@@ -120,5 +125,6 @@ namespace GradersAssistant
             FormStatus = 0;
             this.Close();
         }
+
     }
 }
