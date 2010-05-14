@@ -54,7 +54,7 @@ namespace GradersAssistant
         /// <summary>
         /// This returns a Dictionary<studentID, studentScore> using the class' students list.
         /// </summary>
-        /// <returns>Dictionary connecting studentIDs to studentScores</returns>
+        /// <returns>Dictionary connecting studentIDs to studentScores.</returns>
         private Dictionary<int,int> getStudentTotals()
         {
             Dictionary<int,int> tempDict = new Dictionary<int,int>();
