@@ -16,14 +16,37 @@ namespace GradersAssistant
             InitializeComponent();
         }
 
+        private string D_date;
+        private string A_name;
+
         public string d_date
         {
-            get { return d_date_box.ToString(); }
+            get { return D_date; }
+            set { D_date = value;  }
         }
         
         public string a_name
         {
-            get { return a_name_textbox.Text; }
+            get { return A_name; }
+            set { A_name = value; }
+        }
+
+        private void CreateAssignmentForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            CreateRubricForm newRubric = new CreateRubricForm();
+            newRubric.ROOTNODE.Text = a_name;
+            newRubric.Show();
+        }
+
+        private void acceptbtn_Click(object sender, EventArgs e)
+        {
+            a_name = this.a_name_textbox.Text;
+            //d_date = d_date_box.ToString();
+            d_date = String.Format("{0:G}", d_date_box);
+            Assignment assignment = new Assignment();
+            assignment.Name = a_name;
+            //assignment.DueDate = DateTime.Parse(d_date_box);
+            this.Close();
         }
     }
 }

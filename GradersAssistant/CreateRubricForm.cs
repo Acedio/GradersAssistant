@@ -25,16 +25,10 @@ namespace GradersAssistant
 
         public bool NodeIsSelected = false;
 
-        Assignment assignment;
-        TreeNode ROOTNODE = new TreeNode();
+        public TreeNode ROOTNODE = new TreeNode();
 
         private void CreateRubricForm_Load(object sender, EventArgs e)
         {
-            CreateAssignmentForm assign = new CreateAssignmentForm();
-            assign.Show();
-            assignment.Name = assign.a_name;
-            assignment.DueDate = DateTime.Parse(assign.d_date);
-            ROOTNODE.Text = assign.a_name;
             CriteriaDisplay.Nodes.Add(ROOTNODE);
             this.CriteriaDisplay.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView_ItemDrag);
             this.CriteriaDisplay.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeView_DragEnter);
@@ -52,29 +46,52 @@ namespace GradersAssistant
             e.Effect = DragDropEffects.Move;
         }
 
+        private int FindCriteriaNode(LinkedList<CriteriaNode> list, TreeNode t)
+        {
+            int temp=0;
+            foreach (CriteriaNode c in list)
+            {
+                if (c.NodeIndex == t.Index)
+                    temp = c.NodeIndex;
+                else if (c.NumberOfChildren > 0)
+                    temp = FindCriteriaNode(c.ChildList, t);
+                else
+                    temp = -1;
+            }
+            return temp;
+        }
+
         private void treeView_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
         {
             TreeNode NewNode;
 
             if (e.Data.GetDataPresent("System.Windows.Forms.TreeNode", false))
             {
+                CriteriaNode CN;
                 Point pt = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
                 TreeNode DestinationNode = ((TreeView)sender).GetNodeAt(pt);
                 NewNode = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
+                int idx = FindCriteriaNode(CriteriaTree, NewNode);
                 if (DestinationNode == null)
-                {
+                {  
+                    CN = new CriteriaNode(NewNode.Name);
                     TreeNode tempNode;
                     tempNode = (TreeNode)NewNode.Clone();
-                    CriteriaDisplay.Nodes.Add(tempNode);
+                    ROOTNODE.Nodes.Add(tempNode);
                     tempNode.Expand();
-                    //Remove Original Node
+                    CriteriaTree.AddLast(CN);
+                    //Remove Original Node 
                     NewNode.Remove();
+                    CriteriaTree.Remove(CriteriaTree.ElementAt(idx));
+                    
                 }
                 else if (DestinationNode.TreeView == NewNode.TreeView)
                 {
-                    
+                    CN = new CriteriaNode(CriteriaTree.ElementAt(idx).Name);
                     DestinationNode.Nodes.Add((TreeNode)NewNode.Clone());
                     DestinationNode.Expand();
+                    CriteriaTree.AddLast(CN);
+                    CriteriaTree.Remove(CriteriaTree.ElementAt(idx));
                     //Remove Original Node
                     NewNode.Remove();
                 }
@@ -89,10 +106,10 @@ namespace GradersAssistant
             {
                 if (CriteriaTree.ElementAt(i).Name == e.Node.Name)
                 {
-                    this.DescriptionTextbox.Text = CriteriaTree.ElementAt(i).Description;
+                    DescriptionTextbox.Text = CriteriaTree.ElementAt(i).Description;
                     if (CriteriaTree.ElementAt(i).NumberOfChildren == 0)
                     {
-                        this.PointsTextBox.Text = CriteriaTree.ElementAt(i).Points.ToString();
+                        PointsTextBox.Text = CriteriaTree.ElementAt(i).Points.ToString();
                     }
                 }
             }
@@ -111,16 +128,18 @@ namespace GradersAssistant
                 tnode.Name = newnode.Name;
                 tnode.Text = newnode.Description;
                 newnode.Points = 0;
-                CriteriaDisplay.Nodes.Add(tnode);
+                ROOTNODE.Nodes.Add(tnode);   // adds to the root node
                 CriteriaTree.AddLast(newnode);
                 TotalNodes++;
                 newnode.Node = tnode;
-                NodeIsSelected = false;
+                newnode.NodeIndex = tnode.Index;
+                CriteriaDisplay.ExpandAll();
+                //NodeIsSelected = false;
             }
             else
             {
                 // root node
-                if (CriteriaDisplay.SelectedNode == null)
+                if (CriteriaDisplay.SelectedNode == ROOTNODE)
                 {
                     TreeNode tnode = new TreeNode();
                     CriteriaNode newnode = new CriteriaNode("Node " + TotalNodes.ToString());
@@ -129,11 +148,12 @@ namespace GradersAssistant
                     newnode.Description = this.DescriptionTextbox.Text;
                     newnode.Points = Convert.ToInt32(this.PointsTextBox.Text);
                     tnode.Text = newnode.Description + "(" + newnode.Points + "pts.)";
-                    CriteriaDisplay.Nodes.Add(tnode);
+                    ROOTNODE.Nodes.Add(tnode);
                     CriteriaTree.AddLast(newnode);
                     TotalNodes++;
                     newnode.Node = tnode;
-                    NodeIsSelected = false;
+                    newnode.NodeIndex = tnode.Index;
+                    CriteriaDisplay.ExpandAll();
                 }
                 // child node
                 else
@@ -150,6 +170,8 @@ namespace GradersAssistant
                     CriteriaDisplay.SelectedNode.ExpandAll();
                     TotalNodes++;
                     newnode.Node = tnode;
+                    newnode.NodeIndex = tnode.Index;
+                    CriteriaDisplay.ExpandAll();
 
                     // this for loop puts the newly created child node at the end of its parent node's list of children
                     for (int i = 0; i < CriteriaTree.Count; i++)
@@ -160,64 +182,9 @@ namespace GradersAssistant
                         }
                         
                     }
-
-                    //for (int j = 0; j < CriteriaDisplay.Nodes.Count; j++)
-                    //{
-
-                    //}
                 }
-               // UpdateCriteriaDisplay();
             }
         }
-
-        //public void UpdateCriteriaDisplay()
-        //{
-        //    CriteriaDisplay.BeginUpdate();
-        //    {
-        //        TreeNode temp = CriteriaDisplay.SelectedNode;
-        //        CriteriaDisplay.Nodes.Clear();
-        //        foreach (CriteriaNode c in CriteriaTree)
-        //        {
-        //            TreeNode temp2 = new TreeNode(c.Name);
-        //            temp2.Text = c.Description + "(" + c.Points + "pts.)";
-        //            CriteriaDisplay.Nodes.Add(temp2);
-
-        //            foreach (CriteriaNode cn in c.ChildList)
-        //            {
-        //                GetChildrensChildren(cn, temp2);
-        //            }
-        //        }
-        //        CriteriaDisplay.SelectedNode = temp;
-        //    }
-        //    CriteriaDisplay.EndUpdate();
-        //}
-
-        //// recursion...
-        //public void GetChildrensChildren(CriteriaNode C, TreeNode T)
-        //{
-        //    TreeNode temp = new TreeNode(C.Name);
-        //    temp.Text = C.Description + "(" + C.Points + "pts)";
-        //    T.Nodes.Add(temp);
-
-        //    if (C.NumberOfChildren > 0)
-        //    {
-        //        foreach (CriteriaNode c in C.ChildList)
-        //            GetChildrensChildren(c, temp);
-        //    }
-        //}
-
-        //public void AddChildrensChildren(CriteriaNode C)
-        //{
-        //    foreach (CriteriaNode c in C.ChildList)
-        //    {
-        //        if (c.ParentNode == C.Node)
-        //        {
-        //            C.ChildList.AddLast(c);
-        //            return;
-        //        }
-        //    }
-        //    AddChildrensChildren(c);
-        //}
 
         private void RemoveButton_Click(object sender, EventArgs e)
         {

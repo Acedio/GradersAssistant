@@ -69,6 +69,7 @@
             this.acceptbtn.TabIndex = 4;
             this.acceptbtn.Text = "Begin..";
             this.acceptbtn.UseVisualStyleBackColor = true;
+            this.acceptbtn.Click += new System.EventHandler(this.acceptbtn_Click);
             // 
             // cancelbtn
             // 
@@ -106,6 +107,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Create a new Assignment";
             this.TopMost = true;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CreateAssignmentForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

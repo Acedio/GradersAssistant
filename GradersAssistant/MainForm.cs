@@ -56,11 +56,13 @@ namespace GradersAssistant
 
         protected void NewRubricCreator(object sender, EventArgs e)
         {
-            CreateRubricForm newRubric = new CreateRubricForm();
+            CreateAssignmentForm assign = new CreateAssignmentForm();
+            assign.Show();
+            
             // Set the Parent Form of the Child window.
            // newMDIChild.MdiParent = this;
             // Display the new form.
-            newRubric.Show();
+           
 
         }
 
