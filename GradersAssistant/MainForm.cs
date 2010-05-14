@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.OleDb;
+using System.Media;
 
 namespace GradersAssistant
 {
@@ -89,7 +90,7 @@ namespace GradersAssistant
 
         void emailToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            GradeEmailForm gef = new GradeEmailForm();
+            GradeEmailForm gef = new GradeEmailForm(mainClass, students, dbConnention.GetAssignment(currentAssignmentID), dbConnention.GetAssignmentResponses(currentAssignmentID));
             gef.Show();
         }
 
@@ -199,9 +200,10 @@ namespace GradersAssistant
         {
             gaf = new GradingAssignmentForm();
             gaf.MdiParent = this;
-            int height = gaf.ClientSize.Height + this.Height - this.ClientSize.Height + mainMenuStrip.Height + upperToolStrip.Height + lowerToolStrip.Height + mainStatusStrip.Height;
+            int height = gaf.ClientSize.Height + this.Height - this.ClientSize.Height + mainMenuStrip.Height + upperToolStrip.Height + mainStatusStrip.Height;
             int width = gaf.ClientSize.Width + this.Width - this.ClientSize.Width;
             this.Size = new Size(width, height);
+            this.MinimumSize = new Size(width, 0);
             gaf.Show();
             gaf.WindowState = FormWindowState.Maximized;
             if (students.Count > 0)
@@ -312,13 +314,18 @@ namespace GradersAssistant
             this.Dispose();
         }
 
+        private void saveResponseList(ResponseList responseList)
+        {
+            dbConnention.SaveResponseList(responseList);
+        }
+
         private void studentComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (gaf != null && studentComboBox.SelectedItem != null)
             {
-                ResponseList responseList = gaf.GetResponseList();
+                dbConnention.SaveResponseList(gaf.GetResponseList());
 
-                dbConnention.SaveResponseList(responseList);
+                dbConnention.DeleteAdjustments(gaf.DeletedAdjustments);
 
                 Student student = (Student)studentComboBox.SelectedItem;
 
@@ -326,7 +333,7 @@ namespace GradersAssistant
             }
         }
 
-        private void previousStudentToolStripButton_Click(object sender, EventArgs e)
+        private void previousStudent()
         {
             int numStudents = studentComboBox.Items.Count;
 
@@ -345,7 +352,7 @@ namespace GradersAssistant
             }
         }
 
-        private void nextStudentToolStripButton_Click(object sender, EventArgs e)
+        private void nextStudent()
         {
             int numStudents = studentComboBox.Items.Count;
 
@@ -361,6 +368,53 @@ namespace GradersAssistant
                 }
 
                 studentComboBox.SelectedIndex = selectedIndex;
+            }
+        }
+
+        private void previousStudentToolStripButton_Click(object sender, EventArgs e)
+        {
+            previousStudent();
+        }
+
+        private void nextStudentToolStripButton_Click(object sender, EventArgs e)
+        {
+            nextStudent();
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Left | Keys.Control:
+                    previousStudent();
+                    return false;
+                case Keys.Right | Keys.Control:
+                    nextStudent();
+                    return false;
+            }
+
+            return false;
+        }
+
+        private void topHatToolStripButton_Click(object sender, EventArgs e)
+        {
+            SystemSounds.Asterisk.Play();
+        }
+
+        private void aboutGradersAssistantToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox aboutBox = new AboutBox();
+
+            aboutBox.ShowDialog();
+        }
+
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (gaf != null)
+            {
+                dbConnention.SaveResponseList(gaf.GetResponseList());
+
+                dbConnention.DeleteAdjustments(gaf.DeletedAdjustments);
             }
         }
     }

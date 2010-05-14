@@ -64,11 +64,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="CreateAssignmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CreateAssignmentForm.Designer.cs">
       <DependentUpon>CreateAssignmentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdjustmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdjustmentForm.designer.cs">
+      <DependentUpon>AdjustmentForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CreateRubricForm.cs">
       <SubType>Form</SubType>
@@ -115,8 +127,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CreateAssignmentForm.resx">
       <DependentUpon>CreateAssignmentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdjustmentForm.resx">
+      <DependentUpon>AdjustmentForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CreateRubricForm.resx">
       <DependentUpon>CreateRubricForm.cs</DependentUpon>

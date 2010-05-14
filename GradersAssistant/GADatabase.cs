@@ -49,6 +49,16 @@ namespace GradersAssistant
                 public const string CriteriaID = "CriteriaID";
             }
 
+            public struct Adjustment
+            {
+                public const string TableName = "Adjustment";
+                public const string AdjustmentID = "AdjustmentID";
+                public const string StudentID = "StudentID";
+                public const string AssignmentID = "AssignmentID";
+                public const string Comment = "Comment";
+                public const string PointAdjustment = "PointAdjustment";
+            }
+
             public struct Criteria
             {
                 public const string TableName = "Criteria";
@@ -580,13 +590,13 @@ namespace GradersAssistant
             responseList.AssignmentID = assignmentID;
 
             // Join the Criteria and Response tables on the criteria id
-            string query = String.Format("SELECT R.{0}, R.{1}, R.{2}, R.{3} ", tables.Response.ResponseID, tables.Response.CriteriaID, tables.Response.PointsReceived, tables.Response.GraderComment);
-            query += String.Format("FROM {0} AS R, {1} AS C ", tables.Response.TableName, tables.Criteria.TableName);
-            query += String.Format("WHERE R.{0} = C.{1} ", tables.Response.CriteriaID, tables.Criteria.CriteriaID);
-            query += String.Format("AND {0} = {1} ", tables.Criteria.AssignmentID, assignmentID);
-            query += String.Format("AND {0} = {1} ", tables.Response.StudentID, studentID);
+            string responseQuery = String.Format("SELECT R.{0}, R.{1}, R.{2}, R.{3} ", tables.Response.ResponseID, tables.Response.CriteriaID, tables.Response.PointsReceived, tables.Response.GraderComment);
+            responseQuery += String.Format("FROM {0} AS R, {1} AS C ", tables.Response.TableName, tables.Criteria.TableName);
+            responseQuery += String.Format("WHERE R.{0} = C.{1} ", tables.Response.CriteriaID, tables.Criteria.CriteriaID);
+            responseQuery += String.Format("AND {0} = {1} ", tables.Response.StudentID, studentID);
+            responseQuery += String.Format("AND {0} = {1} ", tables.Criteria.AssignmentID, assignmentID);
 
-            DataSet responseSet = runQuery(query);
+            DataSet responseSet = runQuery(responseQuery);
 
             if(responseSet.Tables.Count > 0){
                 foreach (DataRow row in responseSet.Tables[0].Rows)
@@ -596,6 +606,24 @@ namespace GradersAssistant
                     int pointsReceived = (int)row[tables.Response.PointsReceived];
                     string graderComment = row[tables.Response.GraderComment].ToString();
                     responseList.Responses.Add(criteriaID, new Response(responseID, pointsReceived, graderComment));
+                }
+            }
+
+            // Get all adjustments for current students assignment
+            string adjustmentQuery = String.Format("SELECT * FROM {0} ", tables.Adjustment.TableName);
+            adjustmentQuery += String.Format("WHERE {0} = {1} ", tables.Adjustment.StudentID, studentID);
+            adjustmentQuery += String.Format("AND {0} = {1} ", tables.Adjustment.AssignmentID, assignmentID);
+
+            DataSet adjustmentSet = runQuery(adjustmentQuery);
+
+            if (adjustmentSet.Tables.Count > 0)
+            {
+                foreach (DataRow row in adjustmentSet.Tables[0].Rows)
+                {
+                    int adjustmentID = (int)row[tables.Adjustment.AdjustmentID];
+                    string comment = row[tables.Adjustment.Comment].ToString();
+                    int pointAdjustment = (int)row[tables.Adjustment.PointAdjustment];
+                    responseList.Adjustments.Add(new Adjustment(adjustmentID, comment, pointAdjustment));
                 }
             }
 
@@ -685,6 +713,75 @@ namespace GradersAssistant
             return true;
         }
 
+        public bool UpdateAdjustment(int assignmentID, int studentID, Adjustment adjustment)
+        {
+            string query = String.Format("UPDATE {0} SET ", tables.Adjustment.TableName);
+            query += String.Format("{0} = @{0}, ", tables.Adjustment.StudentID);
+            query += String.Format("{0} = @{0}, ", tables.Adjustment.AssignmentID);
+            query += String.Format("{0} = @{0}", tables.Adjustment.PointAdjustment);
+            if (adjustment.Comment != string.Empty)
+            {
+                query += String.Format(", {0} = @{0}", tables.Adjustment.Comment);
+            }
+            query += String.Format(" WHERE {0} = @{0};", tables.Adjustment.AdjustmentID);
+            OleDbCommand update = new OleDbCommand(query, dbConnection);
+            update.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.StudentID, OleDbType.Integer)).Value = studentID;
+            update.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.AssignmentID, OleDbType.Integer)).Value = assignmentID;
+            update.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.PointAdjustment, OleDbType.Integer)).Value = adjustment.PointAdjustment;
+            if (adjustment.Comment != string.Empty)
+            {
+                update.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.Comment, OleDbType.VarChar)).Value = adjustment.Comment;
+            }
+            update.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.AdjustmentID, OleDbType.Integer)).Value = adjustment.AdjustmentID;
+            if (update.ExecuteNonQuery() == 1)
+            { // we only want to affect one row
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool AddAdjustment(int assignmentID, int studentID, Adjustment adjustment)
+        {
+            string query = String.Format("INSERT INTO {0} (", tables.Adjustment.TableName);
+            query += String.Format("{0}, ", tables.Adjustment.StudentID);
+            query += String.Format("{0}, ", tables.Adjustment.AssignmentID);
+            query += String.Format("{0}", tables.Adjustment.PointAdjustment);
+            if (adjustment.Comment != string.Empty)
+            {
+                query += String.Format(", {0}", tables.Adjustment.Comment);
+            }
+            query += ") VALUES (";
+            query += String.Format("@{0}, ", tables.Adjustment.StudentID);
+            query += String.Format("@{0}, ", tables.Adjustment.AssignmentID);
+            query += String.Format("@{0}", tables.Adjustment.PointAdjustment);
+            if (adjustment.Comment != string.Empty)
+            {
+                query += String.Format(", @{0}", tables.Adjustment.Comment);
+            }
+            query += ");";
+            OleDbCommand insert = new OleDbCommand(query, dbConnection);
+            insert.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.StudentID, OleDbType.Integer)).Value = studentID;
+            insert.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.AssignmentID, OleDbType.Integer)).Value = assignmentID;
+            insert.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.PointAdjustment, OleDbType.Integer)).Value = adjustment.PointAdjustment;
+            if (adjustment.Comment != string.Empty)
+            {
+                insert.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.Comment, OleDbType.VarChar)).Value = adjustment.Comment;
+            }
+            try
+            {
+                insert.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Could not insert response.");
+                return false;
+            }
+            return true;
+        }
+
         public void SaveResponseList(ResponseList responseList)
         {
             int assignmentID = responseList.AssignmentID;
@@ -696,13 +793,39 @@ namespace GradersAssistant
                 int criteriaID = responsePair.Key;
                 Response response = responsePair.Value;
 
-                if (response.ResponseID != -1)
+                if (response.HasID())
                 { // If we have an ID already.
                     UpdateResponse(assignmentID, studentID, criteriaID, response);
                 }
                 else
                 {
                     AddResponse(assignmentID, studentID, criteriaID, response);
+                }
+            }
+
+            foreach (Adjustment adjustment in responseList.Adjustments)
+            {
+                if (adjustment.HasID())
+                { // If we have an ID already.
+                    UpdateAdjustment(assignmentID, studentID, adjustment);
+                }
+                else
+                {
+                    AddAdjustment(assignmentID, studentID, adjustment);
+                }
+            }
+        }
+
+        public void DeleteAdjustments(LinkedList<int> toDelete)
+        {
+            foreach (int adjustmentID in toDelete)
+            {
+                string query = string.Format("DELETE FROM {0} WHERE {1} = {2}", tables.Adjustment.TableName, tables.Adjustment.AdjustmentID, adjustmentID);
+
+                OleDbCommand deleteCommand = new OleDbCommand(query, dbConnection);
+                if (deleteCommand.ExecuteNonQuery() < 1)
+                {
+                    Debug.WriteLine("Could not delete the adjustment from the DB.");
                 }
             }
         }

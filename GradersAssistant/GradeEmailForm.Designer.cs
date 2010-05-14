@@ -42,6 +42,8 @@
             this.radioButtonEmailOne = new System.Windows.Forms.RadioButton();
             this.radioButtonEmailAll = new System.Windows.Forms.RadioButton();
             this.groupBoxBodyText = new System.Windows.Forms.GroupBox();
+            this.radioButtonPlainText = new System.Windows.Forms.RadioButton();
+            this.radioButtonHtml = new System.Windows.Forms.RadioButton();
             this.subjectLabel = new System.Windows.Forms.Label();
             this.textBoxSubject = new System.Windows.Forms.TextBox();
             this.textBoxHeaderText = new System.Windows.Forms.TextBox();
@@ -67,7 +69,7 @@
             this.groupBoxProtocolInfo.Controls.Add(this.radioButtonProtocolExchange);
             this.groupBoxProtocolInfo.Location = new System.Drawing.Point(13, 13);
             this.groupBoxProtocolInfo.Name = "groupBoxProtocolInfo";
-            this.groupBoxProtocolInfo.Size = new System.Drawing.Size(256, 274);
+            this.groupBoxProtocolInfo.Size = new System.Drawing.Size(256, 299);
             this.groupBoxProtocolInfo.TabIndex = 2;
             this.groupBoxProtocolInfo.TabStop = false;
             this.groupBoxProtocolInfo.Text = "Protocol Info";
@@ -96,7 +98,6 @@
             this.textBoxEmailAddress.Name = "textBoxEmailAddress";
             this.textBoxEmailAddress.Size = new System.Drawing.Size(148, 20);
             this.textBoxEmailAddress.TabIndex = 0;
-            this.textBoxEmailAddress.Text = "kknapp@whitworth.edu";
             // 
             // labelEmailAddress
             // 
@@ -142,6 +143,7 @@
             // radioButtonProtocolExchange
             // 
             this.radioButtonProtocolExchange.AutoSize = true;
+            this.radioButtonProtocolExchange.Checked = true;
             this.radioButtonProtocolExchange.Location = new System.Drawing.Point(9, 75);
             this.radioButtonProtocolExchange.Name = "radioButtonProtocolExchange";
             this.radioButtonProtocolExchange.Size = new System.Drawing.Size(183, 17);
@@ -149,6 +151,7 @@
             this.radioButtonProtocolExchange.TabStop = true;
             this.radioButtonProtocolExchange.Text = "Use Microsoft Exchange Protocol";
             this.radioButtonProtocolExchange.UseVisualStyleBackColor = true;
+            this.radioButtonProtocolExchange.CheckedChanged += new System.EventHandler(this.radioButtonProtocolExchange_CheckedChanged);
             // 
             // groupBoxRecipientOptions
             // 
@@ -159,13 +162,14 @@
             this.groupBoxRecipientOptions.Controls.Add(this.radioButtonEmailAll);
             this.groupBoxRecipientOptions.Location = new System.Drawing.Point(275, 13);
             this.groupBoxRecipientOptions.Name = "groupBoxRecipientOptions";
-            this.groupBoxRecipientOptions.Size = new System.Drawing.Size(153, 274);
+            this.groupBoxRecipientOptions.Size = new System.Drawing.Size(153, 299);
             this.groupBoxRecipientOptions.TabIndex = 3;
             this.groupBoxRecipientOptions.TabStop = false;
             this.groupBoxRecipientOptions.Text = "Recipient Options";
             // 
             // comboBoxStudentSelect
             // 
+            this.comboBoxStudentSelect.Enabled = false;
             this.comboBoxStudentSelect.FormattingEnabled = true;
             this.comboBoxStudentSelect.Items.AddRange(new object[] {
             "Anders Erickson",
@@ -185,13 +189,14 @@
             this.radioButtonEmailOne.Name = "radioButtonEmailOne";
             this.radioButtonEmailOne.Size = new System.Drawing.Size(107, 17);
             this.radioButtonEmailOne.TabIndex = 1;
-            this.radioButtonEmailOne.TabStop = true;
             this.radioButtonEmailOne.Text = "EmailOneStudent";
             this.radioButtonEmailOne.UseVisualStyleBackColor = true;
+            this.radioButtonEmailOne.CheckedChanged += new System.EventHandler(this.radioButtonEmailOne_CheckedChanged);
             // 
             // radioButtonEmailAll
             // 
             this.radioButtonEmailAll.AutoSize = true;
+            this.radioButtonEmailAll.Checked = true;
             this.radioButtonEmailAll.Location = new System.Drawing.Point(7, 20);
             this.radioButtonEmailAll.Name = "radioButtonEmailAll";
             this.radioButtonEmailAll.Size = new System.Drawing.Size(103, 17);
@@ -199,22 +204,49 @@
             this.radioButtonEmailAll.TabStop = true;
             this.radioButtonEmailAll.Text = "EmailAllStudents";
             this.radioButtonEmailAll.UseVisualStyleBackColor = true;
+            this.radioButtonEmailAll.CheckedChanged += new System.EventHandler(this.radioButtonEmailAll_CheckedChanged);
             // 
             // groupBoxBodyText
             // 
             this.groupBoxBodyText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxBodyText.Controls.Add(this.radioButtonPlainText);
+            this.groupBoxBodyText.Controls.Add(this.radioButtonHtml);
             this.groupBoxBodyText.Controls.Add(this.subjectLabel);
             this.groupBoxBodyText.Controls.Add(this.textBoxSubject);
             this.groupBoxBodyText.Controls.Add(this.textBoxHeaderText);
             this.groupBoxBodyText.Controls.Add(this.checkBoxAddHeader);
             this.groupBoxBodyText.Location = new System.Drawing.Point(434, 13);
             this.groupBoxBodyText.Name = "groupBoxBodyText";
-            this.groupBoxBodyText.Size = new System.Drawing.Size(332, 237);
+            this.groupBoxBodyText.Size = new System.Drawing.Size(408, 262);
             this.groupBoxBodyText.TabIndex = 4;
             this.groupBoxBodyText.TabStop = false;
             this.groupBoxBodyText.Text = "BodyText";
+            // 
+            // radioButtonPlainText
+            // 
+            this.radioButtonPlainText.AutoSize = true;
+            this.radioButtonPlainText.Location = new System.Drawing.Point(10, 66);
+            this.radioButtonPlainText.Name = "radioButtonPlainText";
+            this.radioButtonPlainText.Size = new System.Drawing.Size(146, 17);
+            this.radioButtonPlainText.TabIndex = 2;
+            this.radioButtonPlainText.Text = "Use Plain Text Formatting";
+            this.radioButtonPlainText.UseVisualStyleBackColor = true;
+            this.radioButtonPlainText.CheckedChanged += new System.EventHandler(this.radioButtonPlainText_CheckedChanged);
+            // 
+            // radioButtonHtml
+            // 
+            this.radioButtonHtml.AutoSize = true;
+            this.radioButtonHtml.Checked = true;
+            this.radioButtonHtml.Location = new System.Drawing.Point(10, 43);
+            this.radioButtonHtml.Name = "radioButtonHtml";
+            this.radioButtonHtml.Size = new System.Drawing.Size(126, 17);
+            this.radioButtonHtml.TabIndex = 1;
+            this.radioButtonHtml.TabStop = true;
+            this.radioButtonHtml.Text = "Use HTML formatting";
+            this.radioButtonHtml.UseVisualStyleBackColor = true;
+            this.radioButtonHtml.CheckedChanged += new System.EventHandler(this.radioButtonHtml_CheckedChanged);
             // 
             // subjectLabel
             // 
@@ -231,7 +263,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxSubject.Location = new System.Drawing.Point(59, 17);
             this.textBoxSubject.Name = "textBoxSubject";
-            this.textBoxSubject.Size = new System.Drawing.Size(267, 20);
+            this.textBoxSubject.Size = new System.Drawing.Size(343, 20);
             this.textBoxSubject.TabIndex = 0;
             // 
             // textBoxHeaderText
@@ -239,26 +271,28 @@
             this.textBoxHeaderText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxHeaderText.Location = new System.Drawing.Point(7, 75);
+            this.textBoxHeaderText.Enabled = false;
+            this.textBoxHeaderText.Location = new System.Drawing.Point(7, 112);
             this.textBoxHeaderText.Multiline = true;
             this.textBoxHeaderText.Name = "textBoxHeaderText";
-            this.textBoxHeaderText.Size = new System.Drawing.Size(319, 156);
-            this.textBoxHeaderText.TabIndex = 2;
+            this.textBoxHeaderText.Size = new System.Drawing.Size(395, 144);
+            this.textBoxHeaderText.TabIndex = 4;
             // 
             // checkBoxAddHeader
             // 
             this.checkBoxAddHeader.AutoSize = true;
-            this.checkBoxAddHeader.Location = new System.Drawing.Point(7, 52);
+            this.checkBoxAddHeader.Location = new System.Drawing.Point(6, 89);
             this.checkBoxAddHeader.Name = "checkBoxAddHeader";
             this.checkBoxAddHeader.Size = new System.Drawing.Size(108, 17);
-            this.checkBoxAddHeader.TabIndex = 1;
+            this.checkBoxAddHeader.TabIndex = 3;
             this.checkBoxAddHeader.Text = "Add email header";
             this.checkBoxAddHeader.UseVisualStyleBackColor = true;
+            this.checkBoxAddHeader.CheckedChanged += new System.EventHandler(this.checkBoxAddHeader_CheckedChanged);
             // 
             // buttonSendEmails
             // 
             this.buttonSendEmails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonSendEmails.Location = new System.Drawing.Point(555, 256);
+            this.buttonSendEmails.Location = new System.Drawing.Point(555, 281);
             this.buttonSendEmails.Name = "buttonSendEmails";
             this.buttonSendEmails.Size = new System.Drawing.Size(130, 31);
             this.buttonSendEmails.TabIndex = 6;
@@ -269,7 +303,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonCancel.Location = new System.Drawing.Point(435, 256);
+            this.buttonCancel.Location = new System.Drawing.Point(435, 281);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(114, 31);
             this.buttonCancel.TabIndex = 5;
@@ -281,7 +315,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(778, 299);
+            this.ClientSize = new System.Drawing.Size(854, 324);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSendEmails);
             this.Controls.Add(this.groupBoxBodyText);
@@ -321,6 +355,8 @@
         private System.Windows.Forms.TextBox textBoxSMTPServer;
         private System.Windows.Forms.Label subjectLabel;
         private System.Windows.Forms.TextBox textBoxSubject;
+        private System.Windows.Forms.RadioButton radioButtonPlainText;
+        private System.Windows.Forms.RadioButton radioButtonHtml;
 
     }
 }

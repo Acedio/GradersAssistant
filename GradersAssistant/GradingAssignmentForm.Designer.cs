@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.rubricTreeView = new NoExpandTreeView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -46,24 +45,17 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.adjustmentsListBox = new System.Windows.Forms.ListBox();
             this.label13 = new System.Windows.Forms.Label();
             this.titleLabel = new System.Windows.Forms.Label();
             this.dueLabel = new System.Windows.Forms.Label();
+            this.editAdjustmentButton = new System.Windows.Forms.Button();
+            this.deleteAdjustmentButton = new System.Windows.Forms.Button();
+            this.addAdjustmentButton = new System.Windows.Forms.Button();
+            this.rubricTreeView = new NoExpandTreeView();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // rubricTreeView
-            // 
-            this.rubricTreeView.CheckBoxes = true;
-            this.rubricTreeView.Location = new System.Drawing.Point(11, 74);
-            this.rubricTreeView.Name = "rubricTreeView";
-            this.rubricTreeView.Size = new System.Drawing.Size(631, 255);
-            this.rubricTreeView.TabIndex = 0;
-            this.rubricTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.rubricTreeView_AfterCheck);
-            this.rubricTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.rubricTreeView_NodeMouseClick);
-            this.rubricTreeView.Click += new System.EventHandler(this.rubricTreeView_Click);
             // 
             // label1
             // 
@@ -87,13 +79,14 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.studentIDLabel);
             this.groupBox1.Controls.Add(this.studentNameLabel);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(443, 12);
+            this.groupBox1.Location = new System.Drawing.Point(438, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 56);
+            this.groupBox1.Size = new System.Drawing.Size(205, 56);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Student";
@@ -136,6 +129,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox2.Controls.Add(this.maxPointsLabel);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label10);
@@ -230,16 +224,19 @@
             this.label8.TabIndex = 2;
             this.label8.Text = "Adjustment";
             // 
-            // listBox1
+            // adjustmentsListBox
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 434);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(631, 95);
-            this.listBox1.TabIndex = 5;
+            this.adjustmentsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.adjustmentsListBox.FormattingEnabled = true;
+            this.adjustmentsListBox.Location = new System.Drawing.Point(12, 434);
+            this.adjustmentsListBox.Name = "adjustmentsListBox";
+            this.adjustmentsListBox.Size = new System.Drawing.Size(631, 95);
+            this.adjustmentsListBox.TabIndex = 5;
             // 
             // label13
             // 
+            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(9, 418);
             this.label13.Name = "label13";
@@ -267,17 +264,68 @@
             this.dueLabel.TabIndex = 12;
             this.dueLabel.Text = "not loaded";
             // 
+            // editAdjustmentButton
+            // 
+            this.editAdjustmentButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.editAdjustmentButton.Location = new System.Drawing.Point(487, 535);
+            this.editAdjustmentButton.Name = "editAdjustmentButton";
+            this.editAdjustmentButton.Size = new System.Drawing.Size(75, 23);
+            this.editAdjustmentButton.TabIndex = 14;
+            this.editAdjustmentButton.Text = "Edit";
+            this.editAdjustmentButton.UseVisualStyleBackColor = true;
+            this.editAdjustmentButton.Click += new System.EventHandler(this.editAdjustmentButton_Click);
+            // 
+            // deleteAdjustmentButton
+            // 
+            this.deleteAdjustmentButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteAdjustmentButton.Location = new System.Drawing.Point(568, 535);
+            this.deleteAdjustmentButton.Name = "deleteAdjustmentButton";
+            this.deleteAdjustmentButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteAdjustmentButton.TabIndex = 15;
+            this.deleteAdjustmentButton.Text = "Delete";
+            this.deleteAdjustmentButton.UseVisualStyleBackColor = true;
+            this.deleteAdjustmentButton.Click += new System.EventHandler(this.deleteAdjustmentButton_Click);
+            // 
+            // addAdjustmentButton
+            // 
+            this.addAdjustmentButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.addAdjustmentButton.Location = new System.Drawing.Point(406, 535);
+            this.addAdjustmentButton.Name = "addAdjustmentButton";
+            this.addAdjustmentButton.Size = new System.Drawing.Size(75, 23);
+            this.addAdjustmentButton.TabIndex = 13;
+            this.addAdjustmentButton.Text = "Add";
+            this.addAdjustmentButton.UseVisualStyleBackColor = true;
+            this.addAdjustmentButton.Click += new System.EventHandler(this.addAdjustmentButton_Click);
+            // 
+            // rubricTreeView
+            // 
+            this.rubricTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.rubricTreeView.CheckBoxes = true;
+            this.rubricTreeView.Location = new System.Drawing.Point(11, 74);
+            this.rubricTreeView.Name = "rubricTreeView";
+            this.rubricTreeView.Size = new System.Drawing.Size(631, 255);
+            this.rubricTreeView.TabIndex = 0;
+            this.rubricTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.rubricTreeView_AfterCheck);
+            this.rubricTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.rubricTreeView_NodeMouseClick);
+            this.rubricTreeView.Click += new System.EventHandler(this.rubricTreeView_Click);
+            // 
             // GradingAssignmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(655, 536);
+            this.ClientSize = new System.Drawing.Size(655, 563);
             this.ControlBox = false;
+            this.Controls.Add(this.addAdjustmentButton);
+            this.Controls.Add(this.deleteAdjustmentButton);
+            this.Controls.Add(this.editAdjustmentButton);
             this.Controls.Add(this.dueLabel);
             this.Controls.Add(this.titleLabel);
             this.Controls.Add(this.label13);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.adjustmentsListBox);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
@@ -290,7 +338,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
-            this.Text = "Form2";
+            this.Text = "Grading";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -302,7 +350,6 @@
 
         #endregion
 
-        private NoExpandTreeView rubricTreeView;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -320,10 +367,14 @@
         private System.Windows.Forms.TextBox pointsTotalTextBox;
         private System.Windows.Forms.TextBox pointsAdjustmentTextBox;
         private System.Windows.Forms.Label maxPointsLabel;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox adjustmentsListBox;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Label dueLabel;
+        private System.Windows.Forms.Button editAdjustmentButton;
+        private System.Windows.Forms.Button deleteAdjustmentButton;
+        private System.Windows.Forms.Button addAdjustmentButton;
+        private NoExpandTreeView rubricTreeView;
 
 
     }
