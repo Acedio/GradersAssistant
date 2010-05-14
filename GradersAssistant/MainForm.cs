@@ -200,6 +200,7 @@ namespace GradersAssistant
             int height = gaf.ClientSize.Height + this.Height - this.ClientSize.Height + mainMenuStrip.Height + upperToolStrip.Height + lowerToolStrip.Height + mainStatusStrip.Height;
             int width = gaf.ClientSize.Width + this.Width - this.ClientSize.Width;
             this.Size = new Size(width, height);
+            this.MinimumSize = new Size(width, 0);
             gaf.Show();
             gaf.WindowState = FormWindowState.Maximized;
             if (students.Count > 0)
@@ -317,6 +318,8 @@ namespace GradersAssistant
                 ResponseList responseList = gaf.GetResponseList();
 
                 dbConnention.SaveResponseList(responseList);
+
+                dbConnention.DeleteAdjustments(gaf.DeletedAdjustments);
 
                 Student student = (Student)studentComboBox.SelectedItem;
 

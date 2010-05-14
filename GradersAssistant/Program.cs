@@ -142,6 +142,57 @@ namespace GradersAssistant
             pointsReceived = rPointsReceived;
             graderComment = rGraderComment;
         }
+
+        public bool HasID()
+        {
+            return responseID != noID;
+        }
+    }
+
+    public class Adjustment
+    {
+        private const int noID = -1;
+
+        public int AdjustmentID;
+
+        public string Comment;
+
+        public int PointAdjustment;
+
+        public Adjustment()
+        {
+            AdjustmentID = noID;
+            Comment = string.Empty;
+            PointAdjustment = 0;
+        }
+
+        public Adjustment(int aID, string aComment, int aPointAdjustment)
+        {
+            AdjustmentID = aID;
+            Comment = aComment;
+            PointAdjustment = aPointAdjustment;
+        }
+
+        public override string ToString()
+        {
+            if (PointAdjustment > 0)
+            {
+                return String.Format("{0}: +{1}", Comment, PointAdjustment.ToString());
+            }
+            else if (PointAdjustment < 0)
+            {
+                return String.Format("{0}: {1}", Comment, PointAdjustment.ToString());
+            }
+            else
+            {
+                return String.Format("{0}", Comment, PointAdjustment.ToString());
+            }
+        }
+
+        public bool HasID()
+        {
+            return AdjustmentID != noID;
+        }
     }
 
     public class ResponseList
@@ -154,11 +205,14 @@ namespace GradersAssistant
 
         public int AssignmentID;
 
+        public List<Adjustment> Adjustments;
+
         public ResponseList()
         {
             StudentID = noID;
             AssignmentID = noID;
             Responses = new Dictionary<int, Response>();
+            Adjustments = new List<Adjustment>();
         }
     }
 
@@ -324,8 +378,7 @@ namespace GradersAssistant
         public Rubric Rubric;
     }
 
-
-   public class GAClass
+    public class GAClass
     {
         public string ClassName;
         public string GraderName;
