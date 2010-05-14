@@ -149,6 +149,7 @@
             this.radioButtonProtocolExchange.TabStop = true;
             this.radioButtonProtocolExchange.Text = "Use Microsoft Exchange Protocol";
             this.radioButtonProtocolExchange.UseVisualStyleBackColor = true;
+            this.radioButtonProtocolExchange.CheckedChanged += new System.EventHandler(this.radioButtonProtocolExchange_CheckedChanged);
             // 
             // groupBoxRecipientOptions
             // 
@@ -166,6 +167,7 @@
             // 
             // comboBoxStudentSelect
             // 
+            this.comboBoxStudentSelect.Enabled = false;
             this.comboBoxStudentSelect.FormattingEnabled = true;
             this.comboBoxStudentSelect.Items.AddRange(new object[] {
             "Anders Erickson",
@@ -187,6 +189,7 @@
             this.radioButtonEmailOne.TabIndex = 1;
             this.radioButtonEmailOne.Text = "EmailOneStudent";
             this.radioButtonEmailOne.UseVisualStyleBackColor = true;
+            this.radioButtonEmailOne.CheckedChanged += new System.EventHandler(this.radioButtonEmailOne_CheckedChanged);
             // 
             // radioButtonEmailAll
             // 
@@ -199,6 +202,7 @@
             this.radioButtonEmailAll.TabStop = true;
             this.radioButtonEmailAll.Text = "EmailAllStudents";
             this.radioButtonEmailAll.UseVisualStyleBackColor = true;
+            this.radioButtonEmailAll.CheckedChanged += new System.EventHandler(this.radioButtonEmailAll_CheckedChanged);
             // 
             // groupBoxBodyText
             // 
@@ -239,6 +243,7 @@
             this.textBoxHeaderText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxHeaderText.Enabled = false;
             this.textBoxHeaderText.Location = new System.Drawing.Point(7, 75);
             this.textBoxHeaderText.Multiline = true;
             this.textBoxHeaderText.Name = "textBoxHeaderText";
@@ -254,6 +259,7 @@
             this.checkBoxAddHeader.TabIndex = 1;
             this.checkBoxAddHeader.Text = "Add email header";
             this.checkBoxAddHeader.UseVisualStyleBackColor = true;
+            this.checkBoxAddHeader.CheckedChanged += new System.EventHandler(this.checkBoxAddHeader_CheckedChanged);
             // 
             // buttonSendEmails
             // 
