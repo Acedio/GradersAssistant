@@ -25,9 +25,17 @@ namespace GradersAssistant
 
         public bool NodeIsSelected = false;
 
+        Assignment assignment;
+        TreeNode ROOTNODE = new TreeNode();
+
         private void CreateRubricForm_Load(object sender, EventArgs e)
         {
-
+            CreateAssignmentForm assign = new CreateAssignmentForm();
+            assign.Show();
+            assignment.Name = assign.a_name;
+            assignment.DueDate = DateTime.Parse(assign.d_date);
+            ROOTNODE.Text = assign.a_name;
+            CriteriaDisplay.Nodes.Add(ROOTNODE);
             this.CriteriaDisplay.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView_ItemDrag);
             this.CriteriaDisplay.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeView_DragEnter);
             this.CriteriaDisplay.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeView_DragDrop);
@@ -257,9 +265,31 @@ namespace GradersAssistant
             }
         }
 
+        private void setCriteria(LinkedList<CriteriaNode> list)
+        {
+            Criteria criteria;
+            foreach (CriteriaNode c in list)
+            {
+                criteria = new Criteria();
+                criteria.Description = c.Description;
+                criteria.MaxPoints = c.Points;
+
+                if (c.NumberOfChildren > 0)
+                {
+                    setCriteria(c.ChildList);
+                }
+                // TODO: save criteria to the database... :D
+            }
+        }
+
+        // TODO: querey database for assignments to get the next ID
+
         private void SaveButton_Click(object sender, EventArgs e)
         {
+            // make sure to querey for assignment number..
+            setCriteria(CriteriaTree);
             SaveCriteria = true;
+            this.Close();
         }
 
         private void deselectbtn_Click(object sender, EventArgs e)

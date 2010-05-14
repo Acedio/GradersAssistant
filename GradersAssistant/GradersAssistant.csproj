@@ -64,6 +64,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateAssignmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateAssignmentForm.Designer.cs">
+      <DependentUpon>CreateAssignmentForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CreateRubricForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,14 +119,11 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewAssignmentForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NewAssignmentForm.Designer.cs">
-      <DependentUpon>NewAssignmentForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CreateAssignmentForm.resx">
+      <DependentUpon>CreateAssignmentForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CreateRubricForm.resx">
       <DependentUpon>CreateRubricForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -150,9 +153,6 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NewAssignmentForm.resx">
-      <DependentUpon>NewAssignmentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -215,6 +215,7 @@
             this.MinimizeBox = false;
             this.Name = "CreateRubricForm";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Rubric Creator";
             this.Load += new System.EventHandler(this.CreateRubricForm_Load);
             this.EditCriteriaPanel.ResumeLayout(false);
