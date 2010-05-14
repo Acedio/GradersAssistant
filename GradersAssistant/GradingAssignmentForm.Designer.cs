@@ -49,9 +49,10 @@
             this.label13 = new System.Windows.Forms.Label();
             this.titleLabel = new System.Windows.Forms.Label();
             this.dueLabel = new System.Windows.Forms.Label();
+            this.editAdjustmentButton = new System.Windows.Forms.Button();
+            this.deleteAdjustmentButton = new System.Windows.Forms.Button();
+            this.addAdjustmentButton = new System.Windows.Forms.Button();
             this.rubricTreeView = new NoExpandTreeView();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -261,6 +262,39 @@
             this.dueLabel.TabIndex = 12;
             this.dueLabel.Text = "not loaded";
             // 
+            // editAdjustmentButton
+            // 
+            this.editAdjustmentButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.editAdjustmentButton.Location = new System.Drawing.Point(487, 535);
+            this.editAdjustmentButton.Name = "editAdjustmentButton";
+            this.editAdjustmentButton.Size = new System.Drawing.Size(75, 23);
+            this.editAdjustmentButton.TabIndex = 13;
+            this.editAdjustmentButton.Text = "Edit";
+            this.editAdjustmentButton.UseVisualStyleBackColor = true;
+            this.editAdjustmentButton.Click += new System.EventHandler(this.editAdjustmentButton_Click);
+            // 
+            // deleteAdjustmentButton
+            // 
+            this.deleteAdjustmentButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteAdjustmentButton.Location = new System.Drawing.Point(568, 535);
+            this.deleteAdjustmentButton.Name = "deleteAdjustmentButton";
+            this.deleteAdjustmentButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteAdjustmentButton.TabIndex = 14;
+            this.deleteAdjustmentButton.Text = "Delete";
+            this.deleteAdjustmentButton.UseVisualStyleBackColor = true;
+            this.deleteAdjustmentButton.Click += new System.EventHandler(this.deleteAdjustmentButton_Click);
+            // 
+            // addAdjustmentButton
+            // 
+            this.addAdjustmentButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.addAdjustmentButton.Location = new System.Drawing.Point(406, 535);
+            this.addAdjustmentButton.Name = "addAdjustmentButton";
+            this.addAdjustmentButton.Size = new System.Drawing.Size(75, 23);
+            this.addAdjustmentButton.TabIndex = 15;
+            this.addAdjustmentButton.Text = "Add";
+            this.addAdjustmentButton.UseVisualStyleBackColor = true;
+            this.addAdjustmentButton.Click += new System.EventHandler(this.addAdjustmentButton_Click);
+            // 
             // rubricTreeView
             // 
             this.rubricTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -274,26 +308,6 @@
             this.rubricTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.rubricTreeView_NodeMouseClick);
             this.rubricTreeView.Click += new System.EventHandler(this.rubricTreeView_Click);
             // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(487, 535);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "Add";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(568, 535);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 14;
-            this.button2.Text = "Delete";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
             // GradingAssignmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -302,8 +316,9 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(655, 563);
             this.ControlBox = false;
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.addAdjustmentButton);
+            this.Controls.Add(this.deleteAdjustmentButton);
+            this.Controls.Add(this.editAdjustmentButton);
             this.Controls.Add(this.dueLabel);
             this.Controls.Add(this.titleLabel);
             this.Controls.Add(this.label13);
@@ -332,7 +347,6 @@
 
         #endregion
 
-        private NoExpandTreeView rubricTreeView;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -354,8 +368,10 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Label dueLabel;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button editAdjustmentButton;
+        private System.Windows.Forms.Button deleteAdjustmentButton;
+        private System.Windows.Forms.Button addAdjustmentButton;
+        private NoExpandTreeView rubricTreeView;
 
 
     }

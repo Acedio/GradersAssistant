@@ -195,14 +195,14 @@ namespace GradersAssistant
 
         public int AssignmentID;
 
-        public LinkedList<Adjustment> Adjustments;
+        public List<Adjustment> Adjustments;
 
         public ResponseList()
         {
             StudentID = noID;
             AssignmentID = noID;
             Responses = new Dictionary<int, Response>();
-            Adjustments = new LinkedList<Adjustment>();
+            Adjustments = new List<Adjustment>();
         }
     }
 

@@ -623,7 +623,7 @@ namespace GradersAssistant
                     int adjustmentID = (int)row[tables.Adjustment.AdjustmentID];
                     string comment = row[tables.Adjustment.Comment].ToString();
                     int pointAdjustment = (int)row[tables.Adjustment.PointAdjustment];
-                    responseList.Adjustments.AddLast(new Adjustment(adjustmentID, comment, pointAdjustment));
+                    responseList.Adjustments.Add(new Adjustment(adjustmentID, comment, pointAdjustment));
                 }
             }
 

@@ -138,12 +138,23 @@ namespace GradersAssistant
 
             rubricTreeView.ExpandAll();
 
-            foreach (Adjustment adjustment in responseList.Adjustments)
+            updateAdjustmentListBox();
+
+            updatePoints();
+        }
+
+        private void updateAdjustmentListBox()
+        {
+            adjustmentsListBox.BeginUpdate();
+
+            adjustmentsListBox.Items.Clear();
+
+            foreach (Adjustment adjustment in currentResponseList.Adjustments)
             {
                 adjustmentsListBox.Items.Add(adjustment);
             }
 
-            updatePoints();
+            adjustmentsListBox.EndUpdate();
         }
 
         private void rubricTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -241,7 +252,6 @@ namespace GradersAssistant
             pointsSubtotalTextBox.Text = pointsSubtotal.ToString();
             pointsAdjustmentTextBox.Text = pointsAdjustment.ToString();
             pointsTotalTextBox.Text = (pointsSubtotal + pointsAdjustment).ToString();
-            //maxPointsLabel.Text = string.Format("Out of {0} Pts",
         }
 
         private void rubricTreeView_Click(object sender, EventArgs e)
@@ -303,6 +313,56 @@ namespace GradersAssistant
                     }
                 }
             }
+        }
+
+        private void addAdjustmentButton_Click(object sender, EventArgs e)
+        {
+            AdjustmentForm af = new AdjustmentForm(new Adjustment());
+
+            af.ShowDialog();
+
+            if (!af.Cancelled)
+            {
+                currentResponseList.Adjustments.Add(af.GraderAdjustment);
+                updateAdjustmentListBox();
+            }
+
+            updatePoints();
+        }
+
+        private void editAdjustmentButton_Click(object sender, EventArgs e)
+        {
+            if (adjustmentsListBox.SelectedIndex >= 0 && currentResponseList.Adjustments.Count > adjustmentsListBox.SelectedIndex)
+            {
+                // hopefully the indices of the listbox will always match those of the adjustment list
+                AdjustmentForm af = new AdjustmentForm(currentResponseList.Adjustments.ElementAt(adjustmentsListBox.SelectedIndex));
+
+                af.ShowDialog();
+
+                if (!af.Cancelled)
+                {
+                    currentResponseList.Adjustments[adjustmentsListBox.SelectedIndex] = af.GraderAdjustment;
+                    updateAdjustmentListBox();
+                }
+
+                updatePoints();
+            }
+        }
+
+        private void deleteAdjustmentButton_Click(object sender, EventArgs e)
+        {
+            if (adjustmentsListBox.SelectedIndex >= 0 && currentResponseList.Adjustments.Count > adjustmentsListBox.SelectedIndex)
+            {
+                DialogResult result = MessageBox.Show("Delete this adjustment?", "Delete?", MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.Yes)
+                {
+                    currentResponseList.Adjustments.RemoveAt(adjustmentsListBox.SelectedIndex);
+                    updateAdjustmentListBox();
+                }
+            }
+
+            updatePoints();
         }
     }
 
