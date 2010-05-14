@@ -12,25 +12,21 @@ namespace GradersAssistant
     public partial class EditStudentForm : Form
     {
         public Student PublicStudent;
-        public int status;
-     
+        public int FormStatus;
+        public int NumOfSections;
+
         public EditStudentForm()
         {
             InitializeComponent();
-            if (Text == "Add New Student")
-            {
-                buttonUpdate.Text = "Add";
-            }
-            status = -1;
+            NumOfSections = 1;
+            this.CancelButton = buttonCancel;
+            this.AcceptButton = buttonUpdate;
             PublicStudent = new Student();
         }
 
         private bool validateNewStudent()
         {
-            Int32 blank;
-            if (!Int32.TryParse(comboBoxSection.SelectedItem.ToString(), out blank))
-            {
-                if (textFirstName.Text.Trim() == "" | textLastName.Text.Trim() == "" | textUsername.Text.Trim() == "" | textEmailAddress.Text.Trim() == "" | comboBoxSection.SelectedValue == null | textSchoolGivenID.Text.Trim() == "")
+                if (comboBoxSection.SelectedItem == null | textFirstName.Text.Trim() == "" | textLastName.Text.Trim() == "" | textUsername.Text.Trim() == "" | textEmailAddress.Text.Trim() == "" | textSchoolGivenID.Text.Trim() == "")
                 {
                     WarningFormWithContinue incompleteWarning = new WarningFormWithContinue();
                     incompleteWarning.ShowDialog();
@@ -38,29 +34,24 @@ namespace GradersAssistant
                 }
                 else
                     return true;
-            }
-            else
-            {
-                MessageBox.Show("The Section selected is not valid.");
-                return false;
-            }
         }
 
         public void populateForm()
         {
-            if (status == 1)
+            //populate the values if you are updateing a student
+            if (FormStatus == 1)
             {
-                    textFirstName.Text = PublicStudent.FirstName;
-               
-                    textLastName.Text = PublicStudent.LastName;
-                
-                    textUsername.Text = PublicStudent.Username;
+                textFirstName.Text = PublicStudent.FirstName;
 
-                    textEmailAddress.Text = PublicStudent.EmailAddress;
-                
-                    comboBoxSection.SelectedItem = PublicStudent.ClassSection;
-                
-                    textSchoolGivenID.Text = PublicStudent.StudentSchoolID;
+                textLastName.Text = PublicStudent.LastName;
+
+                textUsername.Text = PublicStudent.Username;
+
+                textEmailAddress.Text = PublicStudent.EmailAddress;
+
+                comboBoxSection.SelectedItem = PublicStudent.ClassSection;
+
+                textSchoolGivenID.Text = PublicStudent.StudentSchoolID;
             }
         }
 
@@ -84,26 +75,47 @@ namespace GradersAssistant
                 {
                     PublicStudent.EmailAddress = textEmailAddress.Text.Trim();
                 }
-                if( comboBoxSection.SelectedItem != null)
+                if (comboBoxSection.SelectedItem != null)
                 {
-                    PublicStudent.ClassSection = Int32.Parse(comboBoxSection.SelectedItem.ToString());
+                    Int32 classSection;
+                    if (Int32.TryParse(comboBoxSection.SelectedItem.ToString(), out classSection))
+                    {
+                        // PublicStudent.ClassSection = Int32.Parse(comboBoxSection.SelectedItem.ToString());
+                    }
                 }
                 if (textSchoolGivenID.Text.Trim() != "")
                 {
                     PublicStudent.StudentSchoolID = textSchoolGivenID.Text.Trim();
                 }
 
-                status = 1;
+                FormStatus = 1;
                 Close();
             }
         }
 
         private void closeWithoutUpdate(object sender, EventArgs e)
         {
-            status = 0;
+            FormStatus = 0;
             Close();
         }
-        
+
+        private void EditStudentForm_Load(object sender, EventArgs e)
+        {
+
+            //give the Section DropDownList an appropriate number of sections based on class data
+            for (int sectionCount = 1; sectionCount <= NumOfSections; sectionCount++)
+            {
+                comboBoxSection.Items.Add(sectionCount);
+            }
+
+            if (FormStatus == 0)
+            {
+                Text = "Add New Student";
+                buttonUpdate.Text = "Add";
+            }
+            FormStatus = -1;
+        }
+
     }
 
 }

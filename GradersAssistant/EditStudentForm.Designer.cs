@@ -68,21 +68,21 @@
             this.textLastName.Location = new System.Drawing.Point(32, 89);
             this.textLastName.Name = "textLastName";
             this.textLastName.Size = new System.Drawing.Size(148, 20);
-            this.textLastName.TabIndex = 3;
+            this.textLastName.TabIndex = 1;
             // 
             // textFirstName
             // 
             this.textFirstName.Location = new System.Drawing.Point(32, 37);
             this.textFirstName.Name = "textFirstName";
             this.textFirstName.Size = new System.Drawing.Size(148, 20);
-            this.textFirstName.TabIndex = 4;
+            this.textFirstName.TabIndex = 0;
             // 
             // textUsername
             // 
             this.textUsername.Location = new System.Drawing.Point(32, 142);
             this.textUsername.Name = "textUsername";
             this.textUsername.Size = new System.Drawing.Size(148, 20);
-            this.textUsername.TabIndex = 6;
+            this.textUsername.TabIndex = 2;
             // 
             // label3
             // 
@@ -133,37 +133,31 @@
             this.textEmailAddress.Location = new System.Drawing.Point(32, 193);
             this.textEmailAddress.Name = "textEmailAddress";
             this.textEmailAddress.Size = new System.Drawing.Size(148, 20);
-            this.textEmailAddress.TabIndex = 11;
+            this.textEmailAddress.TabIndex = 3;
             // 
             // comboBoxSection
             // 
             this.comboBoxSection.DisplayMember = "1";
             this.comboBoxSection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSection.FormattingEnabled = true;
-            this.comboBoxSection.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5"});
             this.comboBoxSection.Location = new System.Drawing.Point(32, 244);
             this.comboBoxSection.Name = "comboBoxSection";
             this.comboBoxSection.Size = new System.Drawing.Size(67, 21);
-            this.comboBoxSection.TabIndex = 12;
+            this.comboBoxSection.TabIndex = 4;
             // 
             // textSchoolGivenID
             // 
             this.textSchoolGivenID.Location = new System.Drawing.Point(32, 301);
             this.textSchoolGivenID.Name = "textSchoolGivenID";
             this.textSchoolGivenID.Size = new System.Drawing.Size(148, 20);
-            this.textSchoolGivenID.TabIndex = 13;
+            this.textSchoolGivenID.TabIndex = 5;
             // 
             // buttonCancel
             // 
             this.buttonCancel.Location = new System.Drawing.Point(39, 345);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(62, 32);
-            this.buttonCancel.TabIndex = 14;
+            this.buttonCancel.TabIndex = 7;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.closeWithoutUpdate);
@@ -173,9 +167,10 @@
             this.buttonUpdate.Location = new System.Drawing.Point(119, 343);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(61, 34);
-            this.buttonUpdate.TabIndex = 15;
+            this.buttonUpdate.TabIndex = 6;
             this.buttonUpdate.Text = "Update";
             this.buttonUpdate.UseVisualStyleBackColor = true;
+            this.buttonUpdate.Click += new System.EventHandler(this.Update);
             // 
             // EditStudentForm
             // 
@@ -197,8 +192,11 @@
             this.Controls.Add(this.textLastName);
             this.Controls.Add(this.labelLastName);
             this.Controls.Add(this.labelFirstName);
+            this.MaximumSize = new System.Drawing.Size(257, 445);
+            this.MinimumSize = new System.Drawing.Size(257, 445);
             this.Name = "EditStudentForm";
             this.Text = "Edit Student";
+            this.Load += new System.EventHandler(this.EditStudentForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

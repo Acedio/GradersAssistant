@@ -94,7 +94,7 @@ namespace GradersAssistant
         }
 
         //creates a new class
-        //TODO still needs to acount for functionality to re populate the new main form once hte class is created
+        //TODO still needs to acount for functionality to re populate the new main form once the class is created
         private void CreateNewClass(object sender, EventArgs e)
         {
             //open 
@@ -111,7 +111,8 @@ namespace GradersAssistant
                 try
                 {
                     Stream template = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("GradersAssistant.template.gat");
-                    FileStream fileOut = new FileStream(saveFile.FileName, FileMode.Create, FileAccess.Write);
+                    FileStream fileOut = new FileStream(saveFile.FileName, FileMode.OpenOrCreate, FileAccess.Write);
+                    //FileStream fileOut = new FileStream(saveFile.FileName, FileMode.Create, FileAccess.Write);
 
                     // Now that we have the stream, we have to save it.
 
@@ -128,8 +129,9 @@ namespace GradersAssistant
 
                     //open edit class form in add mode
                     EditClassForm addClass = new EditClassForm();
+                    addClass.FormStatus = 0;
                     addClass.ShowDialog();
-
+                    
                     //if the values on the form have been updated then commit the changes to the database
                     if (addClass.FormStatus == 1)
                     {
@@ -137,9 +139,15 @@ namespace GradersAssistant
                         if (dbConnention.ConnectDB(saveFile.FileName))
                         {
                             //insert
-                            dbConnention.AddClass(addClass.PublicClass);
-                            mainClass = addClass.PublicClass;
-                            classOpenEnableMenu();
+                            if (dbConnention.AddClass(addClass.PublicClass))
+                            {
+                                mainClass = addClass.PublicClass;
+                                classOpenEnableMenu();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Class data failed to save to file!");
+                            }
                         }
                         else
                         {
@@ -209,14 +217,14 @@ namespace GradersAssistant
         private void EditStudent(object sender, EventArgs e)
         {
             EditStudentForm editStudent = new EditStudentForm();
-            editStudent.status = 1;
+            editStudent.FormStatus = 1;
             editStudent.populateForm();
             //TODO load the right student into the public student of the form
             //editStudent.PublicStudent. = studentComboBox.SelectedItem
             editStudent.ShowDialog();
 
             //if the dialog is closed with a status of 1 the student needs to be updated
-            if (editStudent.status == 1)
+            if (editStudent.FormStatus == 1)
             {
                 //check to make sure a connection exisists
                 if (dbConnention.IsConnected())
@@ -235,11 +243,12 @@ namespace GradersAssistant
         private void AddNewStudent(object sender, EventArgs e)
         {
             EditStudentForm addStudent = new EditStudentForm();
-            addStudent.Text = "Add New Student";
-            addStudent.status = 0;
+            addStudent.FormStatus = 0;
+            addStudent.NumOfSections = mainClass.NumberOfSections;
+            addStudent.populateForm();
             addStudent.ShowDialog();
             //if the dialog is closed with a status of 1 the student needs to be added
-            if (addStudent.status == 1)
+            if (addStudent.FormStatus == 1)
             {
                 if (dbConnention.IsConnected())
                 {
