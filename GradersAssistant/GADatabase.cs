@@ -713,6 +713,75 @@ namespace GradersAssistant
             return true;
         }
 
+        public bool UpdateAdjustment(int assignmentID, int studentID, Adjustment adjustment)
+        {
+            string query = String.Format("UPDATE {0} SET ", tables.Adjustment.TableName);
+            query += String.Format("{0} = @{0}, ", tables.Adjustment.StudentID);
+            query += String.Format("{0} = @{0}, ", tables.Adjustment.AssignmentID);
+            query += String.Format("{0} = @{0}", tables.Adjustment.PointAdjustment);
+            if (adjustment.Comment != string.Empty)
+            {
+                query += String.Format(", {0} = @{0}", tables.Adjustment.Comment);
+            }
+            query += String.Format(" WHERE {0} = @{0};", tables.Adjustment.AdjustmentID);
+            OleDbCommand update = new OleDbCommand(query, dbConnection);
+            update.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.StudentID, OleDbType.Integer)).Value = studentID;
+            update.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.AssignmentID, OleDbType.Integer)).Value = assignmentID;
+            update.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.PointAdjustment, OleDbType.Integer)).Value = adjustment.PointAdjustment;
+            if (adjustment.Comment != string.Empty)
+            {
+                update.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.Comment, OleDbType.VarChar)).Value = adjustment.Comment;
+            }
+            update.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.AdjustmentID, OleDbType.Integer)).Value = adjustment.AdjustmentID;
+            if (update.ExecuteNonQuery() == 1)
+            { // we only want to affect one row
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool AddAdjustment(int assignmentID, int studentID, Adjustment adjustment)
+        {
+            string query = String.Format("INSERT INTO {0} (", tables.Adjustment.TableName);
+            query += String.Format("{0}, ", tables.Adjustment.StudentID);
+            query += String.Format("{0}, ", tables.Adjustment.AssignmentID);
+            query += String.Format("{0}", tables.Adjustment.PointAdjustment);
+            if (adjustment.Comment != string.Empty)
+            {
+                query += String.Format(", {0}", tables.Adjustment.Comment);
+            }
+            query += ") VALUES (";
+            query += String.Format("@{0}, ", tables.Adjustment.StudentID);
+            query += String.Format("@{0}, ", tables.Adjustment.AssignmentID);
+            query += String.Format("@{0}", tables.Adjustment.PointAdjustment);
+            if (adjustment.Comment != string.Empty)
+            {
+                query += String.Format(", @{0}", tables.Adjustment.Comment);
+            }
+            query += ");";
+            OleDbCommand insert = new OleDbCommand(query, dbConnection);
+            insert.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.StudentID, OleDbType.Integer)).Value = studentID;
+            insert.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.AssignmentID, OleDbType.Integer)).Value = assignmentID;
+            insert.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.PointAdjustment, OleDbType.Integer)).Value = adjustment.PointAdjustment;
+            if (adjustment.Comment != string.Empty)
+            {
+                insert.Parameters.Add(new OleDbParameter("@" + tables.Adjustment.Comment, OleDbType.VarChar)).Value = adjustment.Comment;
+            }
+            try
+            {
+                insert.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Could not insert response.");
+                return false;
+            }
+            return true;
+        }
+
         public void SaveResponseList(ResponseList responseList)
         {
             int assignmentID = responseList.AssignmentID;
@@ -724,13 +793,39 @@ namespace GradersAssistant
                 int criteriaID = responsePair.Key;
                 Response response = responsePair.Value;
 
-                if (response.ResponseID != -1)
+                if (response.HasID())
                 { // If we have an ID already.
                     UpdateResponse(assignmentID, studentID, criteriaID, response);
                 }
                 else
                 {
                     AddResponse(assignmentID, studentID, criteriaID, response);
+                }
+            }
+
+            foreach (Adjustment adjustment in responseList.Adjustments)
+            {
+                if (adjustment.HasID())
+                { // If we have an ID already.
+                    UpdateAdjustment(assignmentID, studentID, adjustment);
+                }
+                else
+                {
+                    AddAdjustment(assignmentID, studentID, adjustment);
+                }
+            }
+        }
+
+        public void DeleteAdjustments(LinkedList<int> toDelete)
+        {
+            foreach (int adjustmentID in toDelete)
+            {
+                string query = string.Format("DELETE FROM {0} WHERE {1} = {2}", tables.Adjustment.TableName, tables.Adjustment.AdjustmentID, adjustmentID);
+
+                OleDbCommand deleteCommand = new OleDbCommand(query, dbConnection);
+                if (deleteCommand.ExecuteNonQuery() < 1)
+                {
+                    Debug.WriteLine("Could not delete the adjustment from the DB.");
                 }
             }
         }

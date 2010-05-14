@@ -319,6 +319,8 @@ namespace GradersAssistant
 
                 dbConnention.SaveResponseList(responseList);
 
+                dbConnention.DeleteAdjustments(gaf.DeletedAdjustments);
+
                 Student student = (Student)studentComboBox.SelectedItem;
 
                 gaf.LoadResponseList(student, dbConnention.GetResponseList(currentAssignmentID, student.StudentID));

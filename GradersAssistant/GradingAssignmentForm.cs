@@ -18,11 +18,14 @@ namespace GradersAssistant
 
         private Student currentStudent;
 
+        public LinkedList<int> DeletedAdjustments;
+
         public GradingAssignmentForm()
         {
             InitializeComponent();
             currentAssignment = null;
             currentResponseList = null;
+            DeletedAdjustments = new LinkedList<int>();
         }
 
         public void AddChildNodes(TreeNode parentNode, Rubric rubric, int parentKey)
@@ -357,6 +360,10 @@ namespace GradersAssistant
 
                 if (result == DialogResult.Yes)
                 {
+                    if (currentResponseList.Adjustments[adjustmentsListBox.SelectedIndex].HasID())
+                    {
+                        DeletedAdjustments.AddLast(currentResponseList.Adjustments[adjustmentsListBox.SelectedIndex].AdjustmentID);
+                    }
                     currentResponseList.Adjustments.RemoveAt(adjustmentsListBox.SelectedIndex);
                     updateAdjustmentListBox();
                 }

@@ -142,6 +142,11 @@ namespace GradersAssistant
             pointsReceived = rPointsReceived;
             graderComment = rGraderComment;
         }
+
+        public bool HasID()
+        {
+            return responseID != noID;
+        }
     }
 
     public class Adjustment
@@ -182,6 +187,11 @@ namespace GradersAssistant
             {
                 return String.Format("{0}", Comment, PointAdjustment.ToString());
             }
+        }
+
+        public bool HasID()
+        {
+            return AdjustmentID != noID;
         }
     }
 
