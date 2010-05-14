@@ -20,7 +20,7 @@ namespace GradersAssistant
         Dictionary<int,int> studentScores = new Dictionary<int,int>();
         int totalScore, numZeros, numGraded, maxScore;
         bool useHtml = true;
-        string smtpServer;
+        int smtpPort;
 
         public GradeEmailForm(GAClass mainClass, Dictionary<int, Student> students, Assignment assignment, Dictionary<int,ResponseList> responseLists)
         {
@@ -34,8 +34,14 @@ namespace GradersAssistant
             this.currentAssignment = assignment;
             this.responseLists = responseLists;
             this.useHtml = mainClass.FormatAsHTML;
-            this.smtpServer = textBoxSMTPServer.Text = mainClass.ServerName;
+            textBoxSMTPServer.Text = mainClass.ServerName;
+            this.smtpPort = mainClass.PortNumber;
             this.Text = "Email Grades - " + currentAssignment.Name + " - " + mainClass.ClassName;
+
+            for (int i = 0; i < this.students.Values.Count; i++)
+            {
+                comboBoxStudentSelect.Items.Add(this.students.Values.ToList()[i]);
+            }
 
             studentScores = getStudentTotals();
             totalScore = 0;
@@ -229,11 +235,14 @@ namespace GradersAssistant
             }
             theString += "Total Score: " + studentScores[s.StudentID] + " out of " + maxScore +
                 " -- " + (100 * (double)studentScores[s.StudentID] / (double)maxScore).ToString("F2") + "%</p>";
-            // Now comments
-            theString += "<h5>Comments:</h5>";
-            foreach (string aComment in commentStrings)
+            // Now comments... if there are any
+            if (commentStrings.Count != 0)
             {
-                theString += aComment;
+                theString += "<h5>Comments:</h5>";
+                foreach (string aComment in commentStrings)
+                {
+                    theString += aComment;
+                }
             }
             theString += "</body></html>";
             return theString;
@@ -507,7 +516,7 @@ namespace GradersAssistant
                 if (radioButtonProtocolExchange.Checked)
                 {
                     smtpClient.UseDefaultCredentials = false;
-                    smtpClient.Port = 587;
+                    smtpClient.Port = smtpPort;
                     smtpClient.EnableSsl = true;
                     //smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                 }
@@ -558,9 +567,40 @@ namespace GradersAssistant
             {
                 MessageBox.Show("Please enter an smtp server.", "No SMTP Server");
             }
-            else if (radioButtonEmailOne.Checked && comboBoxStudentSelect.SelectedIndex == 0)
+            else if (radioButtonEmailOne.Checked && comboBoxStudentSelect.SelectedIndex < 0)
             {
                 MessageBox.Show("Please select a student to send to.", "No student selected");
+            }
+            else if (radioButtonEmailOne.Checked)
+            {   // send one email
+                try
+                {
+                    if (useHtml)
+                    {
+                        sendEmail(useHtml,
+                            getEmailHtml(students.Values.ToList()[comboBoxStudentSelect.SelectedIndex]),
+                            students.Values.ToList()[comboBoxStudentSelect.SelectedIndex]);
+                    }
+                    else
+                    {
+                        sendEmail(useHtml,
+                            getEmailText(students.Values.ToList()[comboBoxStudentSelect.SelectedIndex]),
+                            students.Values.ToList()[comboBoxStudentSelect.SelectedIndex]);
+                    }
+                    MessageBox.Show("Email sent to " +
+                        students.Values.ToList()[comboBoxStudentSelect.SelectedIndex].FirstName +
+                        students.Values.ToList()[comboBoxStudentSelect.SelectedIndex].LastName +
+                        ".",
+                        "Victory!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Email to " +
+                        students.Values.ToList()[comboBoxStudentSelect.SelectedIndex].FirstName +
+                        students.Values.ToList()[comboBoxStudentSelect.SelectedIndex].LastName +
+                        " failed.\n\n" + ex.ToString(),
+                        "Email Failure");
+                }
             }
             else if (radioButtonEmailAll.Checked)
             {   // send a lot of emails
@@ -685,14 +725,32 @@ namespace GradersAssistant
             }
         }
 
+        /// <summary>
+        /// This handles the check changed event for radioButtonHtml.
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event args.</param>
         private void radioButtonHtml_CheckedChanged(object sender, EventArgs e)
         {
             useHtml = radioButtonHtml.Checked;
         }
 
+        /// <summary>
+        /// This handles the check changed event for radioButtonPlainText
+        /// </summary>
+        /// <param name="sender">The object sending the event.</param>
+        /// <param name="e">The event args.</param>
         private void radioButtonPlainText_CheckedChanged(object sender, EventArgs e)
         {
             useHtml = !radioButtonPlainText.Checked;
+        }
+
+        private void textBoxSmtpPort_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar) && e.KeyChar != Keys.Back.ToString()[0])
+            {
+                e.Handled = true;
+            }
         }
     }
 }
