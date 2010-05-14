@@ -312,13 +312,16 @@ namespace GradersAssistant
             this.Dispose();
         }
 
+        private void saveResponseList(ResponseList responseList)
+        {
+            dbConnention.SaveResponseList(responseList);
+        }
+
         private void studentComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (gaf != null && studentComboBox.SelectedItem != null)
             {
-                ResponseList responseList = gaf.GetResponseList();
-
-                dbConnention.SaveResponseList(responseList);
+                dbConnention.SaveResponseList(gaf.GetResponseList());
 
                 dbConnention.DeleteAdjustments(gaf.DeletedAdjustments);
 
@@ -401,6 +404,16 @@ namespace GradersAssistant
             AboutBox aboutBox = new AboutBox();
 
             aboutBox.ShowDialog();
+        }
+
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (gaf != null)
+            {
+                dbConnention.SaveResponseList(gaf.GetResponseList());
+
+                dbConnention.DeleteAdjustments(gaf.DeletedAdjustments);
+            }
         }
     }
 }

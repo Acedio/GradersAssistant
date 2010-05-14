@@ -90,17 +90,17 @@
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutGradersAssistantToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.upperToolStrip = new System.Windows.Forms.ToolStrip();
-            this.CreateNewToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.studentComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.previousStudentToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.nextStudentToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.CreateNewToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.topHatToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.mainStatusStrip.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
             this.upperToolStrip.SuspendLayout();
@@ -567,6 +567,49 @@
             this.upperToolStrip.TabIndex = 2;
             this.upperToolStrip.Text = "upperToolStrip";
             // 
+            // studentComboBox
+            // 
+            this.studentComboBox.AutoSize = false;
+            this.studentComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.studentComboBox.DropDownWidth = 200;
+            this.studentComboBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.studentComboBox.Name = "studentComboBox";
+            this.studentComboBox.Size = new System.Drawing.Size(300, 23);
+            this.studentComboBox.SelectedIndexChanged += new System.EventHandler(this.studentComboBox_SelectedIndexChanged);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // previousStudentToolStripButton
+            // 
+            this.previousStudentToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.previousStudentToolStripButton.Image = global::GradersAssistant.Properties.Resources.left;
+            this.previousStudentToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.previousStudentToolStripButton.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.previousStudentToolStripButton.Name = "previousStudentToolStripButton";
+            this.previousStudentToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.previousStudentToolStripButton.Text = "Previous Student";
+            this.previousStudentToolStripButton.ToolTipText = "Previous Student";
+            this.previousStudentToolStripButton.Click += new System.EventHandler(this.previousStudentToolStripButton_Click);
+            // 
+            // nextStudentToolStripButton
+            // 
+            this.nextStudentToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.nextStudentToolStripButton.Image = global::GradersAssistant.Properties.Resources.right;
+            this.nextStudentToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.nextStudentToolStripButton.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.nextStudentToolStripButton.Name = "nextStudentToolStripButton";
+            this.nextStudentToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.nextStudentToolStripButton.Text = "Next Student";
+            this.nextStudentToolStripButton.Click += new System.EventHandler(this.nextStudentToolStripButton_Click);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 25);
+            // 
             // CreateNewToolStripButton
             // 
             this.CreateNewToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -598,53 +641,12 @@
             this.saveToolStripButton.Name = "saveToolStripButton";
             this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.saveToolStripButton.Text = "Save Class";
-            // 
-            // saveFileDialog1
-            // 
-            this.saveFileDialog1.SupportMultiDottedExtensions = true;
-            // 
-            // studentComboBox
-            // 
-            this.studentComboBox.AutoSize = false;
-            this.studentComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.studentComboBox.DropDownWidth = 200;
-            this.studentComboBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.studentComboBox.Name = "studentComboBox";
-            this.studentComboBox.Size = new System.Drawing.Size(300, 23);
-            this.studentComboBox.SelectedIndexChanged += new System.EventHandler(this.studentComboBox_SelectedIndexChanged);
+            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // previousStudentToolStripButton
-            // 
-            this.previousStudentToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.previousStudentToolStripButton.Image = global::GradersAssistant.Properties.Resources.left;
-            this.previousStudentToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.previousStudentToolStripButton.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.previousStudentToolStripButton.Name = "previousStudentToolStripButton";
-            this.previousStudentToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.previousStudentToolStripButton.Text = "Previous Student";
-            this.previousStudentToolStripButton.ToolTipText = "Previous Student";
-            this.previousStudentToolStripButton.Click += new System.EventHandler(this.previousStudentToolStripButton_Click);
-            // 
-            // nextStudentToolStripButton
-            // 
-            this.nextStudentToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.nextStudentToolStripButton.Image = global::GradersAssistant.Properties.Resources.right;
-            this.nextStudentToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.nextStudentToolStripButton.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.nextStudentToolStripButton.Name = "nextStudentToolStripButton";
-            this.nextStudentToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.nextStudentToolStripButton.Text = "Next Student";
-            this.nextStudentToolStripButton.Click += new System.EventHandler(this.nextStudentToolStripButton_Click);
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 25);
             // 
             // topHatToolStripButton
             // 
@@ -657,10 +659,9 @@
             this.topHatToolStripButton.Text = "Top Hat!";
             this.topHatToolStripButton.Click += new System.EventHandler(this.topHatToolStripButton_Click);
             // 
-            // toolStripSeparator2
+            // saveFileDialog1
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.saveFileDialog1.SupportMultiDottedExtensions = true;
             // 
             // MainForm
             // 
