@@ -17,6 +17,7 @@ namespace GradersAssistant
         }
 
         public LinkedList<CriteriaNode> CriteriaTree = new LinkedList<CriteriaNode>();
+        public Assignment assignment = new Assignment();
         public bool IsClosed = false;
         private string D_date;
         private string A_name;
@@ -43,9 +44,9 @@ namespace GradersAssistant
             a_name = this.a_name_textbox.Text;
             //d_date = d_date_box.ToString();
             d_date = String.Format("{0:G}", d_date_box);
-            Assignment assignment = new Assignment();
             assignment.Name = a_name;
-            //assignment.DueDate = DateTime.Parse(d_date_box);
+            //string date = DateTime.Parse(d_date);
+            //assignment.DueDate = DateTime.Parse(d_date);
 
             CreateRubricForm newRubric = new CreateRubricForm();
             newRubric.ROOTNODE.Text = a_name;
@@ -54,7 +55,7 @@ namespace GradersAssistant
 
             if (newRubric.SaveCriteria == true)
             {
-                CriteriaTree = newRubric.CriteriaTree;
+                CriteriaTree = newRubric.CriteriaTree;               
             }
 
             this.Close();

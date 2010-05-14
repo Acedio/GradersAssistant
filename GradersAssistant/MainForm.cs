@@ -58,7 +58,7 @@ namespace GradersAssistant
         protected void NewRubricCreator(object sender, EventArgs e)
         {
             CreateAssignmentForm assign = new CreateAssignmentForm();
-            assign.Show();
+            assign.ShowDialog();
             
             // Set the Parent Form of the Child window.
            // newMDIChild.MdiParent = this;
@@ -66,10 +66,31 @@ namespace GradersAssistant
 
             if (assign.IsClosed == true)
             {
-                // start savin the criteria!!
+                int assignID = dbConnention.AddAssignment(assign.assignment);   // creates a new assignment into the database
+                setCriteria(assign.CriteriaTree, assignID);
             }
            
 
+        }
+
+        private void setCriteria(LinkedList<CriteriaNode> list, int assignid)
+        {
+            Criteria criteria;
+            foreach (CriteriaNode c in list)
+            {
+                criteria = new Criteria();
+                criteria.Description = c.Description;
+                criteria.MaxPoints = c.Points;
+                c.CriteriaID = dbConnention.AddCriteria(criteria);
+                if (c.NumberOfChildren > 0)
+                {
+                    foreach (CriteriaNode cn in c.ChildList)
+                    {
+                        cn.ParentID = c.CriteriaID;
+                    }
+                    setCriteria(c.ChildList,assignid);
+                }
+            }
         }
 
         private void updateStudentComboBox()
