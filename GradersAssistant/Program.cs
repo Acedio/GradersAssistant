@@ -49,13 +49,7 @@ namespace GradersAssistant
             set { emailAddress = value; }
         }
 
-        int classSection;
-
-        public int ClassSection
-        {
-            get { return classSection; }
-            set { ClassSection = value; }
-        }
+        public int ClassSection;
 
         string studentSchoolID;
 
@@ -77,7 +71,7 @@ namespace GradersAssistant
             lastName = sLastName;
             username = sUsername;
             emailAddress = sEmailAddress;
-            classSection = sClassSection;
+            ClassSection = sClassSection;
             studentSchoolID = sStudentSchoolID;
         }
 
@@ -88,7 +82,7 @@ namespace GradersAssistant
             lastName = sLastName;
             username = sUsername;
             emailAddress = sEmailAddress;
-            classSection = sClassSection;
+            ClassSection = sClassSection;
             studentSchoolID = sStudentSchoolID;
         }
 

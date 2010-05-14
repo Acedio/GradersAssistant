@@ -279,6 +279,29 @@ namespace GradersAssistant
             }
         }
 
+
+        public bool DeleteStudent(Student student)
+        {
+            if (student.HasID())
+            {
+                // We need to update because the student already has a key.
+                string query = String.Format("DELETE FROM {0} ", tables.Student.TableName);
+                query += String.Format("WHERE {0} = @{0};", tables.Student.StudentID);
+                OleDbCommand update = new OleDbCommand(query, dbConnection);
+                update.Parameters.Add(new OleDbParameter("@" + tables.Student.StudentID, OleDbType.Integer)).Value = student.StudentID;
+                update.ExecuteNonQuery();
+                return true;
+            }
+            else
+            {
+                Debug.WriteLine("A student without an ID is trying to be deleted. That's not good.");
+                return false;
+            }
+        }
+
+
+
+
         public bool SaveStudents(Dictionary<int, Student> students)
         {
             try

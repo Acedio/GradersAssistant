@@ -110,6 +110,8 @@ namespace GradersAssistant
             {
                 try
                 {
+                    studentComboBox.Items.Clear();
+
                     Stream template = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("GradersAssistant.template.gat");
                     FileStream fileOut = new FileStream(saveFile.FileName, FileMode.OpenOrCreate, FileAccess.Write);
                     //FileStream fileOut = new FileStream(saveFile.FileName, FileMode.Create, FileAccess.Write);
@@ -218,6 +220,7 @@ namespace GradersAssistant
         {
             EditStudentForm editStudent = new EditStudentForm();
             editStudent.FormStatus = 1;
+            editStudent.PublicStudent = (Student)studentComboBox.SelectedItem;
             editStudent.populateForm();
             //TODO load the right student into the public student of the form
             //editStudent.PublicStudent. = studentComboBox.SelectedItem
@@ -231,7 +234,8 @@ namespace GradersAssistant
                 {
                     //update the class table in the database
                     dbConnention.UpdateStudent(editStudent.PublicStudent);
-                    dbConnention.GetStudents();
+                    //dbConnention.GetStudents();
+                    loadStudents(dbConnention);
                 }
                 else
                 {
@@ -254,7 +258,8 @@ namespace GradersAssistant
                 {
                     //update the class table in the database
                     dbConnention.AddStudent(addStudent.PublicStudent);
-                    dbConnention.GetStudents();
+                   // dbConnention.GetStudents();
+                    loadStudents(dbConnention);
                 }
                 else
                 {
@@ -265,7 +270,16 @@ namespace GradersAssistant
 
         private void deleteStudent(object sender, EventArgs e)
         {
+            Student currentStudent = (Student)studentComboBox.SelectedItem; 
+            WarningFormWithContinue deleteStudent = new WarningFormWithContinue();
+            deleteStudent.Message = "You are about to delete " + currentStudent.FirstName + " " + currentStudent.LastName + " \nFrom the class this action cannot be \nundone.  Do  you want to proceed?";
+            deleteStudent.ShowDialog();
 
+            if(deleteStudent.Proceed)
+            {
+                dbConnention.DeleteStudent(currentStudent);
+                loadStudents(dbConnention);
+            }
         }
 
         private void Close(object sender, EventArgs e)

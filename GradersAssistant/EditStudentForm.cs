@@ -80,7 +80,7 @@ namespace GradersAssistant
                     Int32 classSection;
                     if (Int32.TryParse(comboBoxSection.SelectedItem.ToString(), out classSection))
                     {
-                        // PublicStudent.ClassSection = Int32.Parse(comboBoxSection.SelectedItem.ToString());
+                        PublicStudent.ClassSection = Int32.Parse(comboBoxSection.SelectedItem.ToString());
                     }
                 }
                 if (textSchoolGivenID.Text.Trim() != "")
