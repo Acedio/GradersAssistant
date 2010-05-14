@@ -17,7 +17,7 @@ namespace GradersAssistant
         Dictionary<int, Student> students;
         Assignment currentAssignment;
         Dictionary<int,ResponseList> responseLists;
-        List<int> studentScores = new List<int>();
+        Dictionary<int,int> studentScores = new Dictionary<int,int>();
         int totalScore;
 
         bool useHtml = false;
@@ -31,14 +31,105 @@ namespace GradersAssistant
             this.students = students;
             this.currentAssignment = assignment;
             this.responseLists = responseLists;
+            try
+            {
+                studentScores = getStudentTotals();
+                totalScore = 0;
+                foreach (int i in studentScores.Values)
+                {
+                    totalScore += i;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Student score not found, database may be corrupt." +
+                    ex.ToString(),
+                    "Student score not found!");
+            }
 
 
             textBoxEmailAddress.Text = mainClass.FromAddress;
         }
 
-        private string getEmailText(Student s, bool useHtml)
+        /// <summary>
+        /// This returns a Dictionary<studentID, studentScore> using the class' students list.
+        /// </summary>
+        /// <returns>Dictionary connecting studentIDs to studentScores</returns>
+        private Dictionary<int,int> getStudentTotals()
+        {
+            Dictionary<int,int> tempDict = new Dictionary<int,int>();
+            foreach (Student s in students.Values)
+            {
+                tempDict.Add(s.StudentID,getOneTotal(s));
+            }
+            return tempDict;
+        }
+
+        /// <summary>
+        /// This function returns the total score of one Student.
+        /// </summary>
+        /// <param name="s">The Student whose score is to be gotten.</param>
+        /// <returns>An integer indicating the Student's score.</returns>
+        private int getOneTotal(Student s)
         {   // this is ridiculous!      -- Josh
-            // check for existence of student id in dictionary responseDict
+            if (responseLists.ContainsKey(s.StudentID))
+            {
+                throw new Exception("Student " + s.FirstName + " " + s.LastName +
+                    " (" + s.StudentID +
+                    ") does not have any responses.  Please check the grading guide.");
+            }
+            Dictionary<int, Response> responseDict = responseLists[s.StudentID].Responses;
+            Rubric currentRubric = currentAssignment.Rubric;
+            int theTotal = 0;
+
+            foreach (int rootNodeID in currentRubric.RootNodes)
+            {
+                theTotal += getScoreFromNode(rootNodeID, currentRubric.Nodes, responseDict);
+            }
+            return theTotal;
+        }
+
+        /// <summary>
+        /// This function is called recursively to navigate the criteria tree and get the
+        /// score for one node of the response tree of one Student.
+        /// </summary>
+        /// <param name="nodeID">Start node.</param>
+        /// <param name="nodes">Dictionary of all nodes in the criteria tree.</param>
+        /// <param name="responseDict">Dictionary of all responses for this student.</param>
+        /// <returns>The integer to be added to the total score for this student.</returns>
+        private int getScoreFromNode(int nodeID, Dictionary<int, RubricNode> nodes, Dictionary<int, Response> responseDict)
+        {
+            LinkedList<int> children = nodes[nodeID].Children;
+
+            if (children.Count > 0)
+            {   // go deeper in recursion
+                int theScore = 0;
+                foreach (int nID in children)
+                {
+                    theScore += getScoreFromNode(nID, nodes, responseDict);
+                }
+                return theScore;
+            }
+            else
+            {   // reached end, return an int now
+                return responseDict[nodeID].PointsReceived;
+            }
+        }
+
+        /// <summary>
+        /// This function returns the text for a text formatted email for one Student.  Includes
+        /// comments, grades, etc.  Throws an exception if the Student has no responses.
+        /// </summary>
+        /// <param name="s">The Student whose email text should be obtained.</param>
+        /// <returns>Returns the string that should be sent to the sendEmail function.</returns>
+        private string getEmailText(Student s)
+        {   // this is ridiculous!      -- Josh
+            if (responseLists.ContainsKey(s.StudentID))
+            {
+                throw new Exception("Student " + s.FirstName + " " + s.LastName +
+                    " (" + s.StudentID + 
+                    ") does not have any responses.  Please check the grading guide.");
+            }
             Dictionary<int, Response> responseDict = responseLists[s.StudentID].Responses;
             string theString = "The scores:\n\n";
 
@@ -47,12 +138,22 @@ namespace GradersAssistant
 
             foreach (int rootNodeID in currentRubric.RootNodes)
             {
-                theString += getTextFromNodes(rootNodeID, currentRubric.Nodes, responseDict, 0) + "\n";
+                theString += getTextFromNode(rootNodeID, currentRubric.Nodes, responseDict, 0) + "\n";
             }
             return theString;
         }
 
-        private string getTextFromNodes(int nodeID, Dictionary<int, RubricNode> nodes, Dictionary<int, Response> responseDict, int tabCount)
+        /// <summary>
+        /// This function is called recursively to navigate the criteria tree and get the
+        /// responses for a student, starting at a single node.
+        /// </summary>
+        /// <param name="nodeID">Start node.</param>
+        /// <param name="nodes">Dictionary of all nodes in the criteria tree.</param>
+        /// <param name="responseDict">Dictionary of all responses for this student.</param>
+        /// <param name="tabCount">This number indicates the level of recursion, starting at
+        /// zero.  This will control the indentation in the returned string.</param>
+        /// <returns>The string to be added to the email to be sent for this student.</returns>
+        private string getTextFromNode(int nodeID, Dictionary<int, RubricNode> nodes, Dictionary<int, Response> responseDict, int tabCount)
         {
             string tabString = "     ";
             LinkedList<int> children = nodes[nodeID].Children;
@@ -70,7 +171,7 @@ namespace GradersAssistant
                 theString += nodes[nodeID].Criteria.Description + ":\n";
                 foreach (int nID in children)
                 {
-                    theString += getTextFromNodes(nID, nodes, responseDict, tabCount+1);
+                    theString += getTextFromNode(nID, nodes, responseDict, tabCount+1);
                 }
                 return theString;
             }
@@ -89,6 +190,11 @@ namespace GradersAssistant
             }
         }
 
+        /// <summary>
+        /// This function handles the distribution of emails to all students.
+        /// Assumes all appropriate boxes have appropriate information.
+        /// </summary>
+        /// <returns>Number of successfull emails.</returns>
         private int distributeEmails()
         {
             int emailsSent = 0;
@@ -104,7 +210,7 @@ namespace GradersAssistant
                 {
                     try
                     {
-                        sendEmail(useHtml, getEmailText(pair.Value,useHtml), pair.Value);
+                        sendEmail(useHtml, getEmailText(pair.Value), pair.Value);
                         emailsSent++;   // only happens if sendEmail function goes through
                         keepGoing = false;
                     }
@@ -205,82 +311,6 @@ namespace GradersAssistant
             catch (Exception ex)
             {
                 throw ex;
-            }
-        }
-
-        //private bool sendEmail(bool authenticated, string host, string username, string password, string text, string subject, string recipient)
-        //{
-        //    if (!username.Contains('@'))
-        //    {
-        //        MessageBox.Show("Please enter a valid email address.", "Invalid Email!");
-        //        return false;
-        //    }
-        //    if (!recipient.Contains('@'))
-        //    {
-        //        MessageBox.Show("The recipient \"" + recipient + "\" has an invalid email address.");
-        //        return false;
-        //    }
-        //    SmtpClient smtpClient = new SmtpClient();
-        //    NetworkCredential theCredential = new NetworkCredential(username, password);
-        //    MailMessage message = new MailMessage();
-        //    MailAddress fromAddress = new MailAddress(username);
-
-        //    smtpClient.Host = host;
-        //    if (authenticated)
-        //    {
-        //        smtpClient.UseDefaultCredentials = false;
-        //        smtpClient.Port = 587;
-        //        smtpClient.EnableSsl = true;
-        //        //smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-        //    }
-        //    smtpClient.Credentials = theCredential;
-
-        //    message.From = fromAddress;
-        //    message.Subject = subject;
-        //    message.IsBodyHtml = false;
-        //    message.Body = text;
-        //    message.To.Add(recipient);
-            
-        //    try
-        //    {
-        //        smtpClient.Send(message);
-        //        return true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Error sending email:\n" + ex.Message, ex.Message);
-        //    }
-        //    return false;
-        //}
-
-        public void EmailTest(string username, string password)
-        {   // this function uses code from here: http://stackoverflow.com/questions/298363/how-can-i-make-smtp-authenticated-in-c
-            SmtpClient smtpClient = new SmtpClient();
-            NetworkCredential theCredential = new NetworkCredential(username, password);
-            MailMessage message = new MailMessage();
-            MailAddress fromAddress = new MailAddress(username);
-
-            //smtpClient.Host = "bl2prd0102.outlook.com";// bl2prd0102.outlook.com is the student outlook server, maybe this should be an option?
-            smtpClient.Host = "hub1.whitworth.edu";
-            smtpClient.Credentials = theCredential;
-            smtpClient.UseDefaultCredentials = false;
-            smtpClient.Port = 587;
-            
-
-            message.From = fromAddress;
-            message.Subject = "Hey Cousin!";
-            message.IsBodyHtml = false;
-            message.Body = "Hey Josh,\nIt turns out we're second cousins, and all my money got stolen by some Nigerian scam artists.\n\nIf you could send me ten thousand dollars, I will be able to open my bank account and get my money back.  I'd be pleased to give you a half percent of my estate in exchange for the assistance.\n\nYour cousin,\nBill";
-            message.To.Add("raptorcantor@gmail.com");
-            //message.To.Add("@my.whitworth.edu");
-
-            try
-            {
-                smtpClient.Send(message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error in smtp stuff in function EmailTest: " + ex.Message, ex.Message);
             }
         }
 
