@@ -20,6 +20,7 @@ namespace GradersAssistant
         Dictionary<int,int> studentScores = new Dictionary<int,int>();
         int totalScore, numZeros, numGraded, maxScore;
         bool useHtml = true;
+        string smtpServer;
 
         public GradeEmailForm(GAClass mainClass, Dictionary<int, Student> students, Assignment assignment, Dictionary<int,ResponseList> responseLists)
         {
@@ -32,6 +33,8 @@ namespace GradersAssistant
             this.students = students;
             this.currentAssignment = assignment;
             this.responseLists = responseLists;
+            this.useHtml = mainClass.FormatAsHTML;
+            this.smtpServer = textBoxSMTPServer.Text = mainClass.ServerName;
             this.Text = "Email Grades - " + currentAssignment.Name + " - " + mainClass.ClassName;
 
             studentScores = getStudentTotals();
@@ -48,7 +51,8 @@ namespace GradersAssistant
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Crazy error!  Glad I'm not you, man (or woman).\nYeah, I've got nothing for you." +
+                    MessageBox.Show(
+                        "Crazy error!  Glad I'm not you, man (or woman).\nYeah, here's some error stuff!\n\n" +
                         ex.ToString(),
                         "Umm...");
                 }
@@ -91,7 +95,7 @@ namespace GradersAssistant
         /// <param name="s">The Student whose score is to be gotten.</param>
         /// <returns>An integer indicating the Student's score.</returns>
         private int getOneTotal(Student s)
-        {   // this is ridiculous!      -- Josh
+        {
             if (!responseLists.ContainsKey(s.StudentID))
             {
                 throw new Exception("Student " + s.FirstName + " " + s.LastName +
@@ -122,6 +126,10 @@ namespace GradersAssistant
                         "If that doesn't work, the database is probably corrupt.\n\n" + ex.ToString(),
                         "Missing responses!");
                 }
+            }
+            foreach (Adjustment a in responseLists[s.StudentID].Adjustments)
+            {
+                theTotal += a.PointAdjustment;
             }
             return theTotal;
         }
@@ -163,6 +171,7 @@ namespace GradersAssistant
         private string getEmailHtml(Student s)
         {
             int tempInt;
+            int adjustmentTotal = 0;
             List<string> commentStrings = new List<string>();
 
             if (!responseLists.ContainsKey(s.StudentID))
@@ -175,10 +184,10 @@ namespace GradersAssistant
             // initialize html tags and add header text // NOTE: New lines are for minor source readability
             string theString = "<html><body>" + "<p>" + textBoxHeaderText.Text + "</p>";
             // add intro
-            theString += "<p>Grading Report for " + mainClass.ClassName + "<br />" +
-                "Assignment: " + currentAssignment.Name + "</p>";
+            theString += "<h4>Grading Report for " + mainClass.ClassName + "</h4>" +
+                "<h5>Assignment: " + currentAssignment.Name + "</h5>";
             // class statistics
-            theString += "<p>Statistics:" +
+            theString += "<h5>Statistics:</h5><p>" +
                 "     Number of Students: " + students.Count + "<br />" +
                 "     Numer of Students Graded: " + numGraded + "<br />" +
                 "     Number of Zero Grades: " + numZeros + "<br />" +
@@ -188,16 +197,40 @@ namespace GradersAssistant
             //Dictionary<int, RubricNode> criterion = currentAssignment.Rubric.Nodes;
             Rubric currentRubric = currentAssignment.Rubric;
 
-            theString += "<p>Your Grades:<ul>";
+            theString += "<h5>Your Grades:</h5><ul>";
             tempInt = 0;
             foreach (int rootNodeID in currentRubric.RootNodes)
             {
                 theString += getHtmlFromNode(rootNodeID, currentRubric.Nodes, responseDict, ref tempInt, ref commentStrings);
             }
             theString += "</ul>";
+            // Now add adjustments... if there are any
+            if (responseLists[s.StudentID].Adjustments.Count != 0)
+            {
+                theString += "<h5>Adjustments:</h5>";
+                theString += "<table width=\"100%\">";
+                foreach (Adjustment a in responseLists[s.StudentID].Adjustments)
+                {
+                    theString += "<tr><td>" + a.Comment + "</td><td>" + a.PointAdjustment + "</td></tr>";
+                    adjustmentTotal += a.PointAdjustment;
+                }
+                theString += "</table>";
+            }
+            // Now do full summary
+            theString += "<p>Subtotal: " + (studentScores[s.StudentID] - adjustmentTotal) +
+                " out of " + maxScore + "<br />";
+            if (adjustmentTotal > 0)
+            {
+                theString += "Adjustments: +" + adjustmentTotal + "<br />";
+            }
+            else
+            {
+                theString += "Adjustments: " + adjustmentTotal + "<br />";
+            }
             theString += "Total Score: " + studentScores[s.StudentID] + " out of " + maxScore +
-                " -- " + (100 * studentScores[s.StudentID] / maxScore).ToString("F2") + "%</p><p>";
-            theString += "Comments:</p>";
+                " -- " + (100 * (double)studentScores[s.StudentID] / (double)maxScore).ToString("F2") + "%</p>";
+            // Now comments
+            theString += "<h5>Comments:</h5>";
             foreach (string aComment in commentStrings)
             {
                 theString += aComment;
@@ -273,6 +306,7 @@ namespace GradersAssistant
                     ") does not have any responses.  Please check the grading guide.");
             }
             Dictionary<int, Response> responseDict = responseLists[s.StudentID].Responses;
+            int adjustmentTotal = 0;
             // initialize text with header and blank line
             string theString = textBoxHeaderText.Text + "\n\n";
             // add intro
@@ -297,8 +331,28 @@ namespace GradersAssistant
                 theString += getTextFromNode(rootNodeID, currentRubric.Nodes, responseDict, 0) + "\n";
             }
             theString += "\n";
+            if (responseLists[s.StudentID].Adjustments.Count != 0)
+            {
+                theString += "Adjustments:\n";
+                foreach (Adjustment a in responseLists[s.StudentID].Adjustments)
+                {
+                    theString += a.Comment + "     " + a.PointAdjustment + "\n";
+                    adjustmentTotal += a.PointAdjustment;
+                }
+            }
+            // Final summary strings:
+            theString += "\nSubtotal: " + (studentScores[s.StudentID] - adjustmentTotal) +
+                " out of " + maxScore + "\n";
+            if (adjustmentTotal > 0)
+            {
+                theString += "Adjustments: +" + adjustmentTotal + "\n";
+            }
+            else
+            {
+                theString += "Adjustments: " + adjustmentTotal + "\n";
+            }
             theString += "Total Score: " + studentScores[s.StudentID] + " out of " + maxScore +
-                " -- " + (100*studentScores[s.StudentID]/maxScore).ToString("F2") + "%";
+                " -- " + (100.0*((double)studentScores[s.StudentID])/(double)maxScore).ToString("F2") + "%";
             return theString;
         }
 
