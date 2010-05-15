@@ -380,6 +380,11 @@ namespace GradersAssistant
         }
 
         public Rubric Rubric;
+
+        public override string ToString()
+        {
+            return String.Format("{0} (Due on {1})", name, dueDate.ToString("MM/dd/yyyy"));
+        }
     }
 
     public class GAClass

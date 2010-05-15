@@ -225,6 +225,7 @@ namespace GradersAssistant
 
         private void loadGradingForm(int assignmentID)
         {
+            currentAssignmentID = assignmentID;
             gaf = new GradingAssignmentForm();
             gaf.MdiParent = this;
             int height = gaf.ClientSize.Height + this.Height - this.ClientSize.Height + mainMenuStrip.Height + upperToolStrip.Height + mainStatusStrip.Height;
@@ -237,8 +238,11 @@ namespace GradersAssistant
             {
                 Assignment assignment = dbConnention.GetAssignment(assignmentID);
                 gaf.LoadAssignment(assignment);
-                //ResponseList studentResponse = dbConnention.GetResponseList(1, 10);
-                //gaf.LoadResponseList(students[studentResponse.StudentID], studentResponse);
+                if (studentComboBox.SelectedItem != null)
+                {
+                    ResponseList studentResponse = dbConnention.GetResponseList(assignmentID, ((Student)studentComboBox.SelectedItem).StudentID);
+                    gaf.LoadResponseList(students[studentResponse.StudentID], studentResponse);
+                }
             }
         }
 
@@ -356,6 +360,13 @@ namespace GradersAssistant
             dbConnention.SaveResponseList(responseList);
         }
 
+        private void loadResponseList(int assignmentID, Student student)
+        {
+            ResponseList responseList = dbConnention.GetResponseList(assignmentID, student.StudentID);
+
+            gaf.LoadResponseList(student, responseList);
+        }
+
         private void studentComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (gaf != null && studentComboBox.SelectedItem != null)
@@ -366,7 +377,7 @@ namespace GradersAssistant
 
                 Student student = (Student)studentComboBox.SelectedItem;
 
-                gaf.LoadResponseList(student, dbConnention.GetResponseList(currentAssignmentID, student.StudentID));
+                loadResponseList(currentAssignmentID, student);
             }
         }
 
@@ -452,6 +463,11 @@ namespace GradersAssistant
                 dbConnention.SaveResponseList(gaf.GetResponseList());
 
                 dbConnention.DeleteAdjustments(gaf.DeletedAdjustments);
+
+                if (studentComboBox.SelectedItem != null)
+                {
+                    loadResponseList(currentAssignmentID, (Student)studentComboBox.SelectedItem);
+                }
             }
         }
 
@@ -464,9 +480,9 @@ namespace GradersAssistant
 
             if (!oaf.Cancelled)
             {
-                int toOpen = oaf.SelectedAssignment.AssignmentID;
+                currentAssignmentID = oaf.SelectedAssignment.AssignmentID;
 
-                loadGradingForm(toOpen);
+                loadGradingForm(currentAssignmentID);
             }
         }
     }

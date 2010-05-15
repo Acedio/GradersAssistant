@@ -17,6 +17,8 @@ namespace GradersAssistant
 
         public OpenAssignmentForm(List<Assignment> assignments)
         {
+            InitializeComponent();
+
             Cancelled = true;
 
             assignmentsComboBox.BeginUpdate();
@@ -29,11 +31,6 @@ namespace GradersAssistant
             }
 
             assignmentsComboBox.EndUpdate();
-        }
-
-        public OpenAssignmentForm()
-        {
-            InitializeComponent();
         }
 
         private void OopsButton_Click(object sender, EventArgs e)
