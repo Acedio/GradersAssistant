@@ -7,16 +7,31 @@ using System.Diagnostics;
 
 namespace GradersAssistant
 {
+    /// <summary>
+    /// GADatabase is the class that the Access database is accessed through.
+    /// </summary>
     class GADatabase
     {
+        /// <summary>
+        /// The filename of the DB.
+        /// </summary>
         string filename;
 
+        /// <summary>
+        /// The provider portion of the connection string that will be given to OleDb when connecting.
+        /// </summary>
         const string accessConnStrHead = "Provider=Microsoft.ACE.OLEDB.12.0;";
 
+        /// <summary>
+        /// The reference to our database connection.
+        /// </summary>
         OleDbConnection dbConnection;
 
         bool connected;
 
+        /// <summary>
+        /// This structure acts as an intermediary between the code and SQL statements. Using this, we are able to write queries regardless of what the column names may be.
+        /// </summary>
         struct tables
         {
             public struct Student
@@ -111,6 +126,11 @@ namespace GradersAssistant
             dbConnection = null;
         }
 
+        /// <summary>
+        /// Connect to an access database.
+        /// </summary>
+        /// <param name="fname">The filename of the Access database.</param>
+        /// <returns>The connection status.</returns>
         public bool ConnectDB(string fname)
         {
             filename = fname;
@@ -147,6 +167,11 @@ namespace GradersAssistant
             return;
         }
 
+        /// <summary>
+        /// A wrapper function to run a simple SQL query.
+        /// </summary>
+        /// <param name="query">The SQL query to run.</param>
+        /// <returns>The resultant dataset.</returns>
         private DataSet runQuery(string query)
         {
             DataSet dataSet = new DataSet();
