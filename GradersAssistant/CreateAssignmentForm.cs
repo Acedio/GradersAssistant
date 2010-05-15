@@ -16,7 +16,7 @@ namespace GradersAssistant
             InitializeComponent();
         }
 
-        public LinkedList<CriteriaNode> CriteriaTree = new LinkedList<CriteriaNode>();
+        public TreeNodeCollection CriteriaTree;
         public Assignment assignment = new Assignment();
         public bool IsClosed = false;
         private string D_date;
@@ -47,7 +47,7 @@ namespace GradersAssistant
             assignment.DueDate = DateTime.Parse(d_date);
 
             CreateRubricForm newRubric = new CreateRubricForm();
-            newRubric.ROOTNODE.Text = a_name;
+            newRubric.ROOTNODE = new CriteriaNode(a_name);
             this.Hide();
             newRubric.ShowDialog();
 

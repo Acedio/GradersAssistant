@@ -254,6 +254,11 @@ namespace GradersAssistant
             description = cDescription;
             maxPoints = cMaxPoints;
         }
+
+        public bool HasID()
+        {
+            return criteriaID != noID;
+        }
     }
 
     public class RubricNode
@@ -373,6 +378,11 @@ namespace GradersAssistant
             assignmentID = aID;
             name = aName;
             dueDate = aDueDate;
+        }
+
+        public bool HasID()
+        {
+            return assignmentID != noID;
         }
 
         public Rubric Rubric;

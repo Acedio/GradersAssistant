@@ -158,7 +158,7 @@
             this.createNewClassMenuItem,
             this.createNewAssignmentRubricMenuItem});
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(141, 22);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem6.Text = "Create New..";
             // 
             // createNewClassMenuItem
@@ -181,60 +181,61 @@
             this.openClassMenuItem,
             this.openAssignmentMenuItem});
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(141, 22);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem7.Text = "Open";
             // 
             // openClassMenuItem
             // 
             this.openClassMenuItem.Name = "openClassMenuItem";
-            this.openClassMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.openClassMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openClassMenuItem.Text = "Class";
             this.openClassMenuItem.Click += new System.EventHandler(this.OpenClass);
             // 
             // openAssignmentMenuItem
             // 
             this.openAssignmentMenuItem.Name = "openAssignmentMenuItem";
-            this.openAssignmentMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.openAssignmentMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openAssignmentMenuItem.Text = "Assignment";
+            this.openAssignmentMenuItem.Click += new System.EventHandler(this.openAssignmentMenuItem_Click);
             // 
             // saveMenuItem
             // 
             this.saveMenuItem.Name = "saveMenuItem";
-            this.saveMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.saveMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveMenuItem.Text = "Save";
             // 
             // saveAsMenuItem
             // 
             this.saveAsMenuItem.Name = "saveAsMenuItem";
-            this.saveAsMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.saveAsMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAsMenuItem.Text = "Save As";
             // 
             // closeMenuItem
             // 
             this.closeMenuItem.Name = "closeMenuItem";
-            this.closeMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.closeMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeMenuItem.Text = "Close";
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(138, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(149, 6);
             // 
             // prefrencesToolStripMenuItem
             // 
             this.prefrencesToolStripMenuItem.Name = "prefrencesToolStripMenuItem";
-            this.prefrencesToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.prefrencesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.prefrencesToolStripMenuItem.Text = "Prefrences";
             // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(138, 6);
+            this.toolStripSeparator11.Size = new System.Drawing.Size(149, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 

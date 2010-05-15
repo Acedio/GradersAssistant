@@ -579,7 +579,7 @@ namespace GradersAssistant
 
         public int AddAssignment(Assignment assignment)
         {
-            if (assignment.AssignmentID != null)
+            if (assignment.HasID())
             {
                 Debug.WriteLine("You should not add and Assignment if it already has an ID assigned.");
                 return assignment.AssignmentID;
@@ -623,9 +623,9 @@ namespace GradersAssistant
             }
         }
 
-        public int AddCriteria(Criteria criteria)
+        public int AddCriteria(Criteria criteria, int parentID, int assignmentID)
         {
-            if (criteria.CriteriaID != null)
+            if (criteria.HasID())
             {
                 Debug.WriteLine("You should not add criteria if it already has an ID assigned.");
                 return criteria.CriteriaID;
@@ -636,20 +636,28 @@ namespace GradersAssistant
                 string query = String.Format("INSERT INTO {0} (", tables.Criteria.TableName);
                 query += String.Format("{0}, ", tables.Criteria.Description);
                 query += String.Format("{0}, ", tables.Criteria.Points);
-                query += String.Format("{0}, ", tables.Criteria.ParentCriteriaID);
+                if (parentID != -1)
+                {
+                    query += String.Format("{0}, ", tables.Criteria.ParentCriteriaID);
+                }
                 query += String.Format("{0}", tables.Criteria.AssignmentID);
 
                 query += ") VALUES (";
                 query += String.Format("@{0}, ", tables.Criteria.Description);
                 query += String.Format("@{0}, ", tables.Criteria.Points);
-                query += String.Format("@{0}, ", tables.Criteria.ParentCriteriaID);
+                if (parentID != -1)
+                {
+                    query += String.Format("@{0}, ", tables.Criteria.ParentCriteriaID);
+                }
                 query += String.Format("@{0}", tables.Criteria.AssignmentID);
                 query += ");";
                 OleDbCommand insert = new OleDbCommand(query, dbConnection);
                 insert.Parameters.Add(new OleDbParameter("@" + tables.Criteria.Description, OleDbType.VarChar)).Value = criteria.Description;
                 insert.Parameters.Add(new OleDbParameter("@" + tables.Criteria.Points, OleDbType.VarChar)).Value = criteria.MaxPoints;
-               // insert.Parameters.Add(new OleDbParameter("@" + tables.Criteria.ParentCriteriaID, OleDbType.VarChar)).Value = // ASK JOSH S
-               // insert.Parameters.Add(new OleDbParameter("@" + tables.Criteria.AssignmentID, OleDbType.VarChar)).Value = // ASK JOSH S
+                if(parentID != -1){
+                    insert.Parameters.Add(new OleDbParameter("@" + tables.Criteria.ParentCriteriaID, OleDbType.VarChar)).Value = parentID;
+                }
+                insert.Parameters.Add(new OleDbParameter("@" + tables.Criteria.AssignmentID, OleDbType.VarChar)).Value = assignmentID;
                 try
                 {
                     insert.ExecuteNonQuery();
@@ -673,6 +681,32 @@ namespace GradersAssistant
                 }
                 return key;
             }
+        }
+
+        #endregion
+
+        #region Assignment
+
+        public List<Assignment> GetAssignmentList()
+        {
+            string query = String.Format("SELECT * FROM {0}", tables.Assignment.TableName);
+
+            DataSet assignmentDataSet = runQuery(query);
+            
+            List<Assignment> assignments = new List<Assignment>();
+
+            if (assignmentDataSet.Tables.Count > 0)
+            {
+                foreach (DataRow row in assignmentDataSet.Tables[0].Rows)
+                {
+                    int assignmentID = (int)row[tables.Assignment.AssignmentID];
+                    string name = (string)row[tables.Assignment.Name];
+                    DateTime dueDate = (DateTime)row[tables.Assignment.DueDate];
+                    assignments.Add(new Assignment(assignmentID, name, dueDate));
+                }
+            }
+
+            return assignments;
         }
 
         #endregion

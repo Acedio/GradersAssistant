@@ -59,37 +59,28 @@ namespace GradersAssistant
         {
             CreateAssignmentForm assign = new CreateAssignmentForm();
             assign.ShowDialog();
-            
-            // Set the Parent Form of the Child window.
-           // newMDIChild.MdiParent = this;
-            // Display the new form.
 
-            if (assign.IsClosed == true)
-            {
-                int assignID = dbConnention.AddAssignment(assign.assignment);   // creates a new assignment into the database
-                setCriteria(assign.CriteriaTree, assignID);
-            }
-           
-
+            int assignID = dbConnention.AddAssignment(assign.assignment);   // creates a new assignment into the database
+            setCriteria(assign.CriteriaTree, -1, assignID);
         }
 
-        private void setCriteria(LinkedList<CriteriaNode> list, int assignid)
+        private void setCriteria(TreeNodeCollection tree, int parentID, int assignmentID)
         {
             Criteria criteria;
-            foreach (CriteriaNode c in list)
+            foreach (CriteriaNode c in tree)
             {
                 criteria = new Criteria();
                 criteria.Description = c.Description;
-                criteria.MaxPoints = c.Points;
-                c.CriteriaID = dbConnention.AddCriteria(criteria);
-                if (c.NumberOfChildren > 0)
+                if (c.Nodes.Count > 0)
                 {
-                    foreach (CriteriaNode cn in c.ChildList)
-                    {
-                        cn.ParentID = c.CriteriaID;
-                    }
-                    setCriteria(c.ChildList,assignid);
+                    criteria.MaxPoints = 0;
                 }
+                else
+                {
+                    criteria.MaxPoints = c.Points;
+                }
+                int criteriaID = dbConnention.AddCriteria(criteria,parentID,assignmentID);
+                setCriteria(c.Nodes, criteriaID, assignmentID);
             }
         }
 
@@ -234,10 +225,10 @@ namespace GradersAssistant
             gaf.WindowState = FormWindowState.Maximized;
             if (students.Count > 0)
             {
-                Assignment assignment = dbConnention.GetAssignment(1);
+                Assignment assignment = dbConnention.GetAssignment(assignmentID);
                 gaf.LoadAssignment(assignment);
-                ResponseList studentResponse = dbConnention.GetResponseList(1, 10);
-                gaf.LoadResponseList(students[studentResponse.StudentID], studentResponse);
+                //ResponseList studentResponse = dbConnention.GetResponseList(1, 10);
+                //gaf.LoadResponseList(students[studentResponse.StudentID], studentResponse);
             }
         }
 
@@ -268,9 +259,6 @@ namespace GradersAssistant
                 mainClass = dbConnention.GetClass();
 
                 loadStudents(dbConnention);
-
-                currentAssignmentID = 1;
-                loadGradingForm(currentAssignmentID);
 
                 classOpenEnableMenu();
             }
@@ -441,6 +429,21 @@ namespace GradersAssistant
                 dbConnention.SaveResponseList(gaf.GetResponseList());
 
                 dbConnention.DeleteAdjustments(gaf.DeletedAdjustments);
+            }
+        }
+
+        private void openAssignmentMenuItem_Click(object sender, EventArgs e)
+        {
+            List<Assignment> assignments = dbConnention.GetAssignmentList();
+
+            OpenAssignmentForm oaf = new OpenAssignmentForm(assignments);
+            oaf.ShowDialog();
+
+            if (!oaf.Cancelled)
+            {
+                int toOpen = oaf.SelectedAssignment.AssignmentID;
+
+                loadGradingForm(toOpen);
             }
         }
     }
