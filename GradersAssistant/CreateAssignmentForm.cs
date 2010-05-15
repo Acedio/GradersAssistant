@@ -25,9 +25,9 @@ namespace GradersAssistant
         public string d_date
         {
             get { return D_date; }
-            set { D_date = value;  }
+            set { D_date = value; }
         }
-        
+
         public string a_name
         {
             get { return A_name; }
@@ -42,20 +42,19 @@ namespace GradersAssistant
         private void acceptbtn_Click(object sender, EventArgs e)
         {
             a_name = this.a_name_textbox.Text;
-            //d_date = d_date_box.ToString();
-            d_date = String.Format("{0:G}", d_date_box);
+            d_date = String.Format("{0:G}", d_date_box.Value);
             assignment.Name = a_name;
-            //string date = DateTime.Parse(d_date);
-            //assignment.DueDate = DateTime.Parse(d_date);
+            assignment.DueDate = DateTime.Parse(d_date);
 
             CreateRubricForm newRubric = new CreateRubricForm();
             newRubric.ROOTNODE.Text = a_name;
-            newRubric.Show();
             this.Hide();
+            newRubric.ShowDialog();
+
 
             if (newRubric.SaveCriteria == true)
             {
-                CriteriaTree = newRubric.CriteriaTree;               
+                CriteriaTree = newRubric.CriteriaTree;
             }
 
             this.Close();
