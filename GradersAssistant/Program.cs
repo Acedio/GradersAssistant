@@ -49,13 +49,7 @@ namespace GradersAssistant
             set { emailAddress = value; }
         }
 
-        int classSection;
-
-        public int ClassSection
-        {
-            get { return classSection; }
-            set { ClassSection = value; }
-        }
+        public int ClassSection;
 
         string studentSchoolID;
 
@@ -77,7 +71,7 @@ namespace GradersAssistant
             lastName = sLastName;
             username = sUsername;
             emailAddress = sEmailAddress;
-            classSection = sClassSection;
+            ClassSection = sClassSection;
             studentSchoolID = sStudentSchoolID;
         }
 
@@ -88,7 +82,7 @@ namespace GradersAssistant
             lastName = sLastName;
             username = sUsername;
             emailAddress = sEmailAddress;
-            classSection = sClassSection;
+            ClassSection = sClassSection;
             studentSchoolID = sStudentSchoolID;
         }
 
@@ -396,18 +390,15 @@ namespace GradersAssistant
         public int HostType;
         public string UserName;
         public string FromAddress;
-        public string AddressExtension;
+        public string ServerName;
+        public int PortNumber;
         public bool AlertOnLate;
         public bool SetFullPoints;
         public bool IncludeNames;
         public bool IncludeSections;
         public bool FormatAsHTML;
         public bool EmailStudentsNoGrade;
-        public bool OutputOnlyGraded;
-        public bool IncludeAllComments;
-        public bool ShowOutOfTotals;
         public bool DisplayClassStats;
-        public bool DisplayTotalPoints;
 
         public GAClass()
         {
@@ -417,21 +408,18 @@ namespace GradersAssistant
             HostType = 0;
             UserName = "";
             FromAddress = "";
-            AddressExtension = "";
+            ServerName = "";
+            PortNumber = 0;
             AlertOnLate = false;
             SetFullPoints = false;
             IncludeNames = false;
             IncludeSections = false;
             FormatAsHTML = false;
             EmailStudentsNoGrade = false;
-            OutputOnlyGraded = false;
-            IncludeAllComments = false;
-            ShowOutOfTotals = false;
             DisplayClassStats = false;
-            DisplayTotalPoints = false;
         }
 
-        public GAClass(string cClassName, string cGraderName, int cNumberOfSections, int cHostType, string cUserName, string cFromAddress, string cAddressExtension, bool cAlertOnLate, bool cSetFullPoints, bool cIncludeNames, bool cIncludeSections, bool cFormatAsHTML, bool cEmailStudentsNoGrade, bool cOutputOnlyGraded, bool cIncludeAllComments, bool cShowOutOfTotals, bool cDisplayClassStats, bool cDisplayTotalPoints)
+        public GAClass(string cClassName, string cGraderName, int cNumberOfSections, int cHostType, string cUserName, string cFromAddress, string cServerName, int cPortNumber, bool cAlertOnLate, bool cSetFullPoints, bool cIncludeNames, bool cIncludeSections, bool cFormatAsHTML, bool cEmailStudentsNoGrade, bool cDisplayClassStats)
         {
             ClassName = cClassName;
             GraderName = cGraderName;
@@ -439,18 +427,15 @@ namespace GradersAssistant
             HostType = cHostType;
             UserName = cUserName;
             FromAddress = cFromAddress;
-            AddressExtension = cAddressExtension;
+            ServerName = cServerName;
+            PortNumber = cPortNumber;
             AlertOnLate = cAlertOnLate;
             SetFullPoints = cSetFullPoints;
             IncludeNames = cIncludeNames;
             IncludeSections = cIncludeSections;
             FormatAsHTML = cFormatAsHTML;
             EmailStudentsNoGrade = cEmailStudentsNoGrade;
-            OutputOnlyGraded = cOutputOnlyGraded;
-            IncludeAllComments = cIncludeAllComments;
-            ShowOutOfTotals = cShowOutOfTotals;
             DisplayClassStats = cDisplayClassStats;
-            DisplayTotalPoints = cDisplayTotalPoints;
        }
 
     }

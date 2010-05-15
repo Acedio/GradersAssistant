@@ -78,18 +78,15 @@ namespace GradersAssistant
                 public const string HostType = "HostType";
                 public const string Username = "Username";
                 public const string FromAddress = "FromAddress";
-                public const string AddressExtension = "AddressExtension";
+                public const string ServerName = "ServerName";
+                public const string PortNumber = "PortNumber";
                 public const string AlertOnLate = "AlertOnLate";
                 public const string SetFullPoints = "SetFullPoints";
                 public const string IncludeNames = "IncludeNames";
                 public const string IncludeSection = "IncludeSection";
                 public const string FormatAsHTML = "FormatAsHTML";
                 public const string EmailStudentsNoGrades = "EmailStudentsNoGrades";
-                public const string OutputOnlyGraded = "OutputOnlyGraded";
-                public const string IncludeAllComments = "IncludeAllComments";
-                public const string ShowOutOfTotals = "ShowOutOfTotals";
                 public const string DisplayClassStats = "DisplayClassStats";
-                public const string DisplayTotalPoints = "DisplayTotalPoints";
             }
         }
 
@@ -294,6 +291,29 @@ namespace GradersAssistant
             }
         }
 
+
+        public bool DeleteStudent(Student student)
+        {
+            if (student.HasID())
+            {
+                // We need to update because the student already has a key.
+                string query = String.Format("DELETE FROM {0} ", tables.Student.TableName);
+                query += String.Format("WHERE {0} = @{0};", tables.Student.StudentID);
+                OleDbCommand update = new OleDbCommand(query, dbConnection);
+                update.Parameters.Add(new OleDbParameter("@" + tables.Student.StudentID, OleDbType.Integer)).Value = student.StudentID;
+                update.ExecuteNonQuery();
+                return true;
+            }
+            else
+            {
+                Debug.WriteLine("A student without an ID is trying to be deleted. That's not good.");
+                return false;
+            }
+        }
+
+
+
+
         public bool SaveStudents(Dictionary<int, Student> students)
         {
             try
@@ -324,18 +344,15 @@ namespace GradersAssistant
                 query += String.Format("{0}, ", tables.GAClass.HostType);
                 query += String.Format("{0}, ", tables.GAClass.Username);
                 query += String.Format("{0}, ", tables.GAClass.FromAddress);
-                query += String.Format("{0}, ", tables.GAClass.AddressExtension);
+                query += String.Format("{0}, ", tables.GAClass.ServerName);
+                query += String.Format("{0}, ", tables.GAClass.PortNumber);
                 query += String.Format("{0}, ", tables.GAClass.AlertOnLate);
                 query += String.Format("{0}, ", tables.GAClass.SetFullPoints);
                 query += String.Format("{0}, ", tables.GAClass.IncludeNames);
                 query += String.Format("{0}, ", tables.GAClass.IncludeSection);
                 query += String.Format("{0}, ", tables.GAClass.FormatAsHTML);
                 query += String.Format("{0}, ", tables.GAClass.EmailStudentsNoGrades);
-                query += String.Format("{0}, ", tables.GAClass.OutputOnlyGraded);
-                query += String.Format("{0}, ", tables.GAClass.IncludeAllComments);
-                query += String.Format("{0}, ", tables.GAClass.ShowOutOfTotals);
-                query += String.Format("{0}, ", tables.GAClass.DisplayClassStats);
-                query += String.Format("{0}, ", tables.GAClass.DisplayTotalPoints);
+                query += String.Format("{0} ", tables.GAClass.DisplayClassStats);
                 query += ") VALUES (";
                 query += String.Format("{0}, ", tables.GAClass.ClassName);
                 query += String.Format("{0}, ", tables.GAClass.GraderName);
@@ -343,38 +360,32 @@ namespace GradersAssistant
                 query += String.Format("{0}, ", tables.GAClass.HostType);
                 query += String.Format("{0}, ", tables.GAClass.Username);
                 query += String.Format("{0}, ", tables.GAClass.FromAddress);
-                query += String.Format("{0}, ", tables.GAClass.AddressExtension);
+                query += String.Format("{0}, ", tables.GAClass.ServerName);
+                query += String.Format("{0}, ", tables.GAClass.PortNumber);
                 query += String.Format("{0}, ", tables.GAClass.AlertOnLate);
                 query += String.Format("{0}, ", tables.GAClass.SetFullPoints);
                 query += String.Format("{0}, ", tables.GAClass.IncludeNames);
                 query += String.Format("{0}, ", tables.GAClass.IncludeSection);
                 query += String.Format("{0}, ", tables.GAClass.FormatAsHTML);
                 query += String.Format("{0}, ", tables.GAClass.EmailStudentsNoGrades);
-                query += String.Format("{0}, ", tables.GAClass.OutputOnlyGraded);
-                query += String.Format("{0}, ", tables.GAClass.IncludeAllComments);
-                query += String.Format("{0}, ", tables.GAClass.ShowOutOfTotals);
-                query += String.Format("{0}, ", tables.GAClass.DisplayClassStats);
-                query += String.Format("{0}, ", tables.GAClass.DisplayTotalPoints);
+                query += String.Format("{0}", tables.GAClass.DisplayClassStats);
                 query += ");";
                 OleDbCommand update = new OleDbCommand(query, dbConnection);
                 update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.ClassName, OleDbType.VarChar)).Value = gaClass.ClassName ;
                 update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.GraderName, OleDbType.VarChar)).Value = gaClass.GraderName ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.NumberOfSections, OleDbType.VarChar)).Value = gaClass.NumberOfSections ;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.NumberOfSections, OleDbType.Integer)).Value = gaClass.NumberOfSections;
                 update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.HostType, OleDbType.Integer)).Value = gaClass.HostType ;
                 update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.Username, OleDbType.VarChar)).Value = gaClass.UserName ;
                 update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.FromAddress, OleDbType.VarChar)).Value = gaClass.FromAddress ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.AddressExtension, OleDbType.VarChar)).Value = gaClass.AddressExtension ;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.ServerName, OleDbType.VarChar)).Value = gaClass.ServerName ;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.PortNumber, OleDbType.Integer)).Value = gaClass.PortNumber;
                 update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.AlertOnLate, OleDbType.Boolean)).Value = gaClass.AlertOnLate ;
                 update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.SetFullPoints, OleDbType.Boolean)).Value = gaClass.SetFullPoints ;
                 update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.IncludeNames, OleDbType.Boolean)).Value = gaClass.IncludeNames ;
                 update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.IncludeSection, OleDbType.Boolean)).Value = gaClass.IncludeSections ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.FormatAsHTML, OleDbType.Boolean)).Value = gaClass.FormatAsHTML ;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.FormatAsHTML, OleDbType.Boolean)).Value = gaClass.FormatAsHTML;
                 update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.EmailStudentsNoGrades, OleDbType.Boolean)).Value = gaClass.EmailStudentsNoGrade ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.OutputOnlyGraded, OleDbType.Boolean)).Value = gaClass.OutputOnlyGraded ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.IncludeAllComments, OleDbType.Boolean)).Value = gaClass.IncludeAllComments ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.ShowOutOfTotals, OleDbType.Boolean)).Value = gaClass.ShowOutOfTotals ;
                 update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.DisplayClassStats, OleDbType.Boolean)).Value = gaClass.DisplayClassStats ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.DisplayTotalPoints, OleDbType.Boolean)).Value = gaClass.DisplayTotalPoints ;
                 try
                 {
                     update.ExecuteNonQuery();
@@ -387,6 +398,7 @@ namespace GradersAssistant
                 }
         }
 
+
         public bool UpdateClass(GAClass gaClass)
         {
                 // We need to update the class values
@@ -397,45 +409,40 @@ namespace GradersAssistant
                 query += String.Format("{0} = @{0}, ", tables.GAClass.HostType);
                 query += String.Format("{0} = @{0}, ", tables.GAClass.Username);
                 query += String.Format("{0} = @{0}, ", tables.GAClass.FromAddress);
-                query += String.Format("{0} = @{0}, ", tables.GAClass.AddressExtension);
+                query += String.Format("{0} = @{0}, ", tables.GAClass.ServerName);
+                query += String.Format("{0} = @{0}, ", tables.GAClass.PortNumber);
                 query += String.Format("{0} = @{0}, ", tables.GAClass.AlertOnLate);
                 query += String.Format("{0} = @{0}, ", tables.GAClass.SetFullPoints);
                 query += String.Format("{0} = @{0}, ", tables.GAClass.IncludeNames);
                 query += String.Format("{0} = @{0}, ", tables.GAClass.IncludeSection);
                 query += String.Format("{0} = @{0}, ", tables.GAClass.FormatAsHTML);
                 query += String.Format("{0} = @{0}, ", tables.GAClass.EmailStudentsNoGrades);
-                query += String.Format("{0} = @{0}, ", tables.GAClass.OutputOnlyGraded);
-                query += String.Format("{0} = @{0}, ", tables.GAClass.IncludeAllComments);
-                query += String.Format("{0} = @{0}, ", tables.GAClass.ShowOutOfTotals);
-                query += String.Format("{0} = @{0}, ", tables.GAClass.DisplayClassStats);
-                query += String.Format("{0} = @{0}, ", tables.GAClass.DisplayTotalPoints);
+                query += String.Format("{0} = @{0} ", tables.GAClass.DisplayClassStats);
                 query += ";";
                 OleDbCommand update = new OleDbCommand(query, dbConnection);
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.ClassName, OleDbType.VarChar)).Value = gaClass.ClassName ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.GraderName, OleDbType.VarChar)).Value = gaClass.GraderName ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.NumberOfSections, OleDbType.VarChar)).Value = gaClass.NumberOfSections ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.HostType, OleDbType.VarChar)).Value = gaClass.HostType ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.Username, OleDbType.VarChar)).Value = gaClass.UserName ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.FromAddress, OleDbType.VarChar)).Value = gaClass.FromAddress ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.AddressExtension, OleDbType.VarChar)).Value = gaClass.AddressExtension ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.AlertOnLate, OleDbType.VarChar)).Value = gaClass.AlertOnLate ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.SetFullPoints, OleDbType.VarChar)).Value = gaClass.SetFullPoints ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.IncludeNames, OleDbType.VarChar)).Value = gaClass.IncludeNames ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.IncludeSection, OleDbType.VarChar)).Value = gaClass.IncludeSections ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.FormatAsHTML, OleDbType.VarChar)).Value = gaClass.FormatAsHTML ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.EmailStudentsNoGrades, OleDbType.VarChar)).Value = gaClass.EmailStudentsNoGrade ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.OutputOnlyGraded, OleDbType.VarChar)).Value = gaClass.OutputOnlyGraded ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.IncludeAllComments, OleDbType.VarChar)).Value = gaClass.IncludeAllComments ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.ShowOutOfTotals, OleDbType.VarChar)).Value = gaClass.ShowOutOfTotals ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.DisplayClassStats, OleDbType.VarChar)).Value = gaClass.DisplayClassStats ;
-                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.DisplayTotalPoints, OleDbType.VarChar)).Value = gaClass.DisplayTotalPoints ;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.ClassName, OleDbType.VarChar)).Value = gaClass.ClassName;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.GraderName, OleDbType.VarChar)).Value = gaClass.GraderName;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.NumberOfSections, OleDbType.Integer)).Value = gaClass.NumberOfSections;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.HostType, OleDbType.Integer)).Value = gaClass.HostType;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.Username, OleDbType.VarChar)).Value = gaClass.UserName;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.FromAddress, OleDbType.VarChar)).Value = gaClass.FromAddress;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.ServerName, OleDbType.VarChar)).Value = gaClass.ServerName;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.PortNumber, OleDbType.Integer)).Value = gaClass.PortNumber;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.AlertOnLate, OleDbType.Boolean)).Value = gaClass.AlertOnLate;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.SetFullPoints, OleDbType.Boolean)).Value = gaClass.SetFullPoints;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.IncludeNames, OleDbType.Boolean)).Value = gaClass.IncludeNames;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.IncludeSection, OleDbType.Boolean)).Value = gaClass.IncludeSections;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.FormatAsHTML, OleDbType.Boolean)).Value = gaClass.FormatAsHTML;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.EmailStudentsNoGrades, OleDbType.Boolean)).Value = gaClass.EmailStudentsNoGrade;
+                update.Parameters.Add(new OleDbParameter("@" + tables.GAClass.DisplayClassStats, OleDbType.Boolean)).Value = gaClass.DisplayClassStats;
                 try
                 {
                     update.ExecuteNonQuery();
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
+
                     Debug.WriteLine("Could not update class values in the database.");
                     return false;
                 }
@@ -456,20 +463,17 @@ namespace GradersAssistant
                         int cHostType = (int)row[tables.GAClass.HostType];
                         string cUserName = (string)row[tables.GAClass.Username];
                         string cFromAddress = (string)row[tables.GAClass.FromAddress];
-                        string cAddressExtension = (string)row[tables.GAClass.AddressExtension];
+                        string cServerName = (string)row[tables.GAClass.ServerName];
+                        int cPortNumber = (int)row[tables.GAClass.PortNumber];
                         bool cAlertOnLate = (bool)row[tables.GAClass.AlertOnLate];
                         bool cSetFullPoints = (bool)row[tables.GAClass.SetFullPoints];
                         bool cIncludeNames = (bool)row[tables.GAClass.IncludeNames];
                         bool cIncludeSection = (bool)row[tables.GAClass.IncludeSection];
                         bool cFormatAsHTML = (bool)row[tables.GAClass.FormatAsHTML];
                         bool cEmailStudentsNoGrades = (bool)row[tables.GAClass.EmailStudentsNoGrades];
-                        bool cOutputOnlyGraded = (bool)row[tables.GAClass.OutputOnlyGraded];
-                        bool cIncludeAllComments = (bool)row[tables.GAClass.IncludeAllComments];
-                        bool cShowOutOfTotals = (bool)row[tables.GAClass.ShowOutOfTotals];
                         bool cDisplayClassStats = (bool)row[tables.GAClass.DisplayClassStats];
-                        bool cDisplayTotalPoints = (bool)row[tables.GAClass.DisplayTotalPoints];
 
-                        return new GAClass(cClassName, cGraderName, cNumberOfSections, cHostType, cUserName, cFromAddress, cAddressExtension, cAlertOnLate, cSetFullPoints, cIncludeNames, cIncludeSection, cFormatAsHTML, cEmailStudentsNoGrades, cOutputOnlyGraded, cIncludeAllComments, cShowOutOfTotals, cDisplayClassStats, cDisplayTotalPoints);
+                        return new GAClass(cClassName, cGraderName, cNumberOfSections, cHostType, cUserName, cFromAddress, cServerName, cPortNumber, cAlertOnLate, cSetFullPoints, cIncludeNames, cIncludeSection, cFormatAsHTML, cEmailStudentsNoGrades, cDisplayClassStats);
                     }
                 }
                 else

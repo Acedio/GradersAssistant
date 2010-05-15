@@ -169,18 +169,13 @@
             // 
             // comboBoxStudentSelect
             // 
+            this.comboBoxStudentSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxStudentSelect.Enabled = false;
             this.comboBoxStudentSelect.FormattingEnabled = true;
-            this.comboBoxStudentSelect.Items.AddRange(new object[] {
-            "Anders Erickson",
-            "Joshua Pereyda",
-            "Joshua Simmons",
-            "Shawn Towry"});
             this.comboBoxStudentSelect.Location = new System.Drawing.Point(20, 68);
             this.comboBoxStudentSelect.Name = "comboBoxStudentSelect";
             this.comboBoxStudentSelect.Size = new System.Drawing.Size(127, 21);
             this.comboBoxStudentSelect.TabIndex = 2;
-            this.comboBoxStudentSelect.Text = "Select Student:";
             // 
             // radioButtonEmailOne
             // 

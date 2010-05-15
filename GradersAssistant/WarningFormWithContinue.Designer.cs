@@ -69,8 +69,11 @@
             this.Controls.Add(this.labelWarningMessage);
             this.Controls.Add(this.buttonContinue);
             this.Controls.Add(this.buttonCancel);
+            this.MaximumSize = new System.Drawing.Size(300, 400);
+            this.MinimumSize = new System.Drawing.Size(300, 300);
             this.Name = "WarningFormWithContinue";
-            this.Text = "Incomplete Entry";
+            this.Text = " ";
+            this.Load += new System.EventHandler(this.WarningFormWithContinue_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -12,11 +12,13 @@ namespace GradersAssistant
     public partial class WarningFormWithContinue : Form
     {
         public bool Proceed;
-
+        public string Message;
         public WarningFormWithContinue()
         {
             InitializeComponent();
-            labelWarningMessage.Text = "WARNING:\n You are attempting to save an incomplete student\n entry.  This could potentially cause limited\n functionality of Graders Assistant with regards towards\n this entry.  Do you still\n want to continue?";
+            this.CancelButton = buttonCancel;
+            this.AcceptButton = buttonContinue;
+            Message = "WARNING:\n You are attempting to save an incomplete student\n entry.  This could potentially cause limited\n functionality of Graders Assistant with regards towards\n this entry.  Do you still\n want to continue?";
             Proceed = false;
         }
 
@@ -31,6 +33,11 @@ namespace GradersAssistant
             Proceed = true;
             Close();
 
+        }
+
+        private void WarningFormWithContinue_Load(object sender, EventArgs e)
+        {
+            labelWarningMessage.Text = Message;
         }
     }
 }
